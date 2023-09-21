@@ -108,4 +108,20 @@ public class ModEvents {
             }
         }
     }
+    @SubscribeEvent
+    public static void onLivingDeath(LivingDeathEvent event) {
+        if (!event.getEntity().level().isClientSide) {
+            if (event.getSource().getEntity() instanceof Player) {
+                Player player = (Player) event.getSource().getEntity();
+                if (player.getMainHandItem().is(ItemInit.SCYTHE.get())) {
+                    player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                        data.setSouls(data.getSouls()+1);
+                        if (data.getSouls() >= PlayerModData.MAX_SOULS) {
+                            data.setSouls(PlayerModData.MAX_SOULS);
+                        }
+                    });
+                }
+            }
+        }
+    }
 }
