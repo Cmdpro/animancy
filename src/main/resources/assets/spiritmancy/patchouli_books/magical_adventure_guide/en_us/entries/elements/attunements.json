@@ -1,0 +1,11 @@
+{
+  "name": "Attunements",
+  "icon": "spiritmancy:elum{elum:'spiritmancy:water'}",
+  "category": "spiritmancy:elements",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Every player starts out with a random attunement of a core element, any spell with the core element of your attunement will cost 1.2x less mana"
+    }
+  ]
+}

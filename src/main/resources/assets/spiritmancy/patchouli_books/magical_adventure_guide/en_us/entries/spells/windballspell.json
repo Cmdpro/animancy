@@ -1,0 +1,16 @@
+{
+  "name": "Wind Ball Spell",
+  "icon": "spiritmancy:windballspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:windballspell",
+      "text": "The wind ball spell shoots a projectile that launches enemies away on hit"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:windballspell"
+    }
+  ]
+}

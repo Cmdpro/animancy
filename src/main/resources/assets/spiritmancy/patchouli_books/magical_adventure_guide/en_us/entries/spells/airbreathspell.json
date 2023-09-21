@@ -1,0 +1,16 @@
+{
+  "name": "Air Breath Spell",
+  "icon": "spiritmancy:airbreathspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:airbreathspell",
+      "text": "The air breath spell fires air breath from you pushing away entities inside it"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:airbreathspell"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Life Fragment",
+  "icon": "spiritmancy:lifefragment",
+  "category": "spiritmancy:other",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:lifefragment",
+      "text": "Life Fragments are dropped by $(l:entities/lurker)Lurkers$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:empoweredlifefragment"
+    }
+  ]
+}

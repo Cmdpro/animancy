@@ -1,0 +1,16 @@
+{
+  "name": "Life Sword",
+  "icon": "spiritmancy:lifesword",
+  "category": "spiritmancy:other",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:lifesword",
+      "text": "The life sword heals you at the cost of mana when you deal damage"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:lifesword"
+    }
+  ]
+}

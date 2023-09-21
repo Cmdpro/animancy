@@ -1,0 +1,12 @@
+{
+  "name": "Shadow Golem",
+  "icon": "spiritmancy:shadowgolem_spawn_egg",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connectionproblem",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spawns from a connection event if the chunk you are in has connection greater than or equal to 500$(br2)Drops:$(br)$(l:connection/otherworldlyingot)5 Otherworldly Ingots$()"
+    }
+  ]
+}

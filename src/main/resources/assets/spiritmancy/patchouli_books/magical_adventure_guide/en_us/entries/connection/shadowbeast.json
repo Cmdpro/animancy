@@ -1,0 +1,12 @@
+{
+  "name": "Shadow Beast",
+  "icon": "spiritmancy:connectionreader",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connectionbeast",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The Shadow Beast is an optional boss that spawns if your connection is 1000, on spawn will reduce connection by 200$(br2)Drops:$(br)$(l:connection/shadowstar)1 Shadow Star$()"
+    }
+  ]
+}

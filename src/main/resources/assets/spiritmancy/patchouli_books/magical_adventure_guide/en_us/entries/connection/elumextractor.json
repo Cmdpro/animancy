@@ -1,0 +1,17 @@
+{
+  "name": "Elum Extractor",
+  "icon": "spiritmancy:elumextractor",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connectionproblem",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:elumextractor",
+      "text": "Extracts elums from mobs without killing them"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:elumextractor"
+    }
+  ]
+}

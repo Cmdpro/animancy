@@ -1,0 +1,13 @@
+{
+  "name": "Otherworldly Stone",
+  "icon": "spiritmancy:otherworldlystone",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connection",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:otherworldlystone",
+      "text": "Otherworldly Stone is sometimes carried by by $(l:connection/shadowmonsterthief)Shadow Monster Thieves$()"
+    }
+  ]
+}

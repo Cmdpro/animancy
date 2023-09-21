@@ -1,0 +1,15 @@
+{
+  "name": "Boss 1 : Mage",
+  "icon": "spiritmancy:darkcrystal",
+  "category": "spiritmancy:progression",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The Mage is the first boss fight in the mod, you need to fight it for dark crystals which are required for eyes of ender$(br2)Drops:$(br)$(l:other/empowereddarkness)1 Empowered Darkness$()$(br)$(l:other/darkcrystal)18 Dark Crystals$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:magesummoningspell"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Rock Spell",
+  "icon": "spiritmancy:rockspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:rockspell",
+      "text": "The rock spell shoots a strong projectile"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:rockspell"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Void Amplifier",
+  "icon": "spiritmancy:voidamplifier",
+  "category": "spiritmancy:elements",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:voidamplifier",
+      "text": "A magical creation that will multiply the speed of nearby magical processing, there is a cost"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:voidamplifier"
+    }
+  ]
+}

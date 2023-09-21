@@ -1,0 +1,15 @@
+{
+  "name": "Gnome",
+  "icon": "spiritmancy:gnome_spawn_egg",
+  "category": "spiritmancy:entities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Does nothing during the day but will attack you at night, does not spawn naturally$(br2)Drops:$(br)5 Red Terracotta"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:gnome"
+    }
+  ]
+}

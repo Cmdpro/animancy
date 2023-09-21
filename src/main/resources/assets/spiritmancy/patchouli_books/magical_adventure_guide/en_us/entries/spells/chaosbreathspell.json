@@ -1,0 +1,16 @@
+{
+  "name": "Chaos Breath Spell",
+  "icon": "spiritmancy:chaosbreathspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:chaosbreathspell",
+      "text": "The chaos breath spell fires chaos breath from you giving a random effect to entities inside it"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:chaosbreathspell"
+    }
+  ]
+}

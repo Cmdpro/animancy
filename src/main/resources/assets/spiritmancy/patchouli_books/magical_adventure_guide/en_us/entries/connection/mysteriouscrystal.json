@@ -1,0 +1,13 @@
+{
+  "name": "Mysterious Crystal",
+  "icon": "spiritmancy:mysteriouscrystal",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connection",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:mysteriouscrystal",
+      "text": "Mysterious Crystals are sometimes carried by by $(l:connection/shadowmonsterthief)Shadow Monster Thieves$()"
+    }
+  ]
+}

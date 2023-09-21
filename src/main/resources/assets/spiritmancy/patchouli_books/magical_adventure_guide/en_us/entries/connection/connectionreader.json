@@ -1,0 +1,17 @@
+{
+  "name": "Connection Reader",
+  "icon": "spiritmancy:connectionreader",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connection",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:connectionreader",
+      "text": "The connection reader shows you the current connection in the chunk when held"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:connectionreader"
+    }
+  ]
+}

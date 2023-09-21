@@ -1,0 +1,13 @@
+{
+  "name": "Void Scale",
+  "icon": "spiritmancy:voidscale",
+  "category": "spiritmancy:elements",
+  "advancement": "spiritmancy:darkcrystal",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:voidscale",
+      "text": "A scale made out of the void elum, drops from the $(l:progression/enderdragon)Ender Dragon$()"
+    }
+  ]
+}

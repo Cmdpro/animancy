@@ -1,0 +1,11 @@
+{
+  "name": "Lurker",
+  "icon": "spiritmancy:lurker_spawn_egg",
+  "category": "spiritmancy:entities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spawns in the swamp$(br2)Drops:$(br)$(l:other/lifefragment)1 Life Fragment$()"
+    }
+  ]
+}

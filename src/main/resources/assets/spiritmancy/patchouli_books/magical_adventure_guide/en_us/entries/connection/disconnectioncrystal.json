@@ -1,0 +1,17 @@
+{
+  "name": "Disconnection Crystal",
+  "icon": "spiritmancy:disconnectioncrystal",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:connection",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:disconnectioncrystal",
+      "text": "The Disconnection Crystal removes 25 connection when you use it"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:disconnectioncrystal"
+    }
+  ]
+}

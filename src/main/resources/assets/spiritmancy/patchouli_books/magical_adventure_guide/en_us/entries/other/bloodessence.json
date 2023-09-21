@@ -1,0 +1,13 @@
+{
+  "name": "Blood Essence",
+  "icon": "spiritmancy:bloodessence",
+  "category": "spiritmancy:other",
+  "advancement": "spiritmancy:voidscale",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:bloodessence",
+      "text": "Blood Essence is dropped by the $(l:progression/bloodmage)Blood Mage$()"
+    }
+  ]
+}

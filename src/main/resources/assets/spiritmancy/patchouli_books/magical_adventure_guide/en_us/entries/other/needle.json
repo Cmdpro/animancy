@@ -1,0 +1,21 @@
+{
+  "name": "Needle",
+  "icon": "spiritmancy:needle",
+  "category": "spiritmancy:other",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:needle",
+      "text": "A needle, attack a creature while holding in main hand to get their blood"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:filledneedle",
+      "text": "A needle full of blood"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:needle"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Shadow Dash Spell",
+  "icon": "spiritmancy:shadowdashspell",
+  "category": "spiritmancy:spells",
+  "advancement": "spiritmancy:voidscale",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:shadowdashspell",
+      "text": "The shadow dash spell makes you dash in the direction you are looking, creates an explosion and launches nearby entities"
+    },
+    {
+      "type": "spiritmancy:void_fuser",
+      "recipe": "spiritmancy:shadowdashspell"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Greater Elum Extractor",
+  "icon": "spiritmancy:greaterelumextractor",
+  "category": "spiritmancy:connection",
+  "advancement": "spiritmancy:shadowstar",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:greaterelumextractor",
+      "text": "Extracts elums from mobs without killing them, doesnt have durability"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:greaterelumextractor"
+    }
+  ]
+}

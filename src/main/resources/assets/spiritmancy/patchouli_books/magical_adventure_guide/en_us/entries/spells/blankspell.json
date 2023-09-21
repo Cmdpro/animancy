@@ -1,0 +1,16 @@
+{
+  "name": "Blank Spell",
+  "icon": "spiritmancy:blankspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:blankspell",
+      "text": "The blank spell does nothing but is needed to craft other spells"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:blankspell"
+    }
+  ]
+}

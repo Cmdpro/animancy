@@ -1,0 +1,16 @@
+{
+  "name": "Dash Spell",
+  "icon": "spiritmancy:dashspell",
+  "category": "spiritmancy:spells",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:dashspell",
+      "text": "The dash spell makes you dash in the direction you are looking"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spiritmancy:dashspell"
+    }
+  ]
+}

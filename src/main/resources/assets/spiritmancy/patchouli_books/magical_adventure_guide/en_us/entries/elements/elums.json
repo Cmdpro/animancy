@@ -1,0 +1,11 @@
+{
+  "name": "Elums",
+  "icon": "spiritmancy:elum{elum:'spiritmancy:fire'}",
+  "category": "spiritmancy:elements",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Elums are containers of 1 element, to obtain an elum you need to kill any creature using an item with the Elum Extraction enchantment, if a creature has more than 1 elum then it will drop a random one"
+    }
+  ]
+}

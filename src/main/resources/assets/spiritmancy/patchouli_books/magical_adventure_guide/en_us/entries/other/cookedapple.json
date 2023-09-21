@@ -1,0 +1,16 @@
+{
+  "name": "Cooked Apple",
+  "icon": "spiritmancy:cookedapple",
+  "category": "spiritmancy:other",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spiritmancy:cookedapple",
+      "text": "Cooked apples are better than apples"
+    },
+    {
+      "type": "patchouli:smelting",
+      "recipe": "spiritmancy:cookedapple"
+    }
+  ]
+}
