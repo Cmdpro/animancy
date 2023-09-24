@@ -1,8 +1,0 @@
-{
-  "name": "item.spiritmancy.magical_adventure_guide",
-  "landing_text": "spiritmancy.guidebooklanding",
-  "version": 1,
-  "model": "spiritmancy:guidebook",
-  "creative_tab": "minecraft:tools_and_utilities",
-  "use_resource_pack": true
-}

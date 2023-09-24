@@ -27,7 +27,7 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-
+        event.registerBlockEntityRenderer(BlockEntityInit.SPIRITTANK.get(), SpiritTankRenderer::new);
     }
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {

@@ -113,7 +113,7 @@ public class ModEvents {
         if (!event.getEntity().level().isClientSide) {
             if (event.getSource().getEntity() instanceof Player) {
                 Player player = (Player) event.getSource().getEntity();
-                if (player.getMainHandItem().is(ItemInit.SCYTHE.get())) {
+                if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get())) {
                     player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                         data.setSouls(data.getSouls()+1);
                         if (data.getSouls() >= PlayerModData.MAX_SOULS) {

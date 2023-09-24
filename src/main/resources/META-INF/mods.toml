@@ -56,12 +56,12 @@ A mod with a focus on bosses and magic
     versionRange="[1.20.1]"
     ordering="NONE"
     side="BOTH"
-[[dependencies.spiritmancy]]
-    modId="attributefix"
-    mandatory=true
-    versionRange="[21.0,)"
-    ordering="NONE"
-    side="BOTH"
+#[[dependencies.spiritmancy]]
+#    modId="attributefix"
+#    mandatory=true
+#    versionRange="[21.0,)"
+#    ordering="NONE"
+#    side="BOTH"
 [[dependencies.spiritmancy]]
     modId="geckolib"
     mandatory=true

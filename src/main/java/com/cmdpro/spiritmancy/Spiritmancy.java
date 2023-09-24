@@ -78,9 +78,12 @@ public class Spiritmancy
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+
         }
-        //if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
-        //}
+        if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
+            event.accept(ItemInit.SOULMETALDAGGER);
+            event.accept(ItemInit.SOULMETAL);
+        }
         //if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
         //}
     }

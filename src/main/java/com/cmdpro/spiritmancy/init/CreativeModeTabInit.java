@@ -14,9 +14,9 @@ public class CreativeModeTabInit {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,
             Spiritmancy.MOD_ID);
 
-    //public static RegistryObject<CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register("spiritmancy_items", () ->
-    //        CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.DARKIUM.get()))
-    //                .title(Component.translatable("creativemodetab.spiritmancy_items")).build());
+    public static RegistryObject<CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register("spiritmancy_items", () ->
+            CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULMETAL.get()))
+                    .title(Component.translatable("creativemodetab.spiritmancy_items")).build());
     //public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("spiritmancy_blocks", () ->
     //        CreativeModeTab.builder().icon(() -> new ItemStack(BlockInit.DARKIUM_BLOCK.get()))
     //                .title(Component.translatable("creativemodetab.spiritmancy_blocks")).build());
