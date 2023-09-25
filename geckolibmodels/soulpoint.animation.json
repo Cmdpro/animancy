@@ -1,0 +1,17 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.soulpoint.idle": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"vector": ["time*360", 0, "time*360"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}
