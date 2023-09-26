@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,30 +24,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer, GeoBlockEntity {
+public class SoulPointBlockEntity extends BlockEntity implements GeoBlockEntity, ISoulContainer {
     private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private float souls;
-    public SpiritTankBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.SPIRITTANK.get(), pos, state);
-        linked = new ArrayList<>();
-    }
-
-    @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket(){
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
     private List<BlockPos> linked;
-    @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt){
-        CompoundTag tag = pkt.getTag();
-        souls = tag.getFloat("souls");
-    }
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = new CompoundTag();
-        tag.putFloat("souls", souls);
-        return tag;
+    public SoulPointBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityInit.SOULPOINT.get(), pos, state);
+        linked = new ArrayList<>();
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
@@ -91,13 +75,8 @@ public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer
         return linked;
     }
 
-
-
-
-    public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SpiritTankBlockEntity pBlockEntity) {
+    public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulPointBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
-            pBlockEntity.updateBlock();
-            pLevel.sendBlockUpdated(pPos, pState, pState, Block.UPDATE_ALL);
             pBlockEntity.drawLinked(pBlockEntity);
             List<BlockPos> toRemove = new ArrayList<>();
             for (BlockPos i : pBlockEntity.linked) {
@@ -110,12 +89,9 @@ public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer
             }
         }
     }
-    protected void updateBlock() {
-        BlockState blockState = level.getBlockState(this.getBlockPos());
-        this.level.sendBlockUpdated(this.getBlockPos(), blockState, blockState, 3);
-        this.setChanged();
-    }
+
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
+        event.getController().setAnimation(RawAnimation.begin().then("animation.soulpoint.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 

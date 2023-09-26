@@ -70,6 +70,7 @@ public class Spiritmancy
         RecipeInit.register(bus);
         SoundInit.register(bus);
         CreativeModeTabInit.register(bus);
+        ParticleInit.register(bus);
         GeckoLib.initialize();
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -83,6 +84,8 @@ public class Spiritmancy
         if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
             event.accept(ItemInit.SOULMETALDAGGER);
             event.accept(ItemInit.SOULMETAL);
+            event.accept(ItemInit.SPIRITTANK_ITEM);
+            event.accept(ItemInit.SOULPOINT_ITEM);
         }
         //if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
         //}

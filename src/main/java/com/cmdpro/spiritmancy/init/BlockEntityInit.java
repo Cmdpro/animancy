@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,9 +14,13 @@ public class BlockEntityInit {
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Spiritmancy.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<SpiritTankBlockEntity>> SPIRITTANK =
-            BLOCK_ENTITIES.register("voidamplifier_block_entity", () ->
+            BLOCK_ENTITIES.register("spirittank_block_entity", () ->
                     BlockEntityType.Builder.of(SpiritTankBlockEntity::new,
                             BlockInit.SPIRITTANK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SoulPointBlockEntity>> SOULPOINT =
+            BLOCK_ENTITIES.register("soulpoint_block_entity", () ->
+                    BlockEntityType.Builder.of(SoulPointBlockEntity::new,
+                            BlockInit.SOULPOINT.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

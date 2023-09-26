@@ -1,5 +1,12 @@
 {
   "item.spiritmancy.soulmetaldagger": "Soulmetal Dagger",
   "item.spiritmancy.soulmetal": "Soulmetal",
-  "block.spiritmancy.spirittank": "Spirit Tank"
+  "block.spiritmancy.spirittank": "Spirit Tank",
+  "block.spiritmancy.soulpoint": "Soul Point",
+  "item.spiritmancy.soullinker": "Soul Linker",
+  "item.spiritmancy.soullinker.linkfrom": "Linking from %1$s",
+  "item.spiritmancy.soullinker.linkto": "Linked %1$s to %2$s",
+  "item.spiritmancy.soullinker.cancel": "Canceled linking",
+  "item.spiritmancy.soullinker.remove": "Removed all links from %1$s",
+  "item.spiritmancy.soullinker.fail": "Failed to link %1$s to %2$s"
 }

@@ -2,6 +2,8 @@ package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.entity.*;
 import com.cmdpro.spiritmancy.init.EntityInit;
+import com.cmdpro.spiritmancy.init.ParticleInit;
+import com.cmdpro.spiritmancy.particle.SoulParticle;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
