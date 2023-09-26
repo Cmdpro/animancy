@@ -6,6 +6,7 @@ import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class SoulPointRenderer extends GeoBlockRenderer<SoulPointBlockEntity> {
 
     public SoulPointRenderer(BlockEntityRendererProvider.Context rendererProvider) {
         super(new SoulPointModel());
-        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
+        this.addRenderLayer(new EyesLayer<>(this));
     }
 
     @Override

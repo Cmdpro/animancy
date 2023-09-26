@@ -98,17 +98,8 @@ public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer
         if (!pLevel.isClientSide()) {
             pBlockEntity.updateBlock();
             pLevel.sendBlockUpdated(pPos, pState, pState, Block.UPDATE_ALL);
-            pBlockEntity.drawLinked(pBlockEntity);
-            List<BlockPos> toRemove = new ArrayList<>();
-            for (BlockPos i : pBlockEntity.linked) {
-                if (!(pLevel.getBlockEntity(i) instanceof ISoulContainer)) {
-                    toRemove.add(i);
-                }
-            }
-            for (BlockPos i : toRemove) {
-                pBlockEntity.linked.remove(i);
-            }
         }
+        pBlockEntity.soulContainerTick(pLevel, pPos, pState, pBlockEntity);
     }
     protected void updateBlock() {
         BlockState blockState = level.getBlockState(this.getBlockPos());

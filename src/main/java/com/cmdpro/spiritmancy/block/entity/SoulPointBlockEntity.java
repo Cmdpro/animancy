@@ -76,18 +76,7 @@ public class SoulPointBlockEntity extends BlockEntity implements GeoBlockEntity,
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulPointBlockEntity pBlockEntity) {
-        if (!pLevel.isClientSide()) {
-            pBlockEntity.drawLinked(pBlockEntity);
-            List<BlockPos> toRemove = new ArrayList<>();
-            for (BlockPos i : pBlockEntity.linked) {
-                if (!(pLevel.getBlockEntity(i) instanceof ISoulContainer)) {
-                    toRemove.add(i);
-                }
-            }
-            for (BlockPos i : toRemove) {
-                pBlockEntity.linked.remove(i);
-            }
-        }
+        pBlockEntity.soulContainerTick(pLevel, pPos, pState, pBlockEntity);
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
