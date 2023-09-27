@@ -38,7 +38,15 @@ public class SpiritTank extends BaseEntityBlock {
         return SHAPE;
     }
 
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState pState) {
+        return true;
+    }
 
+    @Override
+    public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+        return ((SpiritTankBlockEntity)pLevel.getBlockEntity(pPos)).getAnalogOutputSignal();
+    }
     /* BLOCK ENTITY */
 
     @Override

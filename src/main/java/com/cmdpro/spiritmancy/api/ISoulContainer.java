@@ -34,14 +34,30 @@ public interface ISoulContainer {
     default void soulContainerTick(Level pLevel, BlockPos pPos, BlockState pState, BlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
             drawLinked(pBlockEntity);
-            List<BlockPos> toRemove = new ArrayList<>();
+            List<BlockPos> randomizedLinked = new ArrayList<>();
             for (BlockPos i : getLinked()) {
-                if (!(pLevel.getBlockEntity(i) instanceof ISoulContainer)) {
+                randomizedLinked.add(Spiritmancy.random.nextIntBetweenInclusive(0, randomizedLinked.size()), i);
+            }
+            List<BlockPos> toRemove = new ArrayList<>();
+            for (BlockPos i : randomizedLinked) {
+                BlockEntity otherEntity = pLevel.getBlockEntity(i);
+                if (!(otherEntity instanceof ISoulContainer)) {
                     toRemove.add(i);
+                } else {
+                    linkInteraction(pBlockEntity, otherEntity);
                 }
             }
             for (BlockPos i : toRemove) {
                 getLinked().remove(i);
+            }
+        }
+    }
+    default void linkInteraction(BlockEntity entity, BlockEntity otherEntity) {
+        if (getSouls() >= 1) {
+            ISoulContainer otherContainer = ((ISoulContainer)otherEntity);
+            if (otherContainer.getSouls()+1 <= otherContainer.getMaxSouls()) {
+                setSouls(getSouls()-1);
+                otherContainer.setSouls(otherContainer.getSouls()+1);
             }
         }
     }

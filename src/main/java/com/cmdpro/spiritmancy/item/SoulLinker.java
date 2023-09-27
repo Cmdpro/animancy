@@ -53,8 +53,8 @@ public class SoulLinker extends Item {
                         data.setLinkingFrom(pContext.getClickedPos());
                         String text = pContext.getClickedPos().getX() + " " + pContext.getClickedPos().getY() + " " + pContext.getClickedPos().getZ();
                         pContext.getPlayer().sendSystemMessage(Component.translatable("item.spiritmancy.soullinker.linkfrom", text));
-                    } else {
-                        if (pContext.getLevel().getBlockEntity(data.getLinkingFrom()) instanceof ISoulContainer) {
+                    } else if (!data.getLinkingFrom().equals(pContext.getClickedPos())) {
+                        if (pContext.getLevel().getBlockEntity(data.getLinkingFrom()) instanceof ISoulContainer && pContext.getClickedPos().getCenter().distanceTo(data.getLinkingFrom().getCenter()) <= 10) {
                             List<BlockPos> map = ((ISoulContainer) pContext.getLevel().getBlockEntity(data.getLinkingFrom())).getLinked();
                             List<BlockPos> map2 = ent.getLinked();
                             if (map2.contains(ent.getLinked())) {

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Math;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -29,6 +30,9 @@ public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer
     public SpiritTankBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.SPIRITTANK.get(), pos, state);
         linked = new ArrayList<>();
+    }
+    public int getAnalogOutputSignal() {
+        return (int)Math.floor((getSouls()/getMaxSouls())*15);
     }
 
     @Override

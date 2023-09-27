@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
 public class Spiritmancy
 {
     public static ResourceKey<DamageType> unknownForcesDeath = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Spiritmancy.MOD_ID, "unknownforces"));
-    public static ResourceKey<DamageType> bloodDrainDeath = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Spiritmancy.MOD_ID, "blooddrain"));
 
     public static final String MOD_ID = "spiritmancy";
     // Directly reference a slf4j logger

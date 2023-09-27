@@ -3,12 +3,15 @@ package com.cmdpro.spiritmancy.renderers;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
@@ -22,11 +25,5 @@ public class SoulPointRenderer extends GeoBlockRenderer<SoulPointBlockEntity> {
 
     public SoulPointRenderer(BlockEntityRendererProvider.Context rendererProvider) {
         super(new SoulPointModel());
-        this.addRenderLayer(new EyesLayer<>(this));
-    }
-
-    @Override
-    public RenderType getRenderType(SoulPointBlockEntity animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return super.getRenderType(animatable, texture, bufferSource, partialTick);
     }
 }

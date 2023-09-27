@@ -33,6 +33,11 @@ public class SoulPointBlockEntity extends BlockEntity implements GeoBlockEntity,
         linked = new ArrayList<>();
     }
     @Override
+    public float getMaxSouls() {
+        return 1;
+    }
+
+    @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
         tag.putFloat("souls", souls);
         if (!this.linked.isEmpty()) {
