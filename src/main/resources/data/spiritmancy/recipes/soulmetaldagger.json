@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "A",
+    "a"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:copper_ingot"
+    },
+    "A": {
+      "item": "spiritmancy:soulmetal"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:soulmetaldagger"
+  }
+}

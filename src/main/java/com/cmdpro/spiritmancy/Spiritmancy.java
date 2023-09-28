@@ -83,11 +83,13 @@ public class Spiritmancy
         if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
             event.accept(ItemInit.SOULMETALDAGGER);
             event.accept(ItemInit.SOULMETAL);
+            event.accept(ItemInit.SOULLINKER);
+            event.accept(ItemInit.SOULCRYSTAL);
+        }
+        if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);
             event.accept(ItemInit.SOULPOINT_ITEM);
         }
-        //if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
-        //}
     }
     private void setup(final FMLCommonSetupEvent event)
     {

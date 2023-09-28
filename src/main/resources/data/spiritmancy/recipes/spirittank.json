@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbb",
+    "AaA",
+    "bbb"
+  ],
+  "key": {
+    "a": {
+      "item": "spiritmancy:soulmetal"
+    },
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "b": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:spirittank",
+    "count": 1
+  }
+}

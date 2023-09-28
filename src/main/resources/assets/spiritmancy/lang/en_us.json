@@ -8,5 +8,8 @@
   "item.spiritmancy.soullinker.linkto": "Linked %1$s to %2$s",
   "item.spiritmancy.soullinker.cancel": "Canceled linking",
   "item.spiritmancy.soullinker.remove": "Removed all links from %1$s",
-  "item.spiritmancy.soullinker.fail": "Failed to link %1$s to %2$s"
+  "item.spiritmancy.soullinker.fail": "Failed to link %1$s to %2$s",
+  "item.spiritmancy.soulcrystal": "Soul Crystal",
+  "creativemodetab.spiritmancy_blocks": "Spiritmancy Blocks",
+  "creativemodetab.spiritmancy_items": "Spiritmancy Items"
 }

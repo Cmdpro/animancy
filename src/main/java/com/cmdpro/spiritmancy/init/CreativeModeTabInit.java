@@ -17,9 +17,9 @@ public class CreativeModeTabInit {
     public static RegistryObject<CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register("spiritmancy_items", () ->
             CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULMETAL.get()))
                     .title(Component.translatable("creativemodetab.spiritmancy_items")).build());
-    //public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("spiritmancy_blocks", () ->
-    //        CreativeModeTab.builder().icon(() -> new ItemStack(BlockInit.DARKIUM_BLOCK.get()))
-    //                .title(Component.translatable("creativemodetab.spiritmancy_blocks")).build());
+    public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("spiritmancy_blocks", () ->
+            CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULPOINT_ITEM.get()))
+                    .title(Component.translatable("creativemodetab.spiritmancy_blocks")).build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

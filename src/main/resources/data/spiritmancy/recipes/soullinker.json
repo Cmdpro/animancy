@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aAa",
+    " a ",
+    " a "
+  ],
+  "key": {
+    "a": {
+      "item": "spiritmancy:soulmetal"
+    },
+    "A": {
+      "item": "spiritmancy:soulcrystal"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:soullinker"
+  }
+}
