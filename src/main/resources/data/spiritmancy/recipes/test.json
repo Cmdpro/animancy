@@ -1,0 +1,13 @@
+{
+  "type": "spiritmancy:soulshaper",
+  "input": {
+    "item": "spiritmancy:soulfocus"
+  },
+  "output": {
+    "item": "spiritmancy:soulfocus",
+    "count": 1,
+    "nbt": {
+      "recipe": "spiritmancy:test"
+    }
+  }
+}

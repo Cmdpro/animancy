@@ -11,5 +11,10 @@
   "item.spiritmancy.soullinker.fail": "Failed to link %1$s to %2$s",
   "item.spiritmancy.soulcrystal": "Soul Crystal",
   "creativemodetab.spiritmancy_blocks": "Spiritmancy Blocks",
-  "creativemodetab.spiritmancy_items": "Spiritmancy Items"
+  "creativemodetab.spiritmancy_items": "Spiritmancy Items",
+  "container.spiritmancy.soulshaper": "Soul Shaper",
+  "block.spiritmancy.soulshaper": "Soul Shaper",
+  "item.spiritmancy.soulfocus": "Soul Focus",
+  "item.spiritmancy.soulfocus.none": "Recipe : None",
+  "item.spiritmancy.soulfocus.spiritmancy.test": "Recipe : Test"
 }

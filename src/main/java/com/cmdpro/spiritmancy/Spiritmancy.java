@@ -97,9 +97,6 @@ public class Spiritmancy
         ModMessages.register();
         event.enqueueWork(ModCriteriaTriggers::register);
     }
-    public static boolean LurkerSpawnRules(EntityType<? extends Monster> monster, ServerLevelAccessor levelAccessor, MobSpawnType pSpawnType, BlockPos blockPos, RandomSource pRandom) {
-        return levelAccessor.getBlockState(blockPos.below()).is(Blocks.GRASS_BLOCK);
-    }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
     {
