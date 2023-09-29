@@ -1,0 +1,12 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:soulmetal",
+    "count": 1
+  }
+}

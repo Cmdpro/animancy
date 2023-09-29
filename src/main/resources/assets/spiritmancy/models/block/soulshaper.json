@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "spiritmancy:block/soulshaper"
+    "particle": "spiritmancy:block/soulshaper_front",
+    "north": "spiritmancy:block/soulshaper_front",
+    "south": "spiritmancy:block/soulshaper_side",
+    "east": "spiritmancy:block/soulshaper_side",
+    "west": "spiritmancy:block/soulshaper_front",
+    "up": "spiritmancy:block/soulshaper_top",
+    "down": "spiritmancy:block/soulshaper_bottom"
   }
 }

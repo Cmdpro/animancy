@@ -11,6 +11,6 @@ import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 public class ModTiers {
     public static final ForgeTier SCYTHE = new ForgeTier(4, 1800, 8f,
-            6f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
+            4f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
             () -> Ingredient.of(Items.IRON_INGOT));
 }

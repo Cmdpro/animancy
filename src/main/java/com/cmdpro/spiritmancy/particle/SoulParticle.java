@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -51,11 +52,11 @@ public class SoulParticle extends TextureSheetParticle {
     static final ParticleRenderType SOULRENDER = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
             RenderSystem.enableBlend();
-
             RenderSystem.enableCull();
-
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableDepthTest();
             RenderSystem.depthMask(false);
             pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }

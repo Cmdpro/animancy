@@ -44,6 +44,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Math;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +116,8 @@ public class ModEvents {
                 Player player = (Player) event.getSource().getEntity();
                 if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get())) {
                     player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                        data.setSouls(data.getSouls()+1);
+                        float amount = Math.floor(event.getEntity().getMaxHealth()/10)+1;
+                        data.setSouls(data.getSouls()+amount);
                         if (data.getSouls() >= PlayerModData.MAX_SOULS) {
                             data.setSouls(PlayerModData.MAX_SOULS);
                         }

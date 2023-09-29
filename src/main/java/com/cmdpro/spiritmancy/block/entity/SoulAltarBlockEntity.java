@@ -98,20 +98,22 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof SoulAltarBlockEntity) {
                 SoulAltarBlockEntity altar = (SoulAltarBlockEntity) entity;
-                if (altar.craftProgress == 0) {
-                    ItemStack stack = pPlayer.getItemInHand(pHand).copy();
-                    if (stack.getCount() > 0) {
-                        stack.setCount(1);
-                        pPlayer.getItemInHand(pHand).shrink(1);
-                        altar.focusItemHandler.setStackInSlot(0, stack);
-                        altar.craftProgress++;
-                    }
-                } else {
-                    if (altar.item.is(pPlayer.getItemInHand(pHand).getItem())) {
-                        pPlayer.getItemInHand(pHand).shrink(1);
-                        altar.craftProgress++;
-                        pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
-                        ((ServerLevel)pLevel).sendParticles(ParticleInit.SOUL.get(), (float)pPos.getX()+0.5f, (float)pPos.getY()+1.5f, (float)pPos.getZ()+0.5f, 25, 0, 0, 0, 0.1);
+                if (altar.explosionTimer <= 0) {
+                    if (altar.craftProgress == 0) {
+                        ItemStack stack = pPlayer.getItemInHand(pHand).copy();
+                        if (stack.getCount() > 0) {
+                            stack.setCount(1);
+                            pPlayer.getItemInHand(pHand).shrink(1);
+                            altar.focusItemHandler.setStackInSlot(0, stack);
+                            altar.craftProgress++;
+                        }
+                    } else {
+                        if (altar.item.is(pPlayer.getItemInHand(pHand).getItem())) {
+                            pPlayer.getItemInHand(pHand).shrink(1);
+                            altar.craftProgress++;
+                            pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
+                            ((ServerLevel) pLevel).sendParticles(ParticleInit.SOUL.get(), (float) pPos.getX() + 0.5f, (float) pPos.getY() + 1.5f, (float) pPos.getZ() + 0.5f, 25, 0, 0, 0, 0.1);
+                        }
                     }
                 }
             }
@@ -184,6 +186,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                     pBlockEntity.item = ItemStack.EMPTY;
                     pBlockEntity.craftProgress = 0;
                     pBlockEntity.focusItemHandler.extractItem(0, 1, false);
+                    pBlockEntity.explosionTimer = 0;
                 } else {
                     pBlockEntity.item = match.get().getIngredients().get(pBlockEntity.craftProgress-1).getItems()[0];
                     if (pBlockEntity.getSouls() > 0) {
@@ -191,7 +194,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                     } else {
                         pBlockEntity.explosionTimer++;
                         ((ServerLevel)pLevel).sendParticles(ParticleInit.SOUL.get(), (float)pPos.getX()+0.5f, (float)pPos.getY()+0.5f, (float)pPos.getZ()+0.5f, 25, 0, 0, 0, 0.75f);
-                        if (pBlockEntity.explosionTimer >= 50) {
+                        if (pBlockEntity.explosionTimer >= 25) {
                             pBlockEntity.explosionTimer = 0;
                             pBlockEntity.craftProgress = 0;
                             pBlockEntity.focusItemHandler.extractItem(0, 1, false);
