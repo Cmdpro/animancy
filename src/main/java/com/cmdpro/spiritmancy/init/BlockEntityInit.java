@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +22,10 @@ public class BlockEntityInit {
             BLOCK_ENTITIES.register("soulpoint_block_entity", () ->
                     BlockEntityType.Builder.of(SoulPointBlockEntity::new,
                             BlockInit.SOULPOINT.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SoulAltarBlockEntity>> SOULALTAR =
+            BLOCK_ENTITIES.register("soulaltar_block_entity", () ->
+                    BlockEntityType.Builder.of(SoulAltarBlockEntity::new,
+                            BlockInit.SOULALTAR.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

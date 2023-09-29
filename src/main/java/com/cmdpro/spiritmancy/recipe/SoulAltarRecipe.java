@@ -2,6 +2,7 @@ package com.cmdpro.spiritmancy.recipe;
 
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.init.ItemInit;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
@@ -37,15 +38,17 @@ public class SoulAltarRecipe implements Recipe<Container> {
     }
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        boolean good = true;
-        int o = 0;
-        for (Ingredient i : this.input) {
-            if (!i.test(pContainer.getItem(o))) {
-                good = false;
+        ItemStack focus = pContainer.getItem(0);
+        if (focus.is(ItemInit.SOULFOCUS.get())) {
+            if (focus.hasTag()) {
+                if (focus.getTag().contains("recipe")) {
+                    if (ResourceLocation.tryParse(focus.getTag().getString("recipe")).equals(this.getId())) {
+                        return true;
+                    }
+                }
             }
-            o++;
         }
-        return good;
+        return false;
     }
 
     @Override

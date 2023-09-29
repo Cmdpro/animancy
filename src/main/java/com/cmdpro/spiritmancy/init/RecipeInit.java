@@ -3,6 +3,7 @@ package com.cmdpro.spiritmancy.init;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.recipe.ShapedLockedRecipe;
 import com.cmdpro.spiritmancy.recipe.ShapelessLockedRecipe;
+import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,8 @@ public class RecipeInit {
             RECIPES.register("shapelesslockedrecipe", () -> ShapelessLockedRecipe.Serializer.INSTANCE);
     public static final RegistryObject<RecipeSerializer<SoulShaperRecipe>> SOUL_SHAPER =
             RECIPES.register("soulshaper", () -> SoulShaperRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<SoulAltarRecipe>> SOUL_ALTAR =
+            RECIPES.register("soulaltar", () -> SoulAltarRecipe.Serializer.INSTANCE);
     public static void register(IEventBus eventBus) {
         RECIPES.register(eventBus);
     }

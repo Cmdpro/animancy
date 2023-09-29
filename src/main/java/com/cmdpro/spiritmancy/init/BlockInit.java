@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.SoulAltar;
 import com.cmdpro.spiritmancy.block.SoulPoint;
 import com.cmdpro.spiritmancy.block.SoulShaper;
 import com.cmdpro.spiritmancy.block.SpiritTank;
@@ -24,6 +25,8 @@ public class BlockInit {
             () -> new SpiritTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULPOINT = registerBlock("soulpoint",
             () -> new SoulPoint(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
+    public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
+            () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULSHAPER = register("soulshaper",
             () -> new SoulShaper(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(3.0f)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));

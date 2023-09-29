@@ -1,0 +1,12 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:soulcrystal",
+    "count": 1
+  }
+}

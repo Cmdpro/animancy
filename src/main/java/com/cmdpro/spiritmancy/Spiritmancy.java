@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @Mod.EventBusSubscriber(modid = Spiritmancy.MOD_ID)
 public class Spiritmancy
 {
-    public static ResourceKey<DamageType> unknownForcesDeath = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Spiritmancy.MOD_ID, "unknownforces"));
+    public static ResourceKey<DamageType> soulExplosion = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Spiritmancy.MOD_ID, "soulexplosion"));
 
     public static final String MOD_ID = "spiritmancy";
     // Directly reference a slf4j logger

@@ -7,7 +7,7 @@
     "item": "spiritmancy:soulfocus",
     "count": 1,
     "nbt": {
-      "recipe": "spiritmancy:test"
+      "recipe": "spiritmancy:soulcrystalaltar"
     }
   }
 }
