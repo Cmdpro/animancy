@@ -1,9 +1,0 @@
-+ Added Void Amplifier
-Fixed the issue where void fusers and amethyst transmuters would show the processing animation in item form
-+ Added Attunements
-+ Added a few new spells
-- Removed the Eye of Awakening
-+ Made spells show the damage they deal
-- Removed the explosion from the Shadow Dash Spell
-- Removed the Mage Studies
-+ Added Lore Fragments
