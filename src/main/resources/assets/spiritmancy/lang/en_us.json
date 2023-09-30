@@ -21,5 +21,18 @@
   "item.spiritmancy.soulfocus": "Soul Focus",
   "item.spiritmancy.soulfocus.none": "Recipe : None",
   "item.spiritmancy.soulfocus.spiritmancy.soulcrystalaltar": "Recipe : Soul Crystal",
-  "item.spiritmancy.soulfocus.spiritmancy.soulmetalaltar": "Recipe : Soulmetal"
+  "item.spiritmancy.soulfocus.spiritmancy.soulmetalaltar": "Recipe : Soulmetal",
+
+  "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
+  "book.spiritmancy.spiritmancyguide.basics.name": "Basics",
+  "book.spiritmancy.spiritmancyguide.casting.name": "Casting",
+  "book.spiritmancy.spiritmancyguide.combat.name": "Combat",
+  "book.spiritmancy.spiritmancyguide.creation.name": "Creation",
+  "book.spiritmancy.spiritmancyguide.arcane.name": "Arcane",
+
+  "book.spiritmancy.spiritmancyguide.basics.alloys.name": "Soul Sand Alloys",
+  "book.spiritmancy.spiritmancyguide.basics.alloys.page1.text": "It seems that by combining soul sand and gold I can create an alloy capable of harnessing souls",
+  "book.spiritmancy.spiritmancyguide.basics.alloys.page1.title": "Soulmetal",
+  "book.spiritmancy.spiritmancyguide.basics.alloys.page2.text": "It seems that by combining soul sand and amethyst I can create an crystal capable of transporting souls",
+  "book.spiritmancy.spiritmancyguide.basics.alloys.page2.title": "Soul Crystal"
 }

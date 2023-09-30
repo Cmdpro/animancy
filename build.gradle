@@ -188,10 +188,12 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     //runtimeOnly fg.deobf("curse.maven:attributefix-280510:4714729")
     //runtimeOnly fg.deobf("curse.maven:magicaladventure-910133:4754016")
+    compileOnly fg.deobf("com.klikli_dev:modonomicon-${mc_version}-common:${modonomicon_version}")
+    implementation fg.deobf("com.klikli_dev:modonomicon-${mc_version}-forge:${modonomicon_version}")
 
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
