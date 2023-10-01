@@ -29,4 +29,6 @@ public class ItemInit {
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
     }
+    public static final RegistryObject<Item> SPIRITMANCYGUIDEICON =
+            ITEMS.register("spiritmancyguideicon", () -> new Item(new Item.Properties()));
 }

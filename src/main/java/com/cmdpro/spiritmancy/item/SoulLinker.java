@@ -57,10 +57,12 @@ public class SoulLinker extends Item {
                         if (pContext.getLevel().getBlockEntity(data.getLinkingFrom()) instanceof ISoulContainer && pContext.getClickedPos().getCenter().distanceTo(data.getLinkingFrom().getCenter()) <= 10) {
                             List<BlockPos> map = ((ISoulContainer) pContext.getLevel().getBlockEntity(data.getLinkingFrom())).getLinked();
                             List<BlockPos> map2 = ent.getLinked();
-                            if (map2.contains(ent.getLinked())) {
-                                map2.remove(ent.getLinked());
+                            if (map2.contains(data.getLinkingFrom())) {
+                                map2.remove(data.getLinkingFrom());
+                                map.remove(data.getLinkingFrom());
                             }
                             if (map.contains(pContext.getClickedPos())) {
+                                map2.remove(data.getLinkingFrom());
                                 map.remove(pContext.getClickedPos());
                             }
                             String text = pContext.getClickedPos().getX() + " " + pContext.getClickedPos().getY() + " " + pContext.getClickedPos().getZ();

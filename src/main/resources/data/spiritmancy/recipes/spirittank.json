@@ -1,19 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "bbb",
+    "bBb",
     "AaA",
-    "bbb"
+    "bBb"
   ],
   "key": {
     "a": {
-      "item": "spiritmancy:soulmetal"
+      "item": "spiritmancy:soulcrystal"
     },
     "A": {
       "item": "minecraft:glass"
     },
     "b": {
       "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "spiritmancy:soulmetal"
     }
   },
   "result": {

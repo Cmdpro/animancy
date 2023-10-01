@@ -1,5 +1,6 @@
 {
-  "model": "spiritmancy:spiritmancyguide",
   "name": "book.spiritmancy.spiritmancyguide.name",
-  "creative_tab": "modonomicon:modonomicon"
+  "creative_tab": "modonomicon:modonomicon",
+  "auto_add_read_conditions": true,
+  "model": "spiritmancy:spiritmancyguideicon"
 }

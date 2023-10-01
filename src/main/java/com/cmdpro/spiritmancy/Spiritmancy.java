@@ -4,6 +4,7 @@ import com.cmdpro.spiritmancy.api.*;
 import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;

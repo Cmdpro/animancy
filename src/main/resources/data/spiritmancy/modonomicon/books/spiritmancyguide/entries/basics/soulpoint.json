@@ -1,0 +1,25 @@
+{
+  "category": "spiritmancy:basics",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:soulpoint",
+  "name": "book.spiritmancy.spiritmancyguide.basics.soulpoint.name",
+  "pages": [
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "spiritmancy:soulpoint",
+      "title1": "book.spiritmancy.spiritmancyguide.basics.soulpoint.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.basics.soulpoint.page1.text"
+    }
+  ],
+  "x": 3,
+  "y": 2,
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spiritmancy:basics/soullinker",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ]
+}

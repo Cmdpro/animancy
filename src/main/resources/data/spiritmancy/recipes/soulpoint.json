@@ -2,14 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " a ",
-    "aAa",
+    "aaa",
     " a "
   ],
   "key": {
     "a": {
-      "item": "spiritmancy:soulmetal"
-    },
-    "A": {
       "item": "spiritmancy:soulcrystal"
     }
   },

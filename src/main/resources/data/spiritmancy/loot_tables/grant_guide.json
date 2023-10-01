@@ -7,9 +7,12 @@
 				{
 					"type": "item",
 					"name": "modonomicon:modonomicon",
-					"nbt": {
-						"modonomicon:book_id": "spiritmancy:spiritmancyguide"
-					}
+					"functions": [
+						{
+							"function": "set_nbt",
+							"tag": "{\"modonomicon:book_id\": \"spiritmancy:spiritmancyguide\"}"
+						}
+					]
 				}
 			]
 		}
