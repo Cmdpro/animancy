@@ -2,7 +2,12 @@ package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.api.*;
 import com.cmdpro.spiritmancy.init.*;
+import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
+import com.cmdpro.spiritmancy.integration.BookAltarRecipePageRenderer;
+import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
 import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
+import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
@@ -28,6 +33,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -86,10 +92,13 @@ public class Spiritmancy
             event.accept(ItemInit.SOULMETAL);
             event.accept(ItemInit.SOULLINKER);
             event.accept(ItemInit.SOULCRYSTAL);
+            event.accept(ItemInit.SOULFOCUS);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);
             event.accept(ItemInit.SOULPOINT_ITEM);
+            event.accept(ItemInit.SOULALTAR_ITEM);
+            event.accept(BlockInit.SOULSHAPER.get());
         }
     }
     private void setup(final FMLCommonSetupEvent event)
@@ -97,6 +106,7 @@ public class Spiritmancy
         // some preinit code
         ModMessages.register();
         event.enqueueWork(ModCriteriaTriggers::register);
+        LoaderRegistry.registerPageLoader(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, BookAltarRecipePage::fromJson, BookAltarRecipePage::fromNetwork);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

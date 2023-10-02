@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aaa",
+    "aAa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "spiritmancy:soulmetal"
+    },
+    "A": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:soulshaper",
+    "count": 1
+  }
+}

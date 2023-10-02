@@ -3,9 +3,13 @@ package com.cmdpro.spiritmancy;
 import com.cmdpro.spiritmancy.client.ModHud;
 import com.cmdpro.spiritmancy.api.SpiritmancyRegistration;
 import com.cmdpro.spiritmancy.init.*;
+import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
+import com.cmdpro.spiritmancy.integration.BookAltarRecipePageRenderer;
+import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
 import com.cmdpro.spiritmancy.particle.SoulParticle;
 import com.cmdpro.spiritmancy.renderers.*;
 import com.cmdpro.spiritmancy.screen.SoulShaperScreen;
+import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -38,6 +42,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
         MenuScreens.register(MenuInit.SOULSHAPER_MENU.get(), SoulShaperScreen::new);
+        PageRendererRegistry.registerPageRenderer(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, p -> new BookAltarRecipePageRenderer((BookAltarRecipePage) p));
     }
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {

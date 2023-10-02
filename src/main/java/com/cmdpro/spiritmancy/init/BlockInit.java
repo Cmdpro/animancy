@@ -1,10 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
-import com.cmdpro.spiritmancy.block.SoulAltar;
-import com.cmdpro.spiritmancy.block.SoulPoint;
-import com.cmdpro.spiritmancy.block.SoulShaper;
-import com.cmdpro.spiritmancy.block.SpiritTank;
+import com.cmdpro.spiritmancy.block.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -29,6 +26,9 @@ public class BlockInit {
             () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULSHAPER = register("soulshaper",
             () -> new SoulShaper(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(3.0f)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
+    public static final RegistryObject<Block> SOULCASTERSTABLE = register("soulcasterstable",
+            () -> new SoulcastersTable(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(3.0f)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
     private static <T extends Block> RegistryObject<T> registerBlock(final String name,
                                                                      final Supplier<? extends T> block) {

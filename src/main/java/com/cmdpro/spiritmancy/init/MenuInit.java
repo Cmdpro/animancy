@@ -1,7 +1,9 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.SoulcastersTable;
 import com.cmdpro.spiritmancy.screen.SoulShaperMenu;
+import com.cmdpro.spiritmancy.screen.SoulcastersTableMenu;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -18,7 +20,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class MenuInit {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Spiritmancy.MOD_ID);
-    public static final RegistryObject<MenuType<SoulShaperMenu>> SOULSHAPER_MENU = MENUS.register("soulshaper_menu", () -> new MenuType(SoulShaperMenu::new, FeatureFlags.DEFAULT_FLAGS));;
+    public static final RegistryObject<MenuType<SoulShaperMenu>> SOULSHAPER_MENU = MENUS.register("soulshaper_menu", () -> new MenuType(SoulShaperMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<MenuType<SoulcastersTableMenu>> SOULCASTERSTABLE_MENU = MENUS.register("soulcasterstable_menu", () -> new MenuType(SoulcastersTableMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

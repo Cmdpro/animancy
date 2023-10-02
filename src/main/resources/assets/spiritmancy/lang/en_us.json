@@ -46,5 +46,20 @@
   "book.spiritmancy.spiritmancyguide.basics.spirittank.page1.title": "Soul Tank",
   "book.spiritmancy.spiritmancyguide.basics.soulpoint.name": "Soul Point",
   "book.spiritmancy.spiritmancyguide.basics.soulpoint.page1.text": "By fusing multiple soul crystals I can create a way to extend the distance of my soul links",
-  "book.spiritmancy.spiritmancyguide.basics.soulpoint.page1.title": "Soul Point"
+  "book.spiritmancy.spiritmancyguide.basics.soulpoint.page1.title": "Soul Point",
+  "book.spiritmancy.spiritmancyguide.basics.soulaltar.name": "Soul Altar",
+  "book.spiritmancy.spiritmancyguide.basics.soulaltar.page1.text": "Using soulmetal for the harnessing of souls, a soul crystal for the linking of souls, and diamonds for their magical properties, I can create an altar that combines souls and items",
+  "book.spiritmancy.spiritmancyguide.basics.soulaltar.page1.title": "Soul Altar",
+  "book.spiritmancy.spiritmancyguide.basics.soulaltar.page2.text": "To use I simply put in the focus then I give it the items it asks for",
+  "book.spiritmancy.spiritmancyguide.basics.soulshaper.name": "Soul Shaper",
+  "book.spiritmancy.spiritmancyguide.basics.soulshaper.page1.text": "By covering a crafting table in soulmetal I can give it the capability of harnessing souls to focus soul focuses",
+  "book.spiritmancy.spiritmancyguide.basics.soulshaper.page1.title": "Soul Shaper",
+  "book.spiritmancy.spiritmancyguide.basics.soulfocus.name": "Soul Focus",
+  "book.spiritmancy.spiritmancyguide.basics.soulfocus.page1.text": "By combining glass and a soul crystal I can focus souls to make a specific thing, without this, everything will just be consumed in the soul altar so I must put this in first",
+  "book.spiritmancy.spiritmancyguide.basics.soulfocus.page1.title": "Soul Focus",
+  "book.spiritmancy.spiritmancyguide.basics.alternatealloyrecipes.name": "Alternate Alloy Recipes",
+  "book.spiritmancy.spiritmancyguide.basics.alternatealloyrecipes.page1.text": "Using souls I can directly make soulmetal instead of extracting the souls from the soul sand",
+  "book.spiritmancy.spiritmancyguide.basics.alternatealloyrecipes.page1.title": "Soulmetal",
+  "book.spiritmancy.spiritmancyguide.basics.alternatealloyrecipes.page2.text": "It seems I can also use souls to directly make soul crystals",
+  "book.spiritmancy.spiritmancyguide.basics.alternatealloyrecipes.page2.title": "Soul Crystal"
 }

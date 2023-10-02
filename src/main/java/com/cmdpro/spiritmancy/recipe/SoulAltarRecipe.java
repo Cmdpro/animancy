@@ -21,6 +21,11 @@ public class SoulAltarRecipe implements Recipe<Container> {
     private final ItemStack output;
     private final NonNullList<Ingredient> input;
 
+    @Override
+    public ItemStack getToastSymbol() {
+        return new ItemStack(ItemInit.SOULALTAR_ITEM.get());
+    }
+
     public SoulAltarRecipe(ResourceLocation id, ItemStack output,
                            NonNullList<Ingredient> input) {
         this.id = id;
