@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "spiritmancy:soulcrystal"
+      "item": "spiritmancy:soulmetal"
     },
     {
       "item": "minecraft:glass"
