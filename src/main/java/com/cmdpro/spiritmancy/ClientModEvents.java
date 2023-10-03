@@ -9,6 +9,7 @@ import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
 import com.cmdpro.spiritmancy.particle.SoulParticle;
 import com.cmdpro.spiritmancy.renderers.*;
 import com.cmdpro.spiritmancy.screen.SoulShaperScreen;
+import com.cmdpro.spiritmancy.screen.SoulcastersTableScreen;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
@@ -35,6 +36,8 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        EntityRenderers.register(EntityInit.SPELLPROJECTILE.get(), BillboardProjectileRenderer::new);
+
         event.registerBlockEntityRenderer(BlockEntityInit.SPIRITTANK.get(), SpiritTankRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULPOINT.get(), SoulPointRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULALTAR.get(), SoulAltarRenderer::new);
@@ -42,6 +45,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
         MenuScreens.register(MenuInit.SOULSHAPER_MENU.get(), SoulShaperScreen::new);
+        MenuScreens.register(MenuInit.SOULCASTERSTABLE_MENU.get(), SoulcastersTableScreen::new);
         PageRendererRegistry.registerPageRenderer(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, p -> new BookAltarRecipePageRenderer((BookAltarRecipePage) p));
     }
     @SubscribeEvent

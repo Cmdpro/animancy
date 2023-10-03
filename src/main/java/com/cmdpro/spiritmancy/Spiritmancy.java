@@ -77,6 +77,7 @@ public class Spiritmancy
         SoundInit.register(bus);
         CreativeModeTabInit.register(bus);
         ParticleInit.register(bus);
+        SoulcasterEffectInit.SOULCASTER_EFFECTS.register(bus);
         GeckoLib.initialize();
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

@@ -1,8 +1,12 @@
 package com.cmdpro.spiritmancy.screen;
 
+import com.cmdpro.spiritmancy.api.IAmplifierSoulcastersCrystal;
 import com.cmdpro.spiritmancy.api.ISoulcastersCrystal;
 import com.cmdpro.spiritmancy.init.BlockInit;
 import com.cmdpro.spiritmancy.init.MenuInit;
+import com.cmdpro.spiritmancy.screen.slot.AmplifierSoulcastersCrystalSlot;
+import com.cmdpro.spiritmancy.screen.slot.SoulcastersCrystalSlot;
+import com.cmdpro.spiritmancy.screen.slot.WandSlot;
 import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -23,14 +27,16 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SoulcastersTableMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final Level level;
     long lastSoundTime;
+    final List<Slot> invSlots = new ArrayList<>();
     final Slot resultSlot;
-    public final Container container = new SimpleContainer(4) {
+    public final Container container = new SimpleContainer(6) {
         /**
          * For block entities, ensures the chunk containing the block entity is saved to disk later - the game won't think
          * it hasn't changed and skip it.
@@ -50,11 +56,15 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
         super(MenuInit.SOULCASTERSTABLE_MENU.get(), pContainerId);
         this.access = pAccess;
         this.level = pPlayerInventory.player.level();
-        this.addSlot(new Slot(this.container, 0, 80, 5));
-        this.addSlot(new Slot(this.container, 0, 58, 24));
-        this.addSlot(new Slot(this.container, 0, 80, 24));
-        this.addSlot(new Slot(this.container, 0, 102, 24));
-        this.resultSlot = this.addSlot(new Slot(this.resultContainer, 5, 80, 65) {
+        addPlayerInventory(pPlayerInventory);
+        addPlayerHotbar(pPlayerInventory);
+        invSlots.add(this.addSlot(new WandSlot(this.container, 0, 102, 46)));
+        invSlots.add(this.addSlot(new SoulcastersCrystalSlot(this.container, 1, 58, 24)));
+        invSlots.add(this.addSlot(new SoulcastersCrystalSlot(this.container, 2, 80, 24)));
+        invSlots.add(this.addSlot(new SoulcastersCrystalSlot(this.container, 3, 102, 24)));
+        invSlots.add(this.addSlot(new AmplifierSoulcastersCrystalSlot(this.container, 4, 38, 35)));
+        invSlots.add(this.addSlot(new AmplifierSoulcastersCrystalSlot(this.container, 5, 122, 35)));
+        this.resultSlot = this.addSlot(new Slot(this.resultContainer, 0, 58, 46) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
@@ -64,10 +74,12 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
 
             public void onTake(Player p_150672_, ItemStack p_150673_) {
                 p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
-                ItemStack itemstack = SoulcastersTableMenu.this.getSlot(0).remove(1);
-                ItemStack itemstack2 = SoulcastersTableMenu.this.getSlot(1).remove(1);
-                ItemStack itemstack3 = SoulcastersTableMenu.this.getSlot(2).remove(1);
-                ItemStack itemstack4 = SoulcastersTableMenu.this.getSlot(3).remove(1);
+                ItemStack itemstack = invSlots.get(0).remove(1);
+                ItemStack itemstack2 = invSlots.get(1).remove(1);
+                ItemStack itemstack3 = invSlots.get(2).remove(1);
+                ItemStack itemstack4 = invSlots.get(3).remove(1);
+                ItemStack itemstack5 = invSlots.get(4).remove(1);
+                ItemStack itemstack6 = invSlots.get(5).remove(1);
                 if (!itemstack.isEmpty()) {
                     SoulcastersTableMenu.this.setupResultSlot();
                 }
@@ -84,15 +96,6 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
             }
         });
 
-        for(int i = 0; i < 3; ++i) {
-            for(int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(pPlayerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for(int k = 0; k < 9; ++k) {
-            this.addSlot(new Slot(pPlayerInventory, k, 8 + k * 18, 142));
-        }
     }
 
 
@@ -104,17 +107,31 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
     }
 
     void setupResultSlot() {
-        ItemStack wand = getSlot(0).getItem().copy();
-        CompoundTag tag = wand.getOrCreateTag();
-        tag.remove("types");
-        ListTag tag2 = new ListTag();
-        for (int i = 1; i <= 4; i++) {
-            if (getSlot(i).hasItem()) {
-                CompoundTag tag3 = new CompoundTag();
-                tag3.putString("id", ((ISoulcastersCrystal)getSlot(i).getItem().getItem()).getId());
-                tag2.add(tag3);
+        ItemStack wand = invSlots.get(0).getItem().copy();
+        if (!wand.is(ItemStack.EMPTY.getItem())) {
+            CompoundTag tag = wand.getOrCreateTag();
+            tag.remove("types");
+            ListTag tag2 = new ListTag();
+            for (int i = 1; i <= 3; i++) {
+                if (invSlots.get(i).hasItem()) {
+                    CompoundTag tag3 = new CompoundTag();
+                    tag3.putString("id", ((ISoulcastersCrystal) invSlots.get(i).getItem().getItem()).getId());
+                    tag2.add(tag3);
+                }
+            }
+            tag.remove("amplifier");
+            if (!tag2.isEmpty()) {
+                tag.put("types", tag2);
+                int amplifier = 1;
+                for (int i = 4; i <= 5; i++) {
+                    if (invSlots.get(i).hasItem()) {
+                        amplifier += ((IAmplifierSoulcastersCrystal)invSlots.get(i).getItem().getItem()).getTimesAdd();
+                    }
+                }
+                tag.putInt("amplifier", amplifier);
             }
         }
+        this.resultSlot.set(wand);
         this.broadcastChanges();
     }
 
@@ -133,6 +150,7 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
     }
 
 
+
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
     // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.
@@ -149,7 +167,7 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 7;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -193,5 +211,18 @@ public class SoulcastersTableMenu extends AbstractContainerMenu {
         this.access.execute((p_40313_, p_40314_) -> {
             this.clearContainer(pPlayer, this.container);
         });
+    }
+    private void addPlayerInventory(Inventory playerInventory) {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 86 + i * 18));
+            }
+        }
+    }
+
+    private void addPlayerHotbar(Inventory playerInventory) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));
+        }
     }
 }
