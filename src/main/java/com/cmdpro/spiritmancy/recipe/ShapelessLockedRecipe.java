@@ -3,6 +3,7 @@ package com.cmdpro.spiritmancy.recipe;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.google.gson.JsonObject;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -22,15 +23,20 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 public class ShapelessLockedRecipe extends ShapelessRecipe {
     private final ShapelessRecipe recipe;
-    private final String advancement;
+    private final String entry;
+    private final boolean mustRead;
 
-    public ShapelessLockedRecipe(ShapelessRecipe recipe, String advancement) {
+    public ShapelessLockedRecipe(ShapelessRecipe recipe, String entry, boolean mustRead) {
         super(recipe.getId(), recipe.getGroup(), recipe.category(), recipe.getResultItem(RegistryAccess.EMPTY), recipe.getIngredients());
         this.recipe = recipe;
-        this.advancement = advancement;
+        this.entry = entry;
+        this.mustRead = mustRead;
     }
 
     @Override
@@ -50,7 +56,7 @@ public class ShapelessLockedRecipe extends ShapelessRecipe {
                     player = i;
                 }
             }
-            if (playerHasNeededAdvancement(player)) {
+            if (playerHasNeededEntry(player)) {
                 return recipe.assemble(pContainer, pRegistryAccess);
             } else {
                 return ItemStack.EMPTY;
@@ -59,14 +65,19 @@ public class ShapelessLockedRecipe extends ShapelessRecipe {
         return ItemStack.EMPTY;
     }
 
-    public boolean playerHasNeededAdvancement(ServerPlayer player) {
-        Collection<ResourceLocation> finishedAdvancments = new ArrayList<>();
-        for (Advancement i : player.level().getServer().getAdvancements().getAllAdvancements()) {
-            if (player.getAdvancements().getOrStartProgress(i).isDone()) {
-                finishedAdvancments.add(i.getId());
+    public boolean playerHasNeededEntry(ServerPlayer player) {
+        ConcurrentMap<ResourceLocation, Set<ResourceLocation>> entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).unlockedEntries;
+        if (mustRead) {
+            entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).readEntries;
+        }
+        for (Map.Entry<ResourceLocation, Set<ResourceLocation>> i : entries.entrySet()) {
+            for (ResourceLocation o : i.getValue()) {
+                if (o.toString().equals(entry)) {
+                    return true;
+                }
             }
         }
-        return finishedAdvancments.contains(ResourceLocation.tryParse(advancement));
+        return false;
     }
 
     @Override
@@ -85,27 +96,33 @@ public class ShapelessLockedRecipe extends ShapelessRecipe {
     }
 
     public static class Serializer implements RecipeSerializer<ShapelessLockedRecipe> {
-        public static final Serializer INSTANCE = new Serializer();
+        public static final ShapelessLockedRecipe.Serializer INSTANCE = new ShapelessLockedRecipe.Serializer();
         public static final ResourceLocation ID =
                 new ResourceLocation(Spiritmancy.MOD_ID,"shapeless_locked_recipe");
 
         @Override
         public ShapelessLockedRecipe fromJson(ResourceLocation id, JsonObject json) {
             ShapelessRecipe recipe = RecipeSerializer.SHAPELESS_RECIPE.fromJson(id, json);
-            String advancement = json.get("advancement").getAsString();
-            return new ShapelessLockedRecipe(recipe, advancement);
+            String entry = json.get("entry").getAsString();
+            boolean mustRead = true;
+            if (json.has("mustRead")) {
+                mustRead = json.get("mustRead").getAsBoolean();
+            }
+            return new ShapelessLockedRecipe(recipe, entry, mustRead);
         }
 
         @Override
         public ShapelessLockedRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            String advancement = buf.readUtf();
+            String entry = buf.readUtf();
+            boolean mustRead = buf.readBoolean();
             ShapelessRecipe recipe = RecipeSerializer.SHAPELESS_RECIPE.fromNetwork(id, buf);
-            return new ShapelessLockedRecipe(recipe, advancement);
+            return new ShapelessLockedRecipe(recipe, entry, mustRead);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, ShapelessLockedRecipe recipe) {
-            buf.writeUtf(recipe.advancement);
+            buf.writeUtf(recipe.entry);
+            buf.writeBoolean(recipe.mustRead);
             RecipeSerializer.SHAPELESS_RECIPE.toNetwork(buf, recipe.recipe);
         }
 

@@ -4,32 +4,49 @@ package com.cmdpro.spiritmancy.recipe;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.BlockInit;
 import com.google.gson.JsonObject;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.server.ServerLifecycleHooks;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 
 public class SoulShaperRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private final ItemStack output;
     private final Ingredient input;
+    public final String entry;
+    public final boolean mustRead;
+    public final boolean locked;
 
     public SoulShaperRecipe(ResourceLocation id, ItemStack output,
-                           Ingredient input) {
+                           Ingredient input, String entry, boolean mustRead, boolean locked) {
         this.id = id;
         this.output = output;
         this.input = input;
+        this.entry = entry;
+        this.mustRead = mustRead;
+        this.locked = locked;
     }
 
     @Override
@@ -89,20 +106,36 @@ public class SoulShaperRecipe implements Recipe<Container> {
         public SoulShaperRecipe fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-            return new SoulShaperRecipe(id, output, input);
+            boolean locked = false;
+            String entry = "";
+            boolean mustRead = false;
+            if (json.has("locked")) {
+                locked = json.get("locked").getAsBoolean();
+                entry = json.get("entry").getAsString();
+                if (json.has("mustRead")) {
+                    mustRead = json.get("mustRead").getAsBoolean();
+                }
+            }
+            return new SoulShaperRecipe(id, output, input, entry, mustRead, locked);
         }
 
         @Override
         public SoulShaperRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
             Ingredient input = Ingredient.fromNetwork(buf);
             ItemStack output = buf.readItem();
-            return new SoulShaperRecipe(id, output, input);
+            boolean locked = buf.readBoolean();
+            String entry = buf.readUtf();
+            boolean mustRead = buf.readBoolean();
+            return new SoulShaperRecipe(id, output, input, entry, mustRead, locked);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, SoulShaperRecipe recipe) {
             recipe.input.toNetwork(buf);
             buf.writeItemStack(recipe.getResultItem(RegistryAccess.EMPTY), false);
+            buf.writeBoolean(recipe.locked);
+            buf.writeUtf(recipe.entry);
+            buf.writeBoolean(recipe.mustRead);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics

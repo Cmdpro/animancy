@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 public class SoulShaper extends Block {
     private static final Component CONTAINER_TITLE = Component.translatable("container.spiritmancy.soulshaper");
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-
     public SoulShaper(BlockBehaviour.Properties pProperties) {
         super(pProperties);
     }

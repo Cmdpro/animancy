@@ -3,6 +3,14 @@ package com.cmdpro.spiritmancy.recipe;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.google.gson.JsonObject;
+import com.klikli_dev.modonomicon.Modonomicon;
+import com.klikli_dev.modonomicon.ModonomiconForge;
+import com.klikli_dev.modonomicon.api.ModonomiconAPI;
+import com.klikli_dev.modonomicon.api.ModonomiconConstants;
+import com.klikli_dev.modonomicon.apiimpl.ModonomiconAPIImpl;
+import com.klikli_dev.modonomicon.book.Book;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
+import com.klikli_dev.modonomicon.data.BookDataManager;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,15 +27,20 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 public class ShapedLockedRecipe extends ShapedRecipe {
     private final ShapedRecipe recipe;
-    private final String advancement;
+    private final String entry;
+    private final boolean mustRead;
 
-    public ShapedLockedRecipe(ShapedRecipe recipe, String advancement) {
+    public ShapedLockedRecipe(ShapedRecipe recipe, String entry, boolean mustRead) {
         super(recipe.getId(), recipe.getGroup(), recipe.category(), recipe.getWidth(), recipe.getHeight(), recipe.getIngredients(), recipe.getResultItem(RegistryAccess.EMPTY));
         this.recipe = recipe;
-        this.advancement = advancement;
+        this.entry = entry;
+        this.mustRead = mustRead;
     }
 
     @Override
@@ -47,7 +60,7 @@ public class ShapedLockedRecipe extends ShapedRecipe {
                     player = i;
                 }
             }
-            if (playerHasNeededAdvancement(player)) {
+            if (playerHasNeededEntry(player)) {
                 return recipe.assemble(pContainer, pRegistryAccess);
             } else {
                 return ItemStack.EMPTY;
@@ -56,14 +69,19 @@ public class ShapedLockedRecipe extends ShapedRecipe {
         return ItemStack.EMPTY;
     }
 
-    public boolean playerHasNeededAdvancement(ServerPlayer player) {
-        Collection<ResourceLocation> finishedAdvancments = new ArrayList<>();
-        for (Advancement i : player.level().getServer().getAdvancements().getAllAdvancements()) {
-            if (player.getAdvancements().getOrStartProgress(i).isDone()) {
-                finishedAdvancments.add(i.getId());
+    public boolean playerHasNeededEntry(ServerPlayer player) {
+        ConcurrentMap<ResourceLocation, Set<ResourceLocation>> entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).unlockedEntries;
+        if (mustRead) {
+            entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).readEntries;
+        }
+        for (Map.Entry<ResourceLocation, Set<ResourceLocation>> i : entries.entrySet()) {
+            for (ResourceLocation o : i.getValue()) {
+                if (o.toString().equals(entry)) {
+                    return true;
+                }
             }
         }
-        return finishedAdvancments.contains(ResourceLocation.tryParse(advancement));
+        return false;
     }
 
     @Override
@@ -89,20 +107,26 @@ public class ShapedLockedRecipe extends ShapedRecipe {
         @Override
         public ShapedLockedRecipe fromJson(ResourceLocation id, JsonObject json) {
             ShapedRecipe recipe = RecipeSerializer.SHAPED_RECIPE.fromJson(id, json);
-            String advancement = json.get("advancement").getAsString();
-            return new ShapedLockedRecipe(recipe, advancement);
+            String entry = json.get("entry").getAsString();
+            boolean mustRead = true;
+            if (json.has("mustRead")) {
+                mustRead = json.get("mustRead").getAsBoolean();
+            }
+            return new ShapedLockedRecipe(recipe, entry, mustRead);
         }
 
         @Override
         public ShapedLockedRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            String advancement = buf.readUtf();
+            String entry = buf.readUtf();
+            boolean mustRead = buf.readBoolean();
             ShapedRecipe recipe = RecipeSerializer.SHAPED_RECIPE.fromNetwork(id, buf);
-            return new ShapedLockedRecipe(recipe, advancement);
+            return new ShapedLockedRecipe(recipe, entry, mustRead);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, ShapedLockedRecipe recipe) {
-            buf.writeUtf(recipe.advancement);
+            buf.writeUtf(recipe.entry);
+            buf.writeBoolean(recipe.mustRead);
             RecipeSerializer.SHAPED_RECIPE.toNetwork(buf, recipe.recipe);
         }
 

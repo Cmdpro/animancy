@@ -5,6 +5,9 @@ import com.cmdpro.spiritmancy.init.MenuInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
 import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import com.google.common.collect.Lists;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -17,8 +20,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 public class SoulShaperMenu extends AbstractContainerMenu {
     public static final int INPUT_SLOT = 0;
@@ -62,8 +70,27 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this(pContainerId, pPlayerInventory, ContainerLevelAccess.NULL);
     }
 
+    public boolean playerHasNeededEntry(Player player, SoulShaperRecipe recipe) {
+        if (!recipe.locked) {
+            return true;
+        }
+        ConcurrentMap<ResourceLocation, Set<ResourceLocation>> entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).unlockedEntries;
+        if (recipe.mustRead) {
+            entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).readEntries;
+        }
+        for (Map.Entry<ResourceLocation, Set<ResourceLocation>> i : entries.entrySet()) {
+            for (ResourceLocation o : i.getValue()) {
+                if (o.toString().equals(recipe.entry)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    Player player;
     public SoulShaperMenu(int pContainerId, Inventory pPlayerInventory, final ContainerLevelAccess pAccess) {
         super(MenuInit.SOULSHAPER_MENU.get(), pContainerId);
+        this.player = pPlayerInventory.player;
         this.access = pAccess;
         this.level = pPlayerInventory.player.level();
         this.inputSlot = this.addSlot(new Slot(this.container, 0, 20, 33));
@@ -170,7 +197,22 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this.selectedRecipeIndex.set(-1);
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
-            this.recipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
+            List<SoulShaperRecipe> recipes = new ArrayList<>();
+            List<SoulShaperRecipe> allRecipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
+            if (EffectiveSide.get().isClient()) {
+                for (SoulShaperRecipe i : allRecipes) {
+                    if (playerHasNeededEntry(Minecraft.getInstance().player, i)) {
+                        recipes.add(i);
+                    }
+                }
+            } else {
+                for (SoulShaperRecipe i : allRecipes) {
+                    if (playerHasNeededEntry(player, i)) {
+                        recipes.add(i);
+                    }
+                }
+            }
+            this.recipes = recipes;
         }
 
     }
