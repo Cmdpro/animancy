@@ -34,7 +34,7 @@ logoFile="examplemod.png" #optional
 # authors="Cmdpro" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-A mod with a focus on bosses and magic
+A magic mod about manipulating souls
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.spiritmancy]] #optional
@@ -66,5 +66,11 @@ A mod with a focus on bosses and magic
     modId="geckolib"
     mandatory=true
     versionRange="[4.1.2,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.spiritmancy]]
+    modId="modonomicon"
+    mandatory=true
+    versionRange="[1.38.5,)"
     ordering="NONE"
     side="BOTH"

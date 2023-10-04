@@ -102,7 +102,7 @@ public class ShapedLockedRecipe extends ShapedRecipe {
     public static class Serializer implements RecipeSerializer<ShapedLockedRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID =
-                new ResourceLocation(Spiritmancy.MOD_ID,"shaped_locked_recipe");
+                new ResourceLocation(Spiritmancy.MOD_ID,"shapedlockedrecipe");
 
         @Override
         public ShapedLockedRecipe fromJson(ResourceLocation id, JsonObject json) {

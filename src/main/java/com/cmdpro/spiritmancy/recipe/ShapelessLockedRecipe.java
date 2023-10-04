@@ -98,7 +98,7 @@ public class ShapelessLockedRecipe extends ShapelessRecipe {
     public static class Serializer implements RecipeSerializer<ShapelessLockedRecipe> {
         public static final ShapelessLockedRecipe.Serializer INSTANCE = new ShapelessLockedRecipe.Serializer();
         public static final ResourceLocation ID =
-                new ResourceLocation(Spiritmancy.MOD_ID,"shapeless_locked_recipe");
+                new ResourceLocation(Spiritmancy.MOD_ID,"shapelesslockedrecipe");
 
         @Override
         public ShapelessLockedRecipe fromJson(ResourceLocation id, JsonObject json) {

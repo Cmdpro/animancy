@@ -1,5 +1,7 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "spiritmancy:shapelesslockedrecipe",
+  "locked": true,
+  "entry": "spiritmancy:basics/soulfocus",
   "ingredients": [
     {
       "item": "spiritmancy:soulmetal"

@@ -108,7 +108,7 @@ public class SoulShaperRecipe implements Recipe<Container> {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
             boolean locked = false;
             String entry = "";
-            boolean mustRead = false;
+            boolean mustRead = true;
             if (json.has("locked")) {
                 locked = json.get("locked").getAsBoolean();
                 entry = json.get("entry").getAsString();

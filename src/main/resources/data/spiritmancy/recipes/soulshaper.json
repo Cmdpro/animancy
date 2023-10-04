@@ -1,5 +1,7 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "spiritmancy:shapedlockedrecipe",
+  "locked": true,
+  "entry": "spiritmancy:basics/soulshaper",
   "pattern": [
     "aaa",
     "aAa",

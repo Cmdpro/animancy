@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy.screen;
 
+import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.BlockInit;
 import com.cmdpro.spiritmancy.init.MenuInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
@@ -199,17 +200,9 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         if (!pStack.isEmpty()) {
             List<SoulShaperRecipe> recipes = new ArrayList<>();
             List<SoulShaperRecipe> allRecipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
-            if (EffectiveSide.get().isClient()) {
-                for (SoulShaperRecipe i : allRecipes) {
-                    if (playerHasNeededEntry(Minecraft.getInstance().player, i)) {
-                        recipes.add(i);
-                    }
-                }
-            } else {
-                for (SoulShaperRecipe i : allRecipes) {
-                    if (playerHasNeededEntry(player, i)) {
-                        recipes.add(i);
-                    }
+            for (SoulShaperRecipe i : allRecipes) {
+                if (playerHasNeededEntry(player, i)) {
+                    recipes.add(i);
                 }
             }
             this.recipes = recipes;

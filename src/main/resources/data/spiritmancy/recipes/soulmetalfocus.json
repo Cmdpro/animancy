@@ -1,7 +1,7 @@
 {
   "type": "spiritmancy:soulshaper",
   "locked": true,
-  "entry": "spiritmancy:alternatealloyrecipes",
+  "entry": "spiritmancy:basics/alternatealloyrecipes",
   "input": {
     "item": "spiritmancy:soulfocus"
   },
