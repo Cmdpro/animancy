@@ -77,7 +77,7 @@ public class SpellProjectile extends BillboardProjectile {
     }
     @Override
     public float getScale() {
-        return 1;
+        return 0.5f;
     }
 
     private static final EntityDataAccessor<CompoundTag> COLOR = SynchedEntityData.defineId(SpellProjectile.class, EntityDataSerializers.COMPOUND_TAG);

@@ -11,5 +11,5 @@ import org.spongepowered.asm.mixin.Shadow;
 
 public class EntityInit {
     public static DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Spiritmancy.MOD_ID);
-    public static final RegistryObject<EntityType<SpellProjectile>> SPELLPROJECTILE = ENTITY_TYPES.register("spell", () -> EntityType.Builder.of((EntityType.EntityFactory<SpellProjectile>) SpellProjectile::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Spiritmancy.MOD_ID + ":" + "spell"));
+    public static final RegistryObject<EntityType<SpellProjectile>> SPELLPROJECTILE = ENTITY_TYPES.register("spell", () -> EntityType.Builder.of((EntityType.EntityFactory<SpellProjectile>) SpellProjectile::new, MobCategory.MISC).sized(0.25f, 0.25f).build(Spiritmancy.MOD_ID + ":" + "spell"));
 }
