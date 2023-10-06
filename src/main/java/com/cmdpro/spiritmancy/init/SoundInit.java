@@ -15,6 +15,7 @@ public class SoundInit {
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Spiritmancy.MOD_ID);
 
     public static RegistryObject<SoundEvent> BOSS_MUSIC = registerSoundEvent("boss_music");
+    public static RegistryObject<SoundEvent> CRYSTALSOULS = registerSoundEvent("crystalsouls");
 
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {

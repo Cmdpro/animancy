@@ -3,5 +3,11 @@
     "sounds": [
       "spiritmancy:boss_music"
     ]
+  },
+  "crystalsouls": {
+    "sounds": [
+      "spiritmancy:crystalsouls"
+    ],
+    "stream": true
   }
 }

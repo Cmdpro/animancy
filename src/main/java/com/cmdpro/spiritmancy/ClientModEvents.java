@@ -6,6 +6,7 @@ import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePageRenderer;
 import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
+import com.cmdpro.spiritmancy.particle.Soul2Particle;
 import com.cmdpro.spiritmancy.particle.SoulParticle;
 import com.cmdpro.spiritmancy.renderers.*;
 import com.cmdpro.spiritmancy.screen.SoulShaperScreen;
@@ -52,5 +53,7 @@ public class ClientModEvents {
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
         Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL.get(),
                 SoulParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL2.get(),
+                Soul2Particle.Provider::new);
     }
 }

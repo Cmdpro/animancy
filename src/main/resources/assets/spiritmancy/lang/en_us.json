@@ -20,6 +20,8 @@
   "death.attack.soulexplosion.player": "%1$s was exploded by souls.",
   "item.spiritmancy.wand.amplifier": "Amplifier : %1$s",
   "item.spiritmancy.wand.cost": "Soul Cost : %1$s",
+  "item.spiritmancy.crystalsoulsmusicdisc": "Music Disc",
+  "item.spiritmancy.crystalsoulsmusicdisc.desc": "DavidRarria09 - Crystal Souls",
 
   "item.spiritmancy.soulfocus": "Soul Focus",
   "item.spiritmancy.soulfocus.none": "Recipe : None",
@@ -35,7 +37,7 @@
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",
   "book.spiritmancy.spiritmancyguide.soulcasting.name": "Soulcasting",
-  "book.spiritmancy.spiritmancyguide.combat.name": "Combat",
+  "book.spiritmancy.spiritmancyguide.tools.name": "Tools",
   "book.spiritmancy.spiritmancyguide.creation.name": "Creation",
   "book.spiritmancy.spiritmancyguide.arcane.name": "Arcane",
 

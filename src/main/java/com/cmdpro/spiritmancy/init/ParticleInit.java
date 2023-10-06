@@ -14,6 +14,8 @@ public class ParticleInit {
 
     public static final RegistryObject<SimpleParticleType> SOUL =
             PARTICLE_TYPES.register("soul", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SOUL2 =
+            PARTICLE_TYPES.register("soul2", () -> new SimpleParticleType(true));
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
