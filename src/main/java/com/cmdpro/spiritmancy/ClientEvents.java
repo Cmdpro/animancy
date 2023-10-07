@@ -1,10 +1,19 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.entity.SoulKeeper;
+import com.cmdpro.spiritmancy.init.SoundInit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Spiritmancy.MOD_ID)
-public class ClientEvents {/*
+public class ClientEvents {
     public static SimpleSoundInstance music;
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
@@ -14,7 +23,7 @@ public class ClientEvents {/*
         {
             boolean playMusic = false;
             for (Entity i : mc.level.entitiesForRendering()) {
-                if (i instanceof IPowerEyeTarget) {
+                if (i instanceof SoulKeeper) {
                     playMusic = true;
                 }
             }
@@ -35,5 +44,5 @@ public class ClientEvents {/*
                 }
             }
         }
-    }*/
+    }
 }

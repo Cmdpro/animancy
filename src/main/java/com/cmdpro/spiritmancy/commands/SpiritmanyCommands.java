@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.commands;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import com.mojang.brigadier.Command;
@@ -16,13 +17,22 @@ public class SpiritmanyCommands {
         dispatcher.register(Commands.literal(Spiritmancy.MOD_ID)
                 .requires(source -> source.hasPermission(4))
                 .then(Commands.literal("setsouls")
-                    .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                .executes((command) -> {
+                                    return setsouls(command);
+                                })
+                        )
+                )
+                .then(Commands.literal("spawnsoulkeeper")
                     .executes((command) -> {
-                            return setsouls(command);
-                        })
-                    )
-               )
+                        return spawnsoulkeeper(command);
+                    })
+                )
         );
+    }
+    private static int spawnsoulkeeper(CommandContext<CommandSourceStack> command) {
+        SpiritmancyUtil.spawnSoulKeeper(command.getSource().getPosition(), command.getSource().getLevel());
+        return Command.SINGLE_SUCCESS;
     }
     private static int setsouls(CommandContext<CommandSourceStack> command){
         if(command.getSource().getEntity() instanceof Player) {

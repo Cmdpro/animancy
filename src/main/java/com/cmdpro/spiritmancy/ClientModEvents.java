@@ -47,6 +47,7 @@ public class ClientModEvents {
     public static void doSetup(FMLClientSetupEvent event) {
         MenuScreens.register(MenuInit.SOULSHAPER_MENU.get(), SoulShaperScreen::new);
         MenuScreens.register(MenuInit.SOULCASTERSTABLE_MENU.get(), SoulcastersTableScreen::new);
+        EntityRenderers.register(EntityInit.SOULKEEPER.get(), SoulKeeperRenderer::new);
         PageRendererRegistry.registerPageRenderer(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, p -> new BookAltarRecipePageRenderer((BookAltarRecipePage) p));
     }
     @SubscribeEvent

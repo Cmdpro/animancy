@@ -2,7 +2,8 @@
   "boss_music": {
     "sounds": [
       "spiritmancy:boss_music"
-    ]
+    ],
+    "stream": true
   },
   "crystalsouls": {
     "sounds": [

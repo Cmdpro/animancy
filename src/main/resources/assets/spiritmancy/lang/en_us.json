@@ -34,6 +34,8 @@
   "object.soulcastereffect.spiritmancy.flame": "Flame",
   "object.soulcastereffect.spiritmancy.ender": "Ender",
 
+  "entity.spiritmancy.soulkeeper": "Soul Keeper",
+
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",
   "book.spiritmancy.spiritmancyguide.soulcasting.name": "Soulcasting",

@@ -21,7 +21,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 public class ModEventBusEvents {
     @SubscribeEvent
     public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
-
+        event.put(EntityInit.SOULKEEPER.get(), SoulKeeper.setAttributes());
     }
     @SubscribeEvent
     public static void registerStuff(RegisterEvent event) {
