@@ -34,6 +34,7 @@ public class ItemInit {
     public static final RegistryObject<Item> DEATHCRYSTAL = register("deathcrystal", () -> new DeathCrystal(new Item.Properties()));
     public static final RegistryObject<Item> SOULMETALWAND = register("soulmetalwand", () -> new Wand(new Item.Properties(), 1));
     public static final RegistryObject<Item> CRYSTALSOULSMUSICDISC = register("crystalsoulsmusicdisc", () -> new RecordItem(6, SoundInit.CRYSTALSOULS, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2220));
+    public static final RegistryObject<Item> FULLSOULCRYSTAL = register("fullsoulcrystal", () -> new FullSoulCrystal(new Item.Properties()));
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
     }
