@@ -8,6 +8,7 @@ import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import com.google.common.collect.Lists;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.LocateCommand;
 import net.minecraft.sounds.SoundEvents;
@@ -20,6 +21,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
@@ -106,6 +108,7 @@ public class SoulShaperMenu extends AbstractContainerMenu {
 
             public void onTake(Player p_150672_, ItemStack p_150673_) {
                 p_150673_.onCraftedBy(p_150672_.level(), p_150672_, p_150673_.getCount());
+                SoulShaperMenu.this.resultContainer.awardUsedRecipes(p_150672_, this.getRelevantItems());
                 ItemStack itemstack = SoulShaperMenu.this.inputSlot.remove(1);
                 if (!itemstack.isEmpty()) {
                     SoulShaperMenu.this.setupResultSlot();
@@ -114,7 +117,7 @@ public class SoulShaperMenu extends AbstractContainerMenu {
                 pAccess.execute((p_40364_, p_40365_) -> {
                     long l = p_40364_.getGameTime();
                     if (SoulShaperMenu.this.lastSoundTime != l) {
-                        p_40364_.playSound((Player)null, p_40365_, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 2.0F, 1.0F);
+                        p_40364_.playSound((Player)null, p_40365_, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 1.0F, 1.0F);
                         SoulShaperMenu.this.lastSoundTime = l;
                     }
 
@@ -191,6 +194,7 @@ public class SoulShaperMenu extends AbstractContainerMenu {
             this.input = itemstack.copy();
             this.setupRecipeList(pInventory, itemstack);
         }
+
     }
 
     private void setupRecipeList(Container pContainer, ItemStack pStack) {
@@ -198,21 +202,18 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this.selectedRecipeIndex.set(-1);
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
-            List<SoulShaperRecipe> allRecipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
-            for (SoulShaperRecipe i : allRecipes) {
-                if (playerHasNeededEntry(player, i)) {
-                    recipes.add(i);
-                }
-            }
+            this.recipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
+            this.recipes.removeIf((i) -> !playerHasNeededEntry(player, i));
         }
+
     }
 
     void setupResultSlot() {
         if (!this.recipes.isEmpty() && this.isValidRecipeIndex(this.selectedRecipeIndex.get())) {
-            SoulShaperRecipe recipe = this.recipes.get(this.selectedRecipeIndex.get());
-            ItemStack itemstack = recipe.assemble(this.container, this.level.registryAccess());
+            SoulShaperRecipe stonecutterrecipe = this.recipes.get(this.selectedRecipeIndex.get());
+            ItemStack itemstack = stonecutterrecipe.assemble(this.container, this.level.registryAccess());
             if (itemstack.isItemEnabled(this.level.enabledFeatures())) {
-                this.resultContainer.setRecipeUsed(recipe);
+                this.resultContainer.setRecipeUsed(stonecutterrecipe);
                 this.resultSlot.set(itemstack);
             } else {
                 this.resultSlot.set(ItemStack.EMPTY);
@@ -231,6 +232,7 @@ public class SoulShaperMenu extends AbstractContainerMenu {
     public void registerUpdateListener(Runnable pListener) {
         this.slotUpdateListener = pListener;
     }
+
     /**
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is
      * null for the initial slot that was double-clicked.
