@@ -96,7 +96,6 @@ public class SoulShaperRecipe implements Recipe<Container> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "soulshaper";
     }
-
     public static class Serializer implements RecipeSerializer<SoulShaperRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID =

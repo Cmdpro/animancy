@@ -202,10 +202,13 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this.selectedRecipeIndex.set(-1);
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
-            this.recipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
+            this.recipes = level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, level);
             this.recipes.removeIf((i) -> !playerHasNeededEntry(player, i));
         }
-
+        Spiritmancy.LOGGER.info(recipes.size() + "");
+        for (SoulShaperRecipe i : recipes) {
+            Spiritmancy.LOGGER.info(i.getId().toString());
+        }
     }
 
     void setupResultSlot() {
