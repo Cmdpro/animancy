@@ -45,7 +45,10 @@
 
   "entity.spiritmancy.soulkeeper": "Soul Keeper",
 
+  "advancements.spiritmancy.spiritmancy.title": "Spiritmancy",
+  "advancements.spiritmancy.spiritmancy.description": "The advancements for spiritmancy",
   "advancements.spiritmancy.nightexperience.title": "Night Experience",
+  "advancements.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, and skeleton",
 
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",

@@ -3,8 +3,12 @@
     "icon": {
       "item": "spiritmancy:soullinker"
     },
-    "title": "Spiritmancy",
-    "description": "The advancements for Spiritmancy",
+    "title": {
+      "translate": "advancements.spiritmancy.spiritmancy.title"
+    },
+    "description": {
+      "translate": "advancements.spiritmancy.spiritmancy.description"
+    },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true

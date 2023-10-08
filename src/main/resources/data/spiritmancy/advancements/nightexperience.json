@@ -3,8 +3,12 @@
     "icon": {
       "item": "minecraft:iron_sword"
     },
-    "title": "Night Experience",
-    "description": "Kill 1 zombie, spider, and skeleton",
+    "title": {
+      "translate": "advancements.spiritmancy.nightexperience.title"
+    },
+    "description": {
+      "translate": "advancements.spiritmancy.nightexperience.description"
+    },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
