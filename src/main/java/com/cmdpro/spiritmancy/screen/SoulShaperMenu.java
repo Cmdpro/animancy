@@ -191,7 +191,6 @@ public class SoulShaperMenu extends AbstractContainerMenu {
             this.input = itemstack.copy();
             this.setupRecipeList(pInventory, itemstack);
         }
-
     }
 
     private void setupRecipeList(Container pContainer, ItemStack pStack) {
@@ -199,16 +198,13 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this.selectedRecipeIndex.set(-1);
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
-            List<SoulShaperRecipe> recipes = new ArrayList<>();
             List<SoulShaperRecipe> allRecipes = this.level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, this.level);
             for (SoulShaperRecipe i : allRecipes) {
                 if (playerHasNeededEntry(player, i)) {
                     recipes.add(i);
                 }
             }
-            this.recipes = recipes;
         }
-
     }
 
     void setupResultSlot() {
