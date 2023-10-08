@@ -26,10 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 public class SoulShaperMenu extends AbstractContainerMenu {
@@ -196,13 +193,13 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         }
 
     }
-
     private void setupRecipeList(Container pContainer, ItemStack pStack) {
         this.recipes.clear();
         this.selectedRecipeIndex.set(-1);
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
             this.recipes = level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, level);
+            this.recipes.sort(Comparator.comparing(SoulShaperRecipe::getId));
             this.recipes.removeIf((i) -> !playerHasNeededEntry(player, i));
         }
         Spiritmancy.LOGGER.info(recipes.size() + "");
