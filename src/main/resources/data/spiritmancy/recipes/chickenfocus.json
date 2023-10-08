@@ -1,7 +1,7 @@
 {
   "type": "spiritmancy:soulshaper",
   "locked": true,
-  "entry": "spiritmancy:arcane/nightmobs",
+  "entry": "spiritmancy:arcane/animals",
   "input": {
     "item": "spiritmancy:soulfocus"
   },
@@ -9,7 +9,7 @@
     "item": "spiritmancy:soulfocus",
     "count": 1,
     "nbt": {
-      "recipe": "spiritmancy:zombiealtar"
+      "recipe": "spiritmancy:chickenaltar"
     }
   }
 }

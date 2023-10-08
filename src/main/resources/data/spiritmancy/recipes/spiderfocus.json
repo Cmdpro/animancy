@@ -9,7 +9,7 @@
     "item": "spiritmancy:soulfocus",
     "count": 1,
     "nbt": {
-      "recipe": "spiritmancy:zombiealtar"
+      "recipe": "spiritmancy:spideraltar"
     }
   }
 }
