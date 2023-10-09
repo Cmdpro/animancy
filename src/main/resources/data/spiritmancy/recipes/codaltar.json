@@ -1,0 +1,22 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:cod"
+    },
+    {
+      "item": "minecraft:cod"
+    },
+    {
+      "item": "minecraft:cod"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:fullsoulcrystal",
+    "count": 1,
+    "nbt": {
+      "entitytype": "minecraft:cod",
+      "entitynbt": {}
+    }
+  }
+}

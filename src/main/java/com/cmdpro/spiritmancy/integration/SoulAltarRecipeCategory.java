@@ -71,7 +71,7 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<SoulAltarRecipe>
                 y += 18;
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 43, 63).addItemStack(output);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 67).addItemStack(output);
     }
 
 }

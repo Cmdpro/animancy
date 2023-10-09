@@ -22,9 +22,13 @@ public class ClientEvents {
         if (event.phase == TickEvent.Phase.END && mc.level != null)
         {
             boolean playMusic = false;
+            SoundEvent mus = SoundInit.SOULKEEPERPHASE1.get();
             for (Entity i : mc.level.entitiesForRendering()) {
                 if (i instanceof SoulKeeper) {
                     playMusic = true;
+                    if (i.getEntityData().get(((SoulKeeper)i).IS_PHASE2)) {
+                        mus = SoundInit.SOULKEEPERPHASE2.get();
+                    }
                 }
             }
             SoundManager manager = mc.getSoundManager();
@@ -34,10 +38,12 @@ public class ClientEvents {
                 {
                     manager.stop(music);
                 }
+                if (!music.getLocation().equals(mus.getLocation())) {
+                    manager.stop(music);
+                }
             } else {
                 if (!manager.isActive(music) && playMusic)
                 {
-                    SoundEvent mus = SoundInit.BOSS_MUSIC.get();
                     mc.getMusicManager().stopPlaying();
                     music = SimpleSoundInstance.forMusic(mus);
                     manager.play(music);

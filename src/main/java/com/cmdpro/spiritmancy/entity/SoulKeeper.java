@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -24,10 +25,12 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 import org.apache.commons.lang3.RandomUtils;
@@ -40,6 +43,8 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SoulKeeper extends Monster implements GeoEntity {
     private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
@@ -64,11 +69,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("spawnanimtimer", spawnAnimTimer);
+        pCompound.putInt("revivalphasetimer", revivalPhaseTimer);
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         spawnAnimTimer = tag.getInt("spawnanimtimer");
+        revivalPhaseTimer = tag.getInt("revivalphasetimer");
         if (this.hasCustomName()) {
             this.bossEvent.setName(this.getDisplayName());
         }
@@ -97,11 +104,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
             }
         }
     }
-    private static final EntityDataAccessor<Boolean> IS_SPAWN_ANIM = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> IS_SPAWN_ANIM = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> IS_PHASE2 = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(IS_SPAWN_ANIM, true);
+        this.entityData.define(IS_PHASE2, false);
     }
     @Override
     public void tick() {
@@ -117,21 +126,62 @@ public class SoulKeeper extends Monster implements GeoEntity {
         } else {
             this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
             if (spawnAnimTimer <= 0) {
-                entityData.set(IS_SPAWN_ANIM, false);
-                setNoAi(false);
+                if (revivalPhaseTimer <= -1) {
+                    setNoAi(false);
+                    entityData.set(IS_SPAWN_ANIM, false);
+                    entityData.set(IS_PHASE2, false);
+                } else if (revivalPhaseTimer <= 200) {
+                    revivalPhaseTimer++;
+                    setNoAi(true);
+                    entityData.set(IS_SPAWN_ANIM, true);
+                    entityData.set(IS_PHASE2, true);
+                    setHealth(((revivalPhaseTimer)*(getMaxHealth()/200f))+1);
+                } else {
+                    setNoAi(false);
+                    entityData.set(IS_SPAWN_ANIM, false);
+                    entityData.set(IS_PHASE2, true);
+                }
             } else {
                 setNoAi(true);
                 entityData.set(IS_SPAWN_ANIM, true);
                 setHealth(((200-spawnAnimTimer)*(getMaxHealth()/200f))+1);
+                List<Player> nearbyPlayers = level().getNearbyPlayers(TargetingConditions.forNonCombat(), this, new AABB(position().subtract(30, 30, 30), position().add(30, 30, 30)));
+                if (spawnAnimTimer == 200) {
+                    for (Player i : nearbyPlayers) {
+                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text1"));
+                    }
+                }
+                if (spawnAnimTimer == 150) {
+                    for (Player i : nearbyPlayers) {
+                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text2"));
+                    }
+                }
+                if (spawnAnimTimer == 100) {
+                    for (Player i : nearbyPlayers) {
+                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text3"));
+                    }
+                }
+                if (spawnAnimTimer == 50) {
+                    for (Player i : nearbyPlayers) {
+                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text4"));
+                    }
+                }
                 spawnAnimTimer--;
             }
         }
     }
-
+    public int revivalPhaseTimer = -1;
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
         if (spawnAnimTimer > 0) {
             return false;
+        }
+        if (revivalPhaseTimer >= 0 && revivalPhaseTimer <= 200) {
+            return false;
+        }
+        if (getHealth()-pAmount <= 0 && revivalPhaseTimer <= -1) {
+            revivalPhaseTimer = 0;
+            return super.hurt(pSource, getHealth()-1);
         }
         return super.hurt(pSource, pAmount);
     }

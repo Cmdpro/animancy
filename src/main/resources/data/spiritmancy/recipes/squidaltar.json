@@ -1,0 +1,22 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:ink_sac"
+    },
+    {
+      "item": "minecraft:ink_sac"
+    },
+    {
+      "item": "minecraft:ink_sac"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:fullsoulcrystal",
+    "count": 1,
+    "nbt": {
+      "entitytype": "minecraft:squid",
+      "entitynbt": {}
+    }
+  }
+}

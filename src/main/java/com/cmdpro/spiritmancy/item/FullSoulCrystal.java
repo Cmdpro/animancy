@@ -37,13 +37,13 @@ public class FullSoulCrystal extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        String entity = "entity.";
-        ResourceLocation entity2 = new ResourceLocation("", "");
         if (pStack.getOrCreateTag().contains("entitytype")) {
+            String entity = "entity.";
+            ResourceLocation entity2;
             entity2 = ResourceLocation.of(pStack.getOrCreateTag().getString("entitytype"), ':');
+            entity = entity + entity2.getNamespace() + "." + entity2.getPath();
+            pTooltipComponents.add(Component.translatable("item.spiritmancy.fullsoulcrystal.tooltip", Component.translatable(entity).getString()).withStyle(ChatFormatting.GRAY));
         }
-        entity = entity + entity2.getNamespace() + "." + entity2.getPath();
-        pTooltipComponents.add(Component.translatable("item.spiritmancy.fullsoulcrystal.tooltip", Component.translatable(entity).getString()).withStyle(ChatFormatting.GRAY));
     }
     public CompoundTag getTagFromEntity(Entity entity, CompoundTag tag) {
         tag.putString("entitytype", entity.getEncodeId());

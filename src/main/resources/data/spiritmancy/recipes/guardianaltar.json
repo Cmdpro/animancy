@@ -1,0 +1,22 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:prismarine_shard"
+    },
+    {
+      "item": "minecraft:prismarine_shard"
+    },
+    {
+      "item": "minecraft:prismarine_shard"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:fullsoulcrystal",
+    "count": 1,
+    "nbt": {
+      "entitytype": "minecraft:guardian",
+      "entitynbt": {}
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:fullsoulcrystal",
+    "count": 1,
+    "nbt": {
+      "entitytype": "minecraft:creeper",
+      "entitynbt": {}
+    }
+  }
+}

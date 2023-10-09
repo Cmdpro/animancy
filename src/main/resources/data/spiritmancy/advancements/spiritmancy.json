@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.spiritmancy.spiritmancy.description"
     },
+    "background": "minecraft:textures/block/soul_sand.png",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true

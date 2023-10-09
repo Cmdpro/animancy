@@ -1,7 +1,13 @@
 {
-  "boss_music": {
+  "soulkeeperphase1": {
     "sounds": [
-      "spiritmancy:boss_music"
+      "spiritmancy:soulkeeperphase1"
+    ],
+    "stream": true
+  },
+  "soulkeeperphase2": {
+    "sounds": [
+      "spiritmancy:soulkeeperphase2"
     ],
     "stream": true
   },

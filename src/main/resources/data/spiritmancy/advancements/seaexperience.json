@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:rotten_flesh"
+      "item": "minecraft:cod"
     },
     "title": {
-      "translate": "advancements.spiritmancy.nightexperience.title"
+      "translate": "advancements.spiritmancy.seaexperience.title"
     },
     "description": {
-      "translate": "advancements.spiritmancy.nightexperience.description"
+      "translate": "advancements.spiritmancy.seaexperience.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -16,7 +16,7 @@
   },
   "parent": "spiritmancy:spiritmancy",
   "criteria": {
-    "zombie": {
+    "squid": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
@@ -24,13 +24,13 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombie"
+              "type": "minecraft:squid"
             }
           }
         ]
       }
     },
-    "skeleton": {
+    "cod": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
@@ -38,13 +38,13 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:skeleton"
+              "type": "minecraft:cod"
             }
           }
         ]
       }
     },
-    "spider": {
+    "guardian": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
@@ -52,13 +52,13 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:spider"
+              "type": "minecraft:guardian"
             }
           }
         ]
       }
     },
-    "creeper": {
+    "turtle": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
@@ -66,7 +66,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:creeper"
+              "type": "minecraft:turtle"
             }
           }
         ]

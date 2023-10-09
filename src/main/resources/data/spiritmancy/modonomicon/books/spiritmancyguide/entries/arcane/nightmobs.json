@@ -9,22 +9,18 @@
       "type": "spiritmancy:altar_recipe",
       "recipe_id_1": "spiritmancy:zombiealtar",
       "title1": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page1.title",
-      "text": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page1.text"
-    },
-    {
-      "type": "spiritmancy:altar_recipe",
-      "recipe_id_1": "spiritmancy:skeletonaltar",
-      "title1": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page2.title",
-      "text": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page2.text"
+      "recipe_id_2": "spiritmancy:skeletonaltar",
+      "title2": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page1.title2"
     },
     {
       "type": "spiritmancy:altar_recipe",
       "recipe_id_1": "spiritmancy:spideraltar",
-      "title1": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page3.title",
-      "text": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page3.text"
+      "title1": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page2.title",
+      "recipe_id_2": "spiritmancy:creeperaltar",
+      "title2": "book.spiritmancy.spiritmancyguide.arcane.nightmobs.page2.title2"
     }
   ],
-  "x": 0,
+  "x": 2,
   "y": 4,
   "parents": [
     {

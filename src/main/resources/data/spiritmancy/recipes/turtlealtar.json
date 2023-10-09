@@ -1,0 +1,22 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "input": [
+    {
+      "item": "minecraft:scute"
+    },
+    {
+      "item": "minecraft:scute"
+    },
+    {
+      "item": "minecraft:scute"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:fullsoulcrystal",
+    "count": 1,
+    "nbt": {
+      "entitytype": "minecraft:turtle",
+      "entitynbt": {}
+    }
+  }
+}
