@@ -1,0 +1,32 @@
+{
+  "category": "spiritmancy:arcane",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:soulcrystal",
+  "name": "book.spiritmancy.spiritmancyguide.arcane.endmobs.name",
+  "pages": [
+    {
+      "type": "spiritmancy:altar_recipe",
+      "recipe_id_1": "spiritmancy:endermanaltar",
+      "title1": "book.spiritmancy.spiritmancyguide.arcane.endmobs.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.arcane.endmobs.page1.text",
+      "recipe_id_2": "spiritmancy:endermitealtar",
+      "title2": "book.spiritmancy.spiritmancyguide.arcane.endmobs.page1.title2"
+    },
+    {
+      "type": "spiritmancy:altar_recipe",
+      "recipe_id_1": "spiritmancy:shulkeraltar",
+      "title1": "book.spiritmancy.spiritmancyguide.arcane.endmobs.page2.title"
+    }
+  ],
+  "x": 0,
+  "y": 6,
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spiritmancy:arcane/nethermobs",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ]
+}

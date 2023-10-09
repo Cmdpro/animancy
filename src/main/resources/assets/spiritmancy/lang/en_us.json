@@ -54,12 +54,12 @@
   "entity.spiritmancy.soulkeeper.phase1.text3": "<Soul Keeper> If you win, you will become stronger than me, I cant let that happen...",
   "entity.spiritmancy.soulkeeper.phase1.text4": "<Soul Keeper> So PREPARE TO DIE!",
 
-  "advancements.spiritmancy.spiritmancy.title": "Spiritmancy",
-  "advancements.spiritmancy.spiritmancy.description": "The advancements for spiritmancy",
-  "advancements.spiritmancy.nightexperience.title": "Night Experience",
-  "advancements.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, skeleton, and creeper",
-  "advancements.spiritmancy.seaexperience.title": "Sea Experience",
-  "advancements.spiritmancy.seaexperience.description": "Kill 1 squid, cod, guardian, and turtle",
+  "advancement.spiritmancy.spiritmancy.title": "Spiritmancy",
+  "advancement.spiritmancy.spiritmancy.description": "The advancements for spiritmancy",
+  "advancement.spiritmancy.nightexperience.title": "Night Experience",
+  "advancement.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, skeleton, and creeper",
+  "advancement.spiritmancy.seaexperience.title": "Sea Experience",
+  "advancement.spiritmancy.seaexperience.description": "Kill 1 squid, cod, guardian, and turtle",
 
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",

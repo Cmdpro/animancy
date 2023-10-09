@@ -4,10 +4,10 @@
       "item": "minecraft:rotten_flesh"
     },
     "title": {
-      "translate": "advancements.spiritmancy.nightexperience.title"
+      "translate": "advancement.spiritmancy.nightexperience.title"
     },
     "description": {
-      "translate": "advancements.spiritmancy.nightexperience.description"
+      "translate": "advancement.spiritmancy.nightexperience.description"
     },
     "frame": "task",
     "show_toast": true,

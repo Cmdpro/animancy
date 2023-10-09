@@ -4,10 +4,10 @@
       "item": "minecraft:cod"
     },
     "title": {
-      "translate": "advancements.spiritmancy.seaexperience.title"
+      "translate": "advancement.spiritmancy.seaexperience.title"
     },
     "description": {
-      "translate": "advancements.spiritmancy.seaexperience.description"
+      "translate": "advancement.spiritmancy.seaexperience.description"
     },
     "frame": "task",
     "show_toast": true,
