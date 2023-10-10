@@ -12,6 +12,7 @@ public class PlayerModData {
         souls = 0;
     }
     private float souls;
+    private int knowledge;
     private BlockPos linkingFrom;
     public static final float MAX_SOULS = 50;
     public float getSouls() {
@@ -19,6 +20,12 @@ public class PlayerModData {
     }
     public void setSouls(float amount) {
         this.souls = amount;
+    }
+    public int getKnowledge() {
+        return knowledge;
+    }
+    public void setKnowledge(int amount) {
+        this.knowledge = amount;
     }
     public BlockPos getLinkingFrom() {
         return linkingFrom;
@@ -28,19 +35,22 @@ public class PlayerModData {
     }
 
     public void updateData(ServerPlayer player) {
-        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls()), (player));
+        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls(), getKnowledge()), (player));
     }
     public void updateData(Player player) {
-        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls()), ((ServerPlayer)player));
+        updateData((ServerPlayer)player);
     }
 
     public void copyFrom(PlayerModData source) {
         this.souls = source.souls;
+        this.knowledge = source.knowledge;
     }
     public void saveNBTData(CompoundTag nbt) {
         nbt.putFloat("souls", souls);
+        nbt.putInt("knowledge", knowledge);
     }
     public void loadNBTData(CompoundTag nbt) {
         this.souls = nbt.getFloat("souls");
+        this.knowledge = nbt.getInt("knowledge");
     }
 }

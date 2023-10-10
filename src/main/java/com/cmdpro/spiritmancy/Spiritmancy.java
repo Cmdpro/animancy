@@ -5,6 +5,7 @@ import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
 import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
 import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.google.common.collect.ImmutableList;
+import com.klikli_dev.modonomicon.book.BookEntry;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
