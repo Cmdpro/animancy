@@ -2,8 +2,10 @@ package com.cmdpro.spiritmancy.screen;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.BlockInit;
+import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.MenuInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
+import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import com.google.common.collect.Lists;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.Level;
@@ -199,6 +202,15 @@ public class SoulShaperMenu extends AbstractContainerMenu {
         this.resultSlot.set(ItemStack.EMPTY);
         if (!pStack.isEmpty()) {
             this.recipes = level.getRecipeManager().getRecipesFor(SoulShaperRecipe.Type.INSTANCE, pContainer, level);
+            List<SoulAltarRecipe> altarRecipes = level.getRecipeManager().getAllRecipesFor(SoulAltarRecipe.Type.INSTANCE);
+            for (SoulAltarRecipe i : altarRecipes) {
+                if (i.createFocus) {
+                    ItemStack stack = new ItemStack(ItemInit.SOULFOCUS.get());
+                    stack.getOrCreateTag().putString("recipe", i.getId().toString());
+                    SoulShaperRecipe recipe = new SoulShaperRecipe(i.getId(), stack, Ingredient.of(ItemInit.SOULFOCUS.get()), i.entry, i.mustRead, i.locked);
+                    this.recipes.add(recipe);
+                }
+            }
             this.recipes.sort(Comparator.comparing(SoulShaperRecipe::getId));
             this.recipes.removeIf((i) -> !playerHasNeededEntry(player, i));
         }

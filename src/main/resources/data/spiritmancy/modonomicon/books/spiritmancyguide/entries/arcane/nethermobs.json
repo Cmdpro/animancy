@@ -34,5 +34,9 @@
       "line_enabled": true,
       "line_reversed": false
     }
-  ]
+  ],
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "spiritmancy:netherexperience"
+  }
 }

@@ -60,6 +60,12 @@
   "advancement.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, skeleton, and creeper",
   "advancement.spiritmancy.seaexperience.title": "Sea Experience",
   "advancement.spiritmancy.seaexperience.description": "Kill 1 squid, cod, guardian, and turtle",
+  "advancement.spiritmancy.netherexperience.title": "Nether Experience",
+  "advancement.spiritmancy.netherexperience.description": "Kill 1 blaze, ghast, and wither skeleton",
+  "advancement.spiritmancy.endexperience.title": "End Experience",
+  "advancement.spiritmancy.endexperience.description": "Kill 1 enderman, endermite, and shulker",
+  "advancement.spiritmancy.sentienceexperience.title": "Sentience Experience",
+  "advancement.spiritmancy.sentienceexperience.description": "Kill 1 villager, pillager, and vindicator",
 
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",
@@ -113,5 +119,17 @@
   "book.spiritmancy.spiritmancyguide.arcane.seamobs.page1.title": "Squid",
   "book.spiritmancy.spiritmancyguide.arcane.seamobs.page1.title2": "Cod",
   "book.spiritmancy.spiritmancyguide.arcane.seamobs.page2.title": "Guardian",
-  "book.spiritmancy.spiritmancyguide.arcane.seamobs.page2.title2": "Turtle"
+  "book.spiritmancy.spiritmancyguide.arcane.seamobs.page2.title2": "Turtle",
+  "book.spiritmancy.spiritmancyguide.arcane.nethermobs.name": "Creating Nether Monsters",
+  "book.spiritmancy.spiritmancyguide.arcane.nethermobs.page1.title": "Wither Skeleton",
+  "book.spiritmancy.spiritmancyguide.arcane.nethermobs.page1.title2": "Blaze",
+  "book.spiritmancy.spiritmancyguide.arcane.nethermobs.page2.title": "Ghast",
+  "book.spiritmancy.spiritmancyguide.arcane.endmobs.name": "Creating End Monsters",
+  "book.spiritmancy.spiritmancyguide.arcane.endmobs.page1.title": "Enderman",
+  "book.spiritmancy.spiritmancyguide.arcane.endmobs.page1.title2": "Endermite",
+  "book.spiritmancy.spiritmancyguide.arcane.endmobs.page2.title": "Shulker",
+  "book.spiritmancy.spiritmancyguide.arcane.sentientmobs.name": "Creating Sentient Creatures",
+  "book.spiritmancy.spiritmancyguide.arcane.sentientmobs.page1.title": "Pillager",
+  "book.spiritmancy.spiritmancyguide.arcane.sentientmobs.page1.title2": "Vindicator",
+  "book.spiritmancy.spiritmancyguide.arcane.sentientmobs.page2.title": "Villager"
 }

@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.SpawnUtil;
 import net.minecraft.world.damagesource.DamageType;
@@ -131,8 +132,11 @@ public class Spiritmancy
                     ForgeRegistries.ENTITY_TYPES.getValues().stream()
                             .filter(DefaultAttributes::hasSupplier)
                             .map(entityType -> (EntityType<? extends LivingEntity>) entityType)
+                            .filter((i) -> !i.getTags().toList().contains(Tags.EntityTypes.BOSSES))
+                            .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.player"))
+                            .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.warden"))
                             .collect(Collectors.toList()));
-            soulCrystalEntities.removeIf(((i) -> i.getTags().toList().contains(Tags.EntityTypes.BOSSES)));
+            LOGGER.info(soulCrystalEntities.get(0).getDescriptionId());
         }
     }
 

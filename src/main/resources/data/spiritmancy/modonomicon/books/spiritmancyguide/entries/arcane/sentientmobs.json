@@ -20,13 +20,17 @@
     }
   ],
   "x": 0,
-  "y": 6,
+  "y": 10,
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "spiritmancy:arcane/nethermobs",
+      "entry": "spiritmancy:arcane/endmobs",
       "line_enabled": true,
       "line_reversed": false
     }
-  ]
+  ],
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "spiritmancy:sentienceexperience"
+  }
 }

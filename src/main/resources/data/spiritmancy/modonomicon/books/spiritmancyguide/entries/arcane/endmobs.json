@@ -20,7 +20,7 @@
     }
   ],
   "x": 0,
-  "y": 6,
+  "y": 8,
   "parents": [
     {
       "draw_arrow": true,
@@ -28,5 +28,9 @@
       "line_enabled": true,
       "line_reversed": false
     }
-  ]
+  ],
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "spiritmancy:endexperience"
+  }
 }

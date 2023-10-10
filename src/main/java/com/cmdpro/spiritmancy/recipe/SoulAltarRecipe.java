@@ -20,6 +20,10 @@ public class SoulAltarRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private final ItemStack output;
     private final NonNullList<Ingredient> input;
+    public final String entry;
+    public final boolean mustRead;
+    public final boolean locked;
+    public final boolean createFocus;
 
     @Override
     public ItemStack getToastSymbol() {
@@ -27,10 +31,14 @@ public class SoulAltarRecipe implements Recipe<Container> {
     }
 
     public SoulAltarRecipe(ResourceLocation id, ItemStack output,
-                           NonNullList<Ingredient> input) {
+                           NonNullList<Ingredient> input, boolean createFocus, String entry, boolean mustRead, boolean locked) {
         this.id = id;
         this.output = output;
         this.input = input;
+        this.createFocus = createFocus;
+        this.entry = entry;
+        this.mustRead = mustRead;
+        this.locked = locked;
     }
 
     @Override
@@ -102,7 +110,25 @@ public class SoulAltarRecipe implements Recipe<Container> {
         public SoulAltarRecipe fromJson(ResourceLocation id, JsonObject json) {
             NonNullList<Ingredient> input = itemsFromJson(GsonHelper.getAsJsonArray(json, "input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-            return new SoulAltarRecipe(id, output, input);
+            boolean createFocus = true;
+            String entry = "";
+            boolean mustRead = true;
+            boolean locked = false;
+            if (json.has("createFocus")) {
+                createFocus = json.get("createFocus").getAsBoolean();
+            }
+            if (createFocus) {
+                if (json.has("locked")) {
+                    locked = json.get("locked").getAsBoolean();
+                    if (locked) {
+                        entry = json.get("entry").getAsString();
+                        if (json.has("mustRead")) {
+                            mustRead = json.get("mustRead").getAsBoolean();
+                        }
+                    }
+                }
+            }
+            return new SoulAltarRecipe(id, output, input, createFocus, entry, mustRead, locked);
         }
         private static NonNullList<Ingredient> itemsFromJson(JsonArray pIngredientArray) {
             NonNullList<Ingredient> nonnulllist = NonNullList.create();
@@ -126,7 +152,11 @@ public class SoulAltarRecipe implements Recipe<Container> {
                 nonnulllist.set(j, Ingredient.fromNetwork(buf));
             }
             ItemStack output = buf.readItem();
-            return new SoulAltarRecipe(id, output, nonnulllist);
+            boolean createFocus = buf.readBoolean();
+            String entry = buf.readUtf();
+            boolean mustRead = buf.readBoolean();
+            boolean locked = buf.readBoolean();
+            return new SoulAltarRecipe(id, output, nonnulllist, createFocus, entry, mustRead, locked);
         }
 
         @Override
@@ -136,6 +166,10 @@ public class SoulAltarRecipe implements Recipe<Container> {
                 ingredient.toNetwork(buf);
             }
             buf.writeItemStack(recipe.getResultItem(RegistryAccess.EMPTY), false);
+            buf.writeBoolean(recipe.createFocus);
+            buf.writeUtf(recipe.entry);
+            buf.writeBoolean(recipe.mustRead);
+            buf.writeBoolean(recipe.locked);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics
