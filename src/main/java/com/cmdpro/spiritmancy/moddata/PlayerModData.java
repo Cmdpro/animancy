@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy.moddata;
 
+import com.cmdpro.spiritmancy.init.AttributeInit;
 import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.cmdpro.spiritmancy.networking.packet.PlayerDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
@@ -14,7 +15,6 @@ public class PlayerModData {
     private float souls;
     private int knowledge;
     private BlockPos linkingFrom;
-    public static final float MAX_SOULS = 50;
     public float getSouls() {
         return souls;
     }
@@ -40,7 +40,9 @@ public class PlayerModData {
     public void updateData(Player player) {
         updateData((ServerPlayer)player);
     }
-
+    public static float getMaxSouls(Player player) {
+        return (float)player.getAttributeValue(AttributeInit.MAXSOULS.get());
+    }
     public void copyFrom(PlayerModData source) {
         this.souls = source.souls;
         this.knowledge = source.knowledge;

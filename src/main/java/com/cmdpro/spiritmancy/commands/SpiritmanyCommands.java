@@ -46,8 +46,10 @@ public class SpiritmanyCommands {
             Player player = (Player) command.getSource().getEntity();
             player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                 float souls = command.getArgument("amount", int.class);
-                if (PlayerModData.MAX_SOULS >= souls) {
+                if (PlayerModData.getMaxSouls(player) >= souls) {
                     data.setSouls(souls);
+                } else {
+                    data.setSouls(PlayerModData.getMaxSouls(player));
                 }
             });
         }

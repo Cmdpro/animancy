@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.fml.ModList;
+import org.joml.Math;
 
 public class ModHud {
     public static final ResourceLocation soulmeter = new ResourceLocation(Spiritmancy.MOD_ID,"textures/hud/soulmeter.png");
@@ -19,7 +20,7 @@ public class ModHud {
     public static void drawHUD(ForgeGui gui, GuiGraphics guiGraphics, float pt, int width,
                                int height) {
         float souls = ClientPlayerData.getPlayerSouls();
-        float maxsouls = PlayerModData.MAX_SOULS;
+        float maxsouls = PlayerModData.getMaxSouls(minecraft.player);
         int x = width / 2;
         int y = height;
 
@@ -30,7 +31,7 @@ public class ModHud {
         }
 
         guiGraphics.blit(soulmeterbg, xpos, ypos, 0, 0, 64, 24, 64, 24);
-        float w = (26*2)*(souls/maxsouls);
+        float w = (26*2)*(Math.clamp(0f, 1f, souls/maxsouls));
         guiGraphics.blit(soulmeter, xpos+6, ypos, 0, 0, (int)w, 24, 52, 24);
             int textx = xpos + 32;
             int texty = ypos + 8;

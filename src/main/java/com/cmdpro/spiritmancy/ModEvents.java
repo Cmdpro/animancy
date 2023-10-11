@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.api.*;
+import com.cmdpro.spiritmancy.init.AttributeInit;
 import com.cmdpro.spiritmancy.init.EntityInit;
 import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ModCriteriaTriggers;
@@ -17,8 +18,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -37,6 +40,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.*;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -48,10 +52,12 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import org.joml.Math;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Spiritmancy.MOD_ID)
@@ -82,6 +88,9 @@ public class ModEvents {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             event.player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                if (data.getSouls() > PlayerModData.getMaxSouls(event.player)) {
+                    data.setSouls(PlayerModData.getMaxSouls(event.player));
+                }
                 data.updateData(event.player);
             });
         }
@@ -123,8 +132,8 @@ public class ModEvents {
                     player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                         float amount = Math.floor(event.getEntity().getMaxHealth()/10)+1;
                         data.setSouls(data.getSouls()+amount);
-                        if (data.getSouls() >= PlayerModData.MAX_SOULS) {
-                            data.setSouls(PlayerModData.MAX_SOULS);
+                        if (data.getSouls() >= PlayerModData.getMaxSouls(player)) {
+                            data.setSouls(PlayerModData.getMaxSouls(player));
                         }
                     });
                 }
