@@ -3,11 +3,20 @@ package com.cmdpro.spiritmancy;
 import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
 import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
+import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
+import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
+import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.networking.packet.PlayerDataSyncS2CPacket;
+import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.google.common.collect.ImmutableList;
 import com.klikli_dev.modonomicon.book.BookEntry;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
+import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
+import com.klikli_dev.modonomicon.events.ModonomiconEvents;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -87,6 +96,17 @@ public class Spiritmancy
         bus.addListener(this::addCreative);
         random = RandomSource.create();
 
+        ModonomiconEvents.client().onEntryClicked((e) -> {
+            BookEntry entry = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId());
+            if (entry.getCondition() instanceof BookKnowledgeCondition condition) {
+                if (ClientPlayerData.getPlayerKnowledge() > condition.knowledge) {
+                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
+                        ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                    }
+                }
+            }
+        });
+        LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

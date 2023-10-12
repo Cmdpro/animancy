@@ -85,6 +85,9 @@
   "book.spiritmancy.spiritmancyguide.tools.name": "Equipment",
   "book.spiritmancy.spiritmancyguide.arcane.name": "Arcane",
 
+  "book.spiritmancy.condition.knowledge1": "Required Knowledge : %1$s\nYour Knowledge : %2$s\nRequires Advancement : %3$s",
+  "book.spiritmancy.condition.knowledge2": "Required Knowledge : %1$s\nYour Knowledge : %2$s",
+
   "book.spiritmancy.spiritmancyguide.basics.alloys.name": "Soul Sand Alloys",
   "book.spiritmancy.spiritmancyguide.basics.alloys.page1.text": "It seems that by combining soul sand and gold I can create an alloy capable of harnessing souls",
   "book.spiritmancy.spiritmancyguide.basics.alloys.page1.title": "Soulmetal",
