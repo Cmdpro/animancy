@@ -32,7 +32,7 @@
     }
   ],
   "condition": {
-    "type": "modonomicon:advancement",
+    "type": "spiritmancy:knowledge",
     "advancement_id": "spiritmancy:seaexperience"
   }
 }

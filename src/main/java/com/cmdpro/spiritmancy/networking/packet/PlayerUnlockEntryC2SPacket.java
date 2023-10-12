@@ -6,6 +6,7 @@ import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import com.klikli_dev.modonomicon.book.conditions.BookCondition;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +38,7 @@ public class PlayerUnlockEntryC2SPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            supplier.get().getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+            context.getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                 BookCondition condition = BookDataManager.get().getBook(book).getEntry(entry).getCondition();
                 if (condition instanceof BookKnowledgeCondition condition2) {
                     if (data.getKnowledge() > condition2.knowledge) {
@@ -52,6 +53,7 @@ public class PlayerUnlockEntryC2SPacket {
                             data.getUnlocked().put(book, list);
                             data.setKnowledge(data.getKnowledge() - condition2.knowledge);
                         }
+                        BookUnlockStateManager.get().updateAndSyncFor(context.getSender());
                     }
                 }
             });

@@ -4,12 +4,14 @@ import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 public class SpiritmanyCommands {
@@ -35,7 +37,22 @@ public class SpiritmanyCommands {
                                 })
                         )
                 )
+                .then(Commands.literal("resetlearned")
+                        .executes((command) -> {
+                            return resetlearned(command);
+                        })
+                )
         );
+    }
+    private static int resetlearned(CommandContext<CommandSourceStack> command){
+        if(command.getSource().getEntity() instanceof Player) {
+            Player player = (Player) command.getSource().getEntity();
+            player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                data.getUnlocked().clear();
+                BookUnlockStateManager.get().updateAndSyncFor((ServerPlayer)player);
+            });
+        }
+        return Command.SINGLE_SUCCESS;
     }
     private static int spawnsoulkeeper(CommandContext<CommandSourceStack> command) {
         SpiritmancyUtil.spawnSoulKeeper(command.getSource().getPosition(), command.getSource().getLevel());
