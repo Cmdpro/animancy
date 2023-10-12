@@ -25,5 +25,8 @@
       "line_enabled": true,
       "line_reversed": false
     }
-  ]
+  ],
+  "condition": {
+    "type": "spiritmancy:knowledge"
+  }
 }

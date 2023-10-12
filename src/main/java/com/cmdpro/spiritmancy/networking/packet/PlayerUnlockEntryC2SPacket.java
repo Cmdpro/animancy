@@ -38,25 +38,28 @@ public class PlayerUnlockEntryC2SPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            context.getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                BookCondition condition = BookDataManager.get().getBook(book).getEntry(entry).getCondition();
-                if (condition instanceof BookKnowledgeCondition condition2) {
-                    if (data.getKnowledge() > condition2.knowledge) {
-                        if (data.getUnlocked().containsKey(book)) {
-                            if (!data.getUnlocked().get(book).contains(entry)) {
-                                data.getUnlocked().get(book).add(entry);
+            BookCondition condition = BookDataManager.get().getBook(book).getEntry(entry).getCondition();
+            if (condition instanceof BookKnowledgeCondition condition2) {
+                var advancement = context.getSender().getServer().getAdvancements().getAdvancement(condition2.advancementId);
+                if (!condition2.hasAdvancement || (advancement != null && context.getSender().getAdvancements().getOrStartProgress(advancement).isDone())) {
+                    context.getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                        if (data.getKnowledge() >= condition2.knowledge) {
+                            if (data.getUnlocked().containsKey(book)) {
+                                if (!data.getUnlocked().get(book).contains(entry)) {
+                                    data.getUnlocked().get(book).add(entry);
+                                    data.setKnowledge(data.getKnowledge() - condition2.knowledge);
+                                }
+                            } else {
+                                ArrayList list = new ArrayList<>();
+                                list.add(entry);
+                                data.getUnlocked().put(book, list);
                                 data.setKnowledge(data.getKnowledge() - condition2.knowledge);
                             }
-                        } else {
-                            ArrayList list = new ArrayList<>();
-                            list.add(entry);
-                            data.getUnlocked().put(book, list);
-                            data.setKnowledge(data.getKnowledge() - condition2.knowledge);
+                            BookUnlockStateManager.get().updateAndSyncFor(context.getSender());
                         }
-                        BookUnlockStateManager.get().updateAndSyncFor(context.getSender());
-                    }
+                    });
                 }
-            });
+            }
         });
         return true;
     }

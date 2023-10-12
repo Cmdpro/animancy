@@ -10,8 +10,13 @@ import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.cmdpro.spiritmancy.networking.packet.PlayerDataSyncS2CPacket;
 import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.google.common.collect.ImmutableList;
+import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.book.BookEntry;
+import com.klikli_dev.modonomicon.book.BookEntryParent;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
+import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
+import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
+import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.events.ModonomiconEvents;
@@ -99,9 +104,19 @@ public class Spiritmancy
         ModonomiconEvents.client().onEntryClicked((e) -> {
             BookEntry entry = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId());
             if (entry.getCondition() instanceof BookKnowledgeCondition condition) {
-                if (ClientPlayerData.getPlayerKnowledge() > condition.knowledge) {
+                if (ClientPlayerData.getPlayerKnowledge() >= condition.knowledge) {
                     if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
-                        ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
+                        boolean canSee = true;
+                        for (BookEntryParent i : parents) {
+                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
+                                canSee = false;
+                                break;
+                            }
+                        }
+                        if (canSee) {
+                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                        }
                     }
                 }
             }

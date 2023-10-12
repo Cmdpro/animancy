@@ -60,6 +60,8 @@
   "object.soulcastereffect.spiritmancy.flame": "Flame",
   "object.soulcastereffect.spiritmancy.ender": "Ender",
 
+  "object.spiritmancy.knowledge": "You have gained %1$s knowledge!",
+
   "entity.spiritmancy.soulkeeper": "Soul Keeper",
   "entity.spiritmancy.soulkeeper.phase1.text1": "<Soul Keeper> So you finally got experienced enough to summon me...",
   "entity.spiritmancy.soulkeeper.phase1.text2": "<Soul Keeper> I have been watching you...",
@@ -85,8 +87,9 @@
   "book.spiritmancy.spiritmancyguide.tools.name": "Equipment",
   "book.spiritmancy.spiritmancyguide.arcane.name": "Arcane",
 
-  "book.spiritmancy.condition.knowledge1": "Required Knowledge : %1$s\nYour Knowledge : %2$s\nRequires Advancement : %3$s",
-  "book.spiritmancy.condition.knowledge2": "Required Knowledge : %1$s\nYour Knowledge : %2$s",
+  "book.spiritmancy.condition.knowledge.ln1": "Required Knowledge : %1$s",
+  "book.spiritmancy.condition.knowledge.ln2": "Your Knowledge : %1$s",
+  "book.spiritmancy.condition.knowledge.ln3": "Requires Advancement : %1$s",
 
   "book.spiritmancy.spiritmancyguide.basics.alloys.name": "Soul Sand Alloys",
   "book.spiritmancy.spiritmancyguide.basics.alloys.page1.text": "It seems that by combining soul sand and gold I can create an alloy capable of harnessing souls",

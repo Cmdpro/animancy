@@ -2,7 +2,7 @@ package com.cmdpro.spiritmancy.moddata;
 
 public class ClientPlayerData {
     private static float souls;
-    private static float knowledge;
+    private static int knowledge;
 
     public static void set(float souls, int knowledge) {
         ClientPlayerData.souls = souls;
@@ -12,7 +12,7 @@ public class ClientPlayerData {
     public static float getPlayerSouls() {
         return souls;
     }
-    public static float getPlayerKnowledge() {
+    public static int getPlayerKnowledge() {
         return knowledge;
     }
 }

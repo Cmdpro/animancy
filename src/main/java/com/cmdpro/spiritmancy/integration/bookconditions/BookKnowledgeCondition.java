@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy.integration.bookconditions;
 
+import ca.weblite.objc.Client;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
@@ -24,15 +25,21 @@ public class BookKnowledgeCondition extends BookCondition {
 
     public ResourceLocation advancementId;
     public int knowledge;
-    public BookKnowledgeCondition(Component component, int knowledge, ResourceLocation advancementId) {
+    public Component advancement;
+    public boolean hasAdvancement;
+    public BookKnowledgeCondition(Component component, int knowledge, ResourceLocation advancementId, boolean hasAdvancement) {
         super(component);
+        this.tooltip = component;
         this.advancementId = advancementId;
         this.knowledge = knowledge;
+        this.hasAdvancement = hasAdvancement;
     }
 
     public static BookKnowledgeCondition fromJson(JsonObject json) {
         ResourceLocation advancementId = new ResourceLocation("", "");
+        boolean hasAdvancement = false;
         if (json.has("advancement_id")) {
+            hasAdvancement = true;
             advancementId = new ResourceLocation(GsonHelper.getAsString(json, "advancement_id"));
         }
         var knowledge = 1;
@@ -47,7 +54,7 @@ public class BookKnowledgeCondition extends BookCondition {
             tooltip = tooltipFromJson(json);
         }
 
-        return new BookKnowledgeCondition(tooltip, knowledge, advancementId);
+        return new BookKnowledgeCondition(tooltip, knowledge, advancementId, hasAdvancement);
     }
 
     @Override
@@ -56,10 +63,10 @@ public class BookKnowledgeCondition extends BookCondition {
         if (!tooltip.getString().equals("")) {
             list.add(tooltip);
         }
-        if (!advancementId.equals(new ResourceLocation("", ""))) {
-            list.add(Component.translatable("book.spiritmancy.condition.knowledge1", knowledge, ClientPlayerData.getPlayerKnowledge(), Component.translatable(Util.makeDescriptionId("advancement", advancementId) + ".title")));
-        } else {
-            list.add(tooltip = Component.translatable("book.spiritmancy.condition.knowledge2", knowledge, ClientPlayerData.getPlayerKnowledge()));
+        list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln1", knowledge));
+        list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln2", ClientPlayerData.getPlayerKnowledge()));
+        if (hasAdvancement) {
+            list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln3", Component.translatable(Util.makeDescriptionId("advancement", advancementId) + ".title")));
         }
         return list;
     }
@@ -68,7 +75,8 @@ public class BookKnowledgeCondition extends BookCondition {
         var tooltip = buffer.readBoolean() ? buffer.readComponent() : null;
         var advancementId = buffer.readResourceLocation();
         var knowledge = buffer.readInt();
-        return new BookKnowledgeCondition(tooltip, knowledge, advancementId);
+        var hasAdvancement = buffer.readBoolean();
+        return new BookKnowledgeCondition(tooltip, knowledge, advancementId, hasAdvancement);
     }
 
     @Override
@@ -84,6 +92,7 @@ public class BookKnowledgeCondition extends BookCondition {
         }
         buffer.writeResourceLocation(this.advancementId);
         buffer.writeInt(knowledge);
+        buffer.writeBoolean(hasAdvancement);
     }
 
     @Override
@@ -96,7 +105,7 @@ public class BookKnowledgeCondition extends BookCondition {
                 });
                 if (data.get().getUnlocked().containsKey(context.getBook().getId())) {
                     if (data.get().getUnlocked().get(context.getBook().getId()).contains(context2.getEntry().getId())) {
-                        if (!advancementId.equals(new ResourceLocation("", ""))) {
+                        if (hasAdvancement) {
                             var advancement = serverPlayer.getServer().getAdvancements().getAdvancement(this.advancementId);
                             return advancement != null && serverPlayer.getAdvancements().getOrStartProgress(advancement).isDone();
                         } else {

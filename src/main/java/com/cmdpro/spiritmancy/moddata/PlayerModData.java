@@ -82,8 +82,8 @@ public class PlayerModData {
     public void loadNBTData(CompoundTag nbt) {
         this.souls = nbt.getFloat("souls");
         unlocked.clear();
-        if (nbt.contains("knowledge")) {
-            this.knowledge = nbt.getInt("knowledge");
+        this.knowledge = nbt.getInt("knowledge");
+        if (nbt.contains("unlocked")) {
             for (Tag i : (ListTag) nbt.get("unlocked")) {
                 List<ResourceLocation> list = new ArrayList<>();
                 for (Tag o : (ListTag) ((CompoundTag) i).get("value")) {
