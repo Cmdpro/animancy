@@ -24,6 +24,7 @@ public class PlayerModData {
     private HashMap<ResourceLocation, List<ResourceLocation>> unlocked;
     private float souls;
     private int knowledge;
+    private int ancientknowledge;
     private BlockPos linkingFrom;
     public HashMap<ResourceLocation, List<ResourceLocation>> getUnlocked() {
         return unlocked;
@@ -40,6 +41,12 @@ public class PlayerModData {
     public void setKnowledge(int amount) {
         this.knowledge = amount;
     }
+    public int getAncientKnowledge() {
+        return ancientknowledge;
+    }
+    public void setAncientKnowledge(int amount) {
+        this.ancientknowledge = amount;
+    }
     public BlockPos getLinkingFrom() {
         return linkingFrom;
     }
@@ -48,7 +55,7 @@ public class PlayerModData {
     }
 
     public void updateData(ServerPlayer player) {
-        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls(), getKnowledge()), (player));
+        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls(), getKnowledge(), getAncientKnowledge()), (player));
     }
     public void updateData(Player player) {
         updateData((ServerPlayer)player);
@@ -60,10 +67,12 @@ public class PlayerModData {
         this.souls = source.souls;
         this.knowledge = source.knowledge;
         this.unlocked = source.unlocked;
+        this.ancientknowledge = source.ancientknowledge;
     }
     public void saveNBTData(CompoundTag nbt) {
         nbt.putFloat("souls", souls);
         nbt.putInt("knowledge", knowledge);
+        nbt.putInt("ancientknowledge", ancientknowledge);
         ListTag tag = new ListTag();
         for (ResourceLocation i : unlocked.keySet()) {
             CompoundTag tag2 = new CompoundTag();
@@ -83,6 +92,7 @@ public class PlayerModData {
         this.souls = nbt.getFloat("souls");
         unlocked.clear();
         this.knowledge = nbt.getInt("knowledge");
+        this.ancientknowledge = nbt.getInt("ancientknowledge");
         if (nbt.contains("unlocked")) {
             for (Tag i : (ListTag) nbt.get("unlocked")) {
                 List<ResourceLocation> list = new ArrayList<>();

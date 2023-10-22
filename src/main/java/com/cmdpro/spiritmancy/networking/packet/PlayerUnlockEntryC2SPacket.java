@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.networking.packet;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.integration.bookconditions.BookAncientKnowledgeCondition;
 import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
 import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
@@ -54,6 +55,27 @@ public class PlayerUnlockEntryC2SPacket {
                                 list.add(entry);
                                 data.getUnlocked().put(book, list);
                                 data.setKnowledge(data.getKnowledge() - condition2.knowledge);
+                            }
+                            BookUnlockStateManager.get().updateAndSyncFor(context.getSender());
+                        }
+                    });
+                }
+            }
+            if (condition instanceof BookAncientKnowledgeCondition condition2) {
+                var advancement = context.getSender().getServer().getAdvancements().getAdvancement(condition2.advancementId);
+                if (!condition2.hasAdvancement || (advancement != null && context.getSender().getAdvancements().getOrStartProgress(advancement).isDone())) {
+                    context.getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                        if (data.getAncientKnowledge() >= condition2.knowledge) {
+                            if (data.getUnlocked().containsKey(book)) {
+                                if (!data.getUnlocked().get(book).contains(entry)) {
+                                    data.getUnlocked().get(book).add(entry);
+                                    data.setAncientKnowledge(data.getAncientKnowledge() - condition2.knowledge);
+                                }
+                            } else {
+                                ArrayList list = new ArrayList<>();
+                                list.add(entry);
+                                data.getUnlocked().put(book, list);
+                                data.setAncientKnowledge(data.getAncientKnowledge() - condition2.knowledge);
                             }
                             BookUnlockStateManager.get().updateAndSyncFor(context.getSender());
                         }

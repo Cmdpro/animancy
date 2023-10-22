@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.LocateCommand;
 import net.minecraft.sounds.SoundEvents;

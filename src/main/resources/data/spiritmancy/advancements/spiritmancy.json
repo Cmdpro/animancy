@@ -16,12 +16,17 @@
   },
   "criteria": {
     "requirement": {
-      "trigger": "minecraft:tick"
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modonomicon:modonomicon"
+            ],
+            "nbt": "{\"modonomicon:book_id\": \"spiritmancy:spiritmancyguide\"}"
+          }
+        ]
+      }
     }
-  },
-  "rewards": {
-    "loot": [
-      "spiritmancy:grant_guide"
-    ]
   }
 }

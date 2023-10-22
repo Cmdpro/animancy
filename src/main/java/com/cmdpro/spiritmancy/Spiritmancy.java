@@ -1,22 +1,18 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
 import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
+import com.cmdpro.spiritmancy.integration.bookconditions.BookAncientKnowledgeCondition;
 import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
 import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
-import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.networking.ModMessages;
-import com.cmdpro.spiritmancy.networking.packet.PlayerDataSyncS2CPacket;
 import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.google.common.collect.ImmutableList;
-import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.book.BookEntry;
 import com.klikli_dev.modonomicon.book.BookEntryParent;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
-import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
-import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.events.ModonomiconEvents;
@@ -26,25 +22,22 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.SpawnUtil;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -52,12 +45,10 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,6 +74,7 @@ public class Spiritmancy
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
 
         ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
@@ -100,6 +92,8 @@ public class Spiritmancy
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
         random = RandomSource.create();
+        modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
+
 
         ModonomiconEvents.client().onEntryClicked((e) -> {
             BookEntry entry = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId());
@@ -120,8 +114,26 @@ public class Spiritmancy
                     }
                 }
             }
+            if (entry.getCondition() instanceof BookAncientKnowledgeCondition condition) {
+                if (ClientPlayerData.getPlayerAncientKnowledge() >= condition.knowledge) {
+                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
+                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
+                        boolean canSee = true;
+                        for (BookEntryParent i : parents) {
+                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
+                                canSee = false;
+                                break;
+                            }
+                        }
+                        if (canSee) {
+                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                        }
+                    }
+                }
+            }
         });
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
+        LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "ancientknowledge"), BookAncientKnowledgeCondition::fromJson, BookAncientKnowledgeCondition::fromNetwork);
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

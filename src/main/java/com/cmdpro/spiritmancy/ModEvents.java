@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.api.*;
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.AttributeInit;
 import com.cmdpro.spiritmancy.init.EntityInit;
 import com.cmdpro.spiritmancy.init.ItemInit;
@@ -100,17 +101,21 @@ public class ModEvents {
     @SubscribeEvent
     public static void onAdvancement(AdvancementEvent.AdvancementEarnEvent event) {
         event.getEntity().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-            int knowledge = 1;
             if (event.getAdvancement().getDisplay() != null) {
-                if (event.getAdvancement().getDisplay().getFrame().equals(FrameType.GOAL)) {
-                    knowledge = 2;
-                }
-                if (event.getAdvancement().getDisplay().getFrame().equals(FrameType.CHALLENGE)) {
-                    knowledge = 3;
+                if (event.getAdvancement().getDisplay().shouldAnnounceChat()) {
+                    if ((event.getAdvancement().getId().getNamespace().equals("minecraft") || event.getAdvancement().getId().getNamespace().equals("spiritmancy")) || SpiritmancyConfig.otherModAdvancementsAllowed) {
+                        int knowledge = 1;
+                        if (event.getAdvancement().getDisplay().getFrame().equals(FrameType.GOAL)) {
+                            knowledge = 2;
+                        }
+                        if (event.getAdvancement().getDisplay().getFrame().equals(FrameType.CHALLENGE)) {
+                            knowledge = 3;
+                        }
+                        data.setKnowledge(data.getKnowledge() + knowledge);
+                        event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.knowledge", knowledge).withStyle(ChatFormatting.GREEN));
+                    }
                 }
             }
-            data.setKnowledge(data.getKnowledge()+knowledge);
-            event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.knowledge", knowledge).withStyle(ChatFormatting.GREEN));
         });
     }
     @SubscribeEvent

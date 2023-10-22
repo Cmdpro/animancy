@@ -1,19 +1,23 @@
 package com.cmdpro.spiritmancy.screen;
 
+import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.StonecutterMenu;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
 
+import java.util.Collection;
 import java.util.List;
 
 public class SoulShaperScreen extends AbstractContainerScreen<SoulShaperMenu> {
@@ -116,7 +120,15 @@ public class SoulShaperScreen extends AbstractContainerScreen<SoulShaperMenu> {
             int k = pX + j % 4 * 16;
             int l = j / 4;
             int i1 = pY + l * 18 + 2;
-            pGuiGraphics.renderItem(list.get(i).getResultItem(this.minecraft.level.registryAccess()), k, i1);
+            Collection<SoulAltarRecipe> recipes = minecraft.level.getRecipeManager().getAllRecipesFor(SoulAltarRecipe.Type.INSTANCE);
+            SoulAltarRecipe recipe = null;
+            for (SoulAltarRecipe o : recipes) {
+                if (o.getId().toString().equals(list.get(i).getResultItem(this.minecraft.level.registryAccess()).getOrCreateTag().getString("recipe"))) {
+                    recipe = o;
+                    break;
+                }
+            }
+            pGuiGraphics.renderItem(recipe.getResultItem(this.minecraft.level.registryAccess()), k, i1);
         }
 
     }

@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -38,13 +39,13 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         EntityRenderers.register(EntityInit.SPELLPROJECTILE.get(), BillboardProjectileRenderer::new);
-
         event.registerBlockEntityRenderer(BlockEntityInit.SPIRITTANK.get(), SpiritTankRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULPOINT.get(), SoulPointRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULALTAR.get(), SoulAltarRenderer::new);
     }
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
+
         MenuScreens.register(MenuInit.SOULSHAPER_MENU.get(), SoulShaperScreen::new);
         MenuScreens.register(MenuInit.SOULCASTERSTABLE_MENU.get(), SoulcastersTableScreen::new);
         EntityRenderers.register(EntityInit.SOULKEEPER.get(), SoulKeeperRenderer::new);
