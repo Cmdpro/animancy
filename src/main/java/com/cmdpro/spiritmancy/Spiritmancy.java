@@ -146,6 +146,7 @@ public class Spiritmancy
             event.accept(ItemInit.SOULCRYSTAL);
             event.accept(ItemInit.SOULFOCUS);
             event.accept(ItemInit.CRYSTALSOULSMUSICDISC);
+            event.accept(ItemInit.ANCIENTCODEX);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);

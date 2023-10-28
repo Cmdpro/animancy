@@ -25,6 +25,7 @@
   "item.spiritmancy.crystalsoulsmusicdisc.desc": "DavidRarria09 - Crystal Souls",
   "item.spiritmancy.fullsoulcrystal": "Filled Soul Crystal",
   "item.spiritmancy.fullsoulcrystal.tooltip": "%1$s",
+  "item.spiritmancy.ancientcodex": "Ancient Codex",
 
   "attribute.spiritmancy.maxsouls": "Max Souls",
 
@@ -61,6 +62,7 @@
   "object.soulcastereffect.spiritmancy.ender": "Ender",
 
   "object.spiritmancy.knowledge": "You have gained %1$s knowledge!",
+  "object.spiritmancy.ancientknowledge": "You have gained %1$s ancient knowledge!",
 
   "entity.spiritmancy.soulkeeper": "Soul Keeper",
   "entity.spiritmancy.soulkeeper.phase1.text1": "<Soul Keeper> So you finally got experienced enough to summon me...",

@@ -3,18 +3,11 @@ package com.cmdpro.spiritmancy.init;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.Wand;
 import com.cmdpro.spiritmancy.item.*;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.*;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.awt.*;
 import java.util.function.Supplier;
 
 public class ItemInit {
@@ -35,6 +28,7 @@ public class ItemInit {
     public static final RegistryObject<Item> SOULMETALWAND = register("soulmetalwand", () -> new Wand(new Item.Properties(), 1));
     public static final RegistryObject<Item> CRYSTALSOULSMUSICDISC = register("crystalsoulsmusicdisc", () -> new RecordItem(6, SoundInit.CRYSTALSOULS, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2220));
     public static final RegistryObject<Item> FULLSOULCRYSTAL = register("fullsoulcrystal", () -> new FullSoulCrystal(new Item.Properties()));
+    public static final RegistryObject<Item> ANCIENTCODEX = register("ancientcodex", () -> new AncientCodex(new Item.Properties()));
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
     }
