@@ -57,6 +57,8 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 import org.joml.Math;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosCapability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,23 @@ public class ModEvents {
             if (!event.getObject().getCapability(PlayerModDataProvider.PLAYER_MODDATA).isPresent()) {
                 event.addCapability(new ResourceLocation(Spiritmancy.MOD_ID, "properties"), new PlayerModDataProvider());
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurt(LivingHurtEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player)event.getEntity();
+            player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
+                if (data.findFirstCurio(ItemInit.SOULBARRIER.get()) != null) {
+                    player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data2) -> {
+                        if (data2.getSouls() > 0) {
+                            event.setAmount(event.getAmount()*0.9f);
+                            data2.setSouls(data2.getSouls()-1);
+                        }
+                    });
+                }
+            });
         }
     }
 

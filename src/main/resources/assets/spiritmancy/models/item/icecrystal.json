@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "spiritmancy:item/soulcrystal"
+    "layer0": "spiritmancy:item/whitesoulcrystal"
   }
 }

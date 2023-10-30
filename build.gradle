@@ -175,6 +175,9 @@ repositories {
             includeGroup "com.klikli_dev"
         }
     }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -194,6 +197,8 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:magicaladventure-910133:4754016")
     compileOnly fg.deobf("com.klikli_dev:modonomicon-${mc_version}-common:${modonomicon_version}")
     implementation fg.deobf("com.klikli_dev:modonomicon-${mc_version}-forge:${modonomicon_version}")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
 
 
     // Real mod deobf dependency examples - these get remapped to your current mappings

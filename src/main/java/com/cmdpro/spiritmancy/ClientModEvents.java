@@ -1,5 +1,7 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.api.ISoulcastersCrystal;
+import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.client.ModHud;
 import com.cmdpro.spiritmancy.api.SpiritmancyRegistration;
 import com.cmdpro.spiritmancy.init.*;
@@ -19,15 +21,21 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Spiritmancy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientModEvents {
@@ -42,6 +50,36 @@ public class ClientModEvents {
         event.registerBlockEntityRenderer(BlockEntityInit.SPIRITTANK.get(), SpiritTankRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULPOINT.get(), SoulPointRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULALTAR.get(), SoulAltarRenderer::new);
+    }
+    @SubscribeEvent
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event){
+        ItemColor soulcasterCrystalColor = (stack, tintIndex) -> {
+            if (stack.getItem() instanceof ISoulcastersCrystal) {
+                ISoulcastersCrystal crystal = (ISoulcastersCrystal) stack.getItem();
+                return SpiritmancyUtil.SOULCASTER_EFFECTS_REGISTRY.get().getValue(ResourceLocation.of(crystal.getId(), ':')).color.getRGB();
+            }
+            return 0xffffff;
+        };
+        for (Item i : SpiritmancyUtil.SOULCASTER_CRYSTALS) {
+            event.getItemColors().register(soulcasterCrystalColor, i);
+        }
+        ItemColor fullSoulCrystalColor = (stack, tintIndex) -> {
+            if (stack.is(ItemInit.FULLSOULCRYSTAL.get())) {
+                if (stack.hasTag()) {
+                    if (stack.getTag().contains("entitytype")) {
+                        EntityType entity = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.of(stack.getTag().getString("entitytype"), ':'));
+                        if (entity != null) {
+                            SpawnEggItem egg = ForgeSpawnEggItem.fromEntityType(entity);
+                            if (egg != null) {
+                                return egg.getColor(0);
+                            }
+                        }
+                    }
+                }
+            }
+            return 0xffffff;
+        };
+        event.getItemColors().register(fullSoulCrystalColor, ItemInit.FULLSOULCRYSTAL.get());
     }
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {

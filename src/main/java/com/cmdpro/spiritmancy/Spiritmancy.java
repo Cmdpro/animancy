@@ -47,6 +47,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotTypeMessage;
+import top.theillusivec4.curios.api.SlotTypePreset;
 
 
 import java.util.List;
@@ -147,6 +150,8 @@ public class Spiritmancy
             event.accept(ItemInit.SOULFOCUS);
             event.accept(ItemInit.CRYSTALSOULSMUSICDISC);
             event.accept(ItemInit.ANCIENTCODEX);
+            event.accept(ItemInit.THESOULSSCREAMMUSICDISC);
+            event.accept(ItemInit.THESOULSREVENGEMUSICDISC);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);
@@ -186,7 +191,6 @@ public class Spiritmancy
                             .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.player"))
                             .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.warden"))
                             .collect(Collectors.toList()));
-            LOGGER.info(soulCrystalEntities.get(0).getDescriptionId());
         }
     }
 

@@ -28,4 +28,17 @@ public class EnderSoulcasterEffect extends SoulcasterEffect {
         }
         level.playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
     }
+
+    @Override
+    public void hitEntity(LivingEntity caster, LivingEntity victim, int amount) {
+        super.hitEntity(caster, victim, amount);
+        Vec3 pos = victim.position();
+        Level level = victim.level();
+        caster.level().playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
+        caster.teleportTo(pos.x, pos.y, pos.z);
+        if (caster.level() != level) {
+            caster.changeDimension((ServerLevel) level);
+        }
+        level.playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
+    }
 }

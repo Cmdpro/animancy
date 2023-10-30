@@ -2,6 +2,7 @@ package com.cmdpro.spiritmancy.item;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.ISoulcastersCrystal;
+import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -16,6 +17,7 @@ public class IceCrystal extends Item implements ISoulcastersCrystal {
 
     public IceCrystal(Properties properties) {
         super(properties);
+        SpiritmancyUtil.SOULCASTER_CRYSTALS.add(this);
     }
     @Override
     public String getId() {
