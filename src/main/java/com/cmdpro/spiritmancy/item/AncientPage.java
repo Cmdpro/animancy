@@ -10,8 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class AncientCodex extends Item {
-    public AncientCodex(Properties pProperties) {
+public class AncientPage extends Item {
+    public AncientPage(Properties pProperties) {
         super(pProperties);
     }
 

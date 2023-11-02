@@ -8,6 +8,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
@@ -22,10 +24,10 @@ public class EnderSoulcasterEffect extends SoulcasterEffect {
     public void hitGround(LivingEntity caster, Vec3 pos, Level level, int amount) {
         super.hitGround(caster, pos, level, amount);
         caster.level().playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
-        caster.teleportTo(pos.x, pos.y, pos.z);
         if (caster.level() != level) {
             caster.changeDimension((ServerLevel) level);
         }
+        caster.teleportTo(pos.x, pos.y, pos.z);
         level.playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
     }
 
@@ -35,10 +37,10 @@ public class EnderSoulcasterEffect extends SoulcasterEffect {
         Vec3 pos = victim.position();
         Level level = victim.level();
         caster.level().playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
-        caster.teleportTo(pos.x, pos.y, pos.z);
         if (caster.level() != level) {
             caster.changeDimension((ServerLevel) level);
         }
+        caster.teleportTo(pos.x, pos.y, pos.z);
         level.playSound(null, new BlockPos((int)pos.x, (int)pos.y, (int)pos.z), SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 1f, 1f);
     }
 }

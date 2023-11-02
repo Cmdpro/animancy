@@ -1,0 +1,18 @@
+{
+  "type": "spiritmancy:shapedlockedrecipe",
+  "locked": true,
+  "entry": "spiritmancy:basics/soulmetalwand",
+  "pattern": [
+    "  a",
+    " a ",
+    "a  "
+  ],
+  "key": {
+    "a": {
+      "item": "spiritmancy:soulmetal"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:soulmetalwand"
+  }
+}

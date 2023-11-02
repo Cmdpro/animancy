@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class DeathSoulcasterEffect extends SoulcasterEffect {
     public DeathSoulcasterEffect() {
-        soulCost = 2;
+        soulCost = 1;
         color = new Color(1f, 0f, 0f);
     }
 

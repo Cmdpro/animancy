@@ -1,0 +1,17 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "locked": true,
+  "entry": "spiritmancy:soulcasting/soulcasterscrystals",
+  "input": [
+    {
+      "item": "spiritmancy:soulcrystal"
+    },
+    {
+      "item": "minecraft:flint_and_steel"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:flamecrystal",
+    "count": 1
+  }
+}

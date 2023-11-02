@@ -149,7 +149,7 @@ public class Spiritmancy
             event.accept(ItemInit.SOULCRYSTAL);
             event.accept(ItemInit.SOULFOCUS);
             event.accept(ItemInit.CRYSTALSOULSMUSICDISC);
-            event.accept(ItemInit.ANCIENTCODEX);
+            event.accept(ItemInit.ANCIENTPAGE);
             event.accept(ItemInit.THESOULSSCREAMMUSICDISC);
             event.accept(ItemInit.THESOULSREVENGEMUSICDISC);
         }
