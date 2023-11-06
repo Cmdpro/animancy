@@ -2,18 +2,18 @@ package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.api.*;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
-import com.cmdpro.spiritmancy.init.AttributeInit;
-import com.cmdpro.spiritmancy.init.EntityInit;
-import com.cmdpro.spiritmancy.init.ItemInit;
-import com.cmdpro.spiritmancy.init.ModCriteriaTriggers;
+import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.particle.Soul3Particle;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.FrameType;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -177,6 +177,8 @@ public class ModEvents {
                         if (data.getSouls() >= PlayerModData.getMaxSouls(player)) {
                             data.setSouls(PlayerModData.getMaxSouls(player));
                         }
+                        Soul3Particle.Options particle = new Soul3Particle.Options(player.getUUID());
+                        ((ServerLevel)event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int)Math.floor(amount), 0.1, 0.1, 0.1, 0);
                     });
                 }
             }
