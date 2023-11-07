@@ -37,8 +37,13 @@
   "item.spiritmancy.icecrystal": "Ice Crystal",
   "item.spiritmancy.endercrystal": "Ender Crystal",
   "item.spiritmancy.soulmetalwand": "Soulmetal Wand",
+  "item.spiritmancy.soulbarrier": "Soul Barrier",
+  "item.spiritmancy.soulorb": "Soul Orb",
+  "item.spiritmancy.soultransformer": "Soul Transformer",
 
   "attribute.spiritmancy.maxsouls": "Max Souls",
+
+  "curios.identifier.spiritmancertrinket": "Spiritmancer Trinket",
 
   "item.spiritmancy.soulfocus": "Soul Focus",
   "item.spiritmancy.soulfocus.none": "Recipe : None",

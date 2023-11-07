@@ -81,7 +81,7 @@ public class ModEvents {
         if (event.getEntity() instanceof Player) {
             Player player = (Player)event.getEntity();
             player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
-                if (data.findFirstCurio(ItemInit.SOULBARRIER.get()) != null) {
+                if (data.findFirstCurio(ItemInit.SOULBARRIER.get()).isPresent()) {
                     player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data2) -> {
                         if (data2.getSouls() > 0) {
                             event.setAmount(event.getAmount()*0.9f);
@@ -170,17 +170,24 @@ public class ModEvents {
         if (!event.getEntity().level().isClientSide) {
             if (event.getSource().getEntity() instanceof Player) {
                 Player player = (Player) event.getSource().getEntity();
-                if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get())) {
-                    player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                        float amount = Math.floor(event.getEntity().getMaxHealth()/10)+1;
-                        data.setSouls(data.getSouls()+amount);
-                        if (data.getSouls() >= PlayerModData.getMaxSouls(player)) {
-                            data.setSouls(PlayerModData.getMaxSouls(player));
-                        }
-                        Soul3Particle.Options particle = new Soul3Particle.Options(player.getUUID());
-                        ((ServerLevel)event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int)Math.floor(amount), 0.1, 0.1, 0.1, 0);
-                    });
-                }
+                player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
+                    if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
+                        player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {
+                            float amount = Math.floor(event.getEntity().getMaxHealth() / 10) + 1;
+                            if (!data.findFirstCurio(ItemInit.SOULTRANSFORMER.get()).isPresent()) {
+                                data2.setSouls(data2.getSouls() + amount);
+                                if (data2.getSouls() >= PlayerModData.getMaxSouls(player)) {
+                                    data2.setSouls(PlayerModData.getMaxSouls(player));
+                                }
+                            } else {
+                                amount /= 4;
+                                player.heal(amount);
+                            }
+                            Soul3Particle.Options particle = new Soul3Particle.Options(player.getUUID());
+                            ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
+                        });
+                    }
+                });
             }
         }
     }

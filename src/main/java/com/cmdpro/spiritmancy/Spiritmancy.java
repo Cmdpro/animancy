@@ -97,44 +97,6 @@ public class Spiritmancy
         random = RandomSource.create();
         modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
 
-
-        ModonomiconEvents.client().onEntryClicked((e) -> {
-            BookEntry entry = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId());
-            if (entry.getCondition() instanceof BookKnowledgeCondition condition) {
-                if (ClientPlayerData.getPlayerKnowledge() >= condition.knowledge) {
-                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
-                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
-                        boolean canSee = true;
-                        for (BookEntryParent i : parents) {
-                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
-                                canSee = false;
-                                break;
-                            }
-                        }
-                        if (canSee) {
-                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
-                        }
-                    }
-                }
-            }
-            if (entry.getCondition() instanceof BookAncientKnowledgeCondition condition) {
-                if (ClientPlayerData.getPlayerAncientKnowledge() >= condition.knowledge) {
-                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
-                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
-                        boolean canSee = true;
-                        for (BookEntryParent i : parents) {
-                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
-                                canSee = false;
-                                break;
-                            }
-                        }
-                        if (canSee) {
-                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
-                        }
-                    }
-                }
-            }
-        });
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "ancientknowledge"), BookAncientKnowledgeCondition::fromJson, BookAncientKnowledgeCondition::fromNetwork);
     }
@@ -152,12 +114,19 @@ public class Spiritmancy
             event.accept(ItemInit.ANCIENTPAGE);
             event.accept(ItemInit.THESOULSSCREAMMUSICDISC);
             event.accept(ItemInit.THESOULSREVENGEMUSICDISC);
+            event.accept(ItemInit.SOULMETALWAND);
+            event.accept(ItemInit.ICECRYSTAL);
+            event.accept(ItemInit.FLAMECRYSTAL);
+            event.accept(ItemInit.DEATHCRYSTAL);
+            event.accept(ItemInit.LIFECRYSTAL);
+            event.accept(ItemInit.ENDERCRYSTAL);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);
             event.accept(ItemInit.SOULPOINT_ITEM);
             event.accept(ItemInit.SOULALTAR_ITEM);
-            event.accept(BlockInit.SOULSHAPER.get());
+            event.accept(BlockInit.SOULSHAPER);
+            event.accept(BlockInit.SOULCASTERSTABLE);
         }
         setupSoulCrystalEntities();
         if (event.getTabKey() == CreativeModeTabInit.FULLCRYSTALS.getKey()) {

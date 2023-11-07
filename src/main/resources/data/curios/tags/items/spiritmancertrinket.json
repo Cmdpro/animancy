@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "spiritmancy:soulbarrier"
+    "spiritmancy:soulbarrier",
+    "spiritmancy:soulorb",
+    "spiritmancy:soultransformer"
   ]
 }

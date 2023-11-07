@@ -2,6 +2,7 @@ package com.cmdpro.spiritmancy.particle;
 
 import com.cmdpro.spiritmancy.init.ParticleInit;
 import com.klikli_dev.modonomicon.util.Codecs;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -59,6 +60,7 @@ public class Soul3Particle extends TextureSheetParticle {
     public void tick() {
         super.tick();
         ticks++;
+        level.addParticle(ParticleInit.SOUL.get(), x, y, z, 0, 0, 0);
         if (ticks >= 10) {
             hasPhysics = false;
             Vec3 pos = getPos();

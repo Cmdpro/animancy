@@ -8,13 +8,23 @@ import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePageRenderer;
 import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
+import com.cmdpro.spiritmancy.integration.bookconditions.BookAncientKnowledgeCondition;
+import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
+import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
+import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.cmdpro.spiritmancy.particle.Soul2Particle;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
 import com.cmdpro.spiritmancy.particle.SoulParticle;
 import com.cmdpro.spiritmancy.renderers.*;
 import com.cmdpro.spiritmancy.screen.SoulShaperScreen;
 import com.cmdpro.spiritmancy.screen.SoulcastersTableScreen;
+import com.klikli_dev.modonomicon.book.BookEntry;
+import com.klikli_dev.modonomicon.book.BookEntryParent;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
+import com.klikli_dev.modonomicon.data.BookDataManager;
+import com.klikli_dev.modonomicon.events.ModonomiconEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -37,6 +47,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Spiritmancy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientModEvents {
@@ -84,7 +96,43 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
-
+        ModonomiconEvents.client().onEntryClicked((e) -> {
+            BookEntry entry = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId());
+            if (entry.getCondition() instanceof BookKnowledgeCondition condition) {
+                if (ClientPlayerData.getPlayerKnowledge() >= condition.knowledge) {
+                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
+                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
+                        boolean canSee = true;
+                        for (BookEntryParent i : parents) {
+                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
+                                canSee = false;
+                                break;
+                            }
+                        }
+                        if (canSee) {
+                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                        }
+                    }
+                }
+            }
+            if (entry.getCondition() instanceof BookAncientKnowledgeCondition condition) {
+                if (ClientPlayerData.getPlayerAncientKnowledge() >= condition.knowledge) {
+                    if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry)) {
+                        List<BookEntryParent> parents = BookDataManager.get().getBook(e.getBookId()).getEntry(e.getEntryId()).getParents();
+                        boolean canSee = true;
+                        for (BookEntryParent i : parents) {
+                            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, i.getEntry())) {
+                                canSee = false;
+                                break;
+                            }
+                        }
+                        if (canSee) {
+                            ModMessages.sendToServer(new PlayerUnlockEntryC2SPacket(e.getEntryId(), e.getBookId()));
+                        }
+                    }
+                }
+            }
+        });
         MenuScreens.register(MenuInit.SOULSHAPER_MENU.get(), SoulShaperScreen::new);
         MenuScreens.register(MenuInit.SOULCASTERSTABLE_MENU.get(), SoulcastersTableScreen::new);
         EntityRenderers.register(EntityInit.SOULKEEPER.get(), SoulKeeperRenderer::new);
