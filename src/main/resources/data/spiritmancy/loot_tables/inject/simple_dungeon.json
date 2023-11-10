@@ -9,6 +9,11 @@
         "weight": 15
       },
       {
+        "type": "item",
+        "name": "spiritmancy:ancientpage",
+        "weight": 30
+      },
+      {
         "type": "empty",
         "weight": 50
       }

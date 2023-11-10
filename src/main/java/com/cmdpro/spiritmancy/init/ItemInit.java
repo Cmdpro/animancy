@@ -34,6 +34,7 @@ public class ItemInit {
     public static final RegistryObject<Item> SOULBARRIER = register("soulbarrier", () -> new SoulBarrier(new Item.Properties()));
     public static final RegistryObject<Item> SOULORB = register("soulorb", () -> new SoulOrb(new Item.Properties()));
     public static final RegistryObject<Item> SOULTRANSFORMER = register("soultransformer", () -> new SoulTransformer(new Item.Properties()));
+	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
     }
