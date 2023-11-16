@@ -71,6 +71,8 @@
   "item.spiritmancy.soulfocus.spiritmancy.pillageraltar": "Recipe : Pillager",
   "item.spiritmancy.soulfocus.spiritmancy.villageraltar": "Recipe : Villager",
 
+  "object.spiritmancy.soulritualfail": "There is already a Soul Keeper nearby!",
+
   "object.soulcastereffect.spiritmancy.ice": "Ice",
   "object.soulcastereffect.spiritmancy.death": "Death",
   "object.soulcastereffect.spiritmancy.life": "Life",
@@ -86,18 +88,18 @@
   "entity.spiritmancy.soulkeeper.phase1.text3": "<Soul Keeper> If you win, you will become stronger than me, I cant let that happen...",
   "entity.spiritmancy.soulkeeper.phase1.text4": "<Soul Keeper> So PREPARE TO DIE!",
 
-  "advancement.spiritmancy.spiritmancy.title": "Spiritmancy",
-  "advancement.spiritmancy.spiritmancy.description": "The advancements for spiritmancy",
-  "advancement.spiritmancy.nightexperience.title": "Night Experience",
-  "advancement.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, skeleton, and creeper",
-  "advancement.spiritmancy.seaexperience.title": "Sea Experience",
-  "advancement.spiritmancy.seaexperience.description": "Kill 1 squid, cod, guardian, and turtle",
-  "advancement.spiritmancy.netherexperience.title": "Nether Experience",
-  "advancement.spiritmancy.netherexperience.description": "Kill 1 blaze, ghast, and wither skeleton",
-  "advancement.spiritmancy.endexperience.title": "End Experience",
-  "advancement.spiritmancy.endexperience.description": "Kill 1 enderman, endermite, and shulker",
-  "advancement.spiritmancy.sentienceexperience.title": "Sentience Experience",
-  "advancement.spiritmancy.sentienceexperience.description": "Kill 1 villager, pillager, and vindicator",
+  "advancements.spiritmancy.spiritmancy.title": "Spiritmancy",
+  "advancements.spiritmancy.spiritmancy.description": "The advancements for spiritmancy",
+  "advancements.spiritmancy.nightexperience.title": "Night Experience",
+  "advancements.spiritmancy.nightexperience.description": "Kill 1 zombie, spider, skeleton, and creeper",
+  "advancements.spiritmancy.seaexperience.title": "Sea Experience",
+  "advancements.spiritmancy.seaexperience.description": "Kill 1 squid, cod, guardian, and turtle",
+  "advancements.spiritmancy.netherexperience.title": "Nether Experience",
+  "advancements.spiritmancy.netherexperience.description": "Kill 1 blaze, ghast, and wither skeleton",
+  "advancements.spiritmancy.endexperience.title": "End Experience",
+  "advancements.spiritmancy.endexperience.description": "Kill 1 enderman, endermite, and shulker",
+  "advancements.spiritmancy.sentienceexperience.title": "Sentience Experience",
+  "advancements.spiritmancy.sentienceexperience.description": "Kill 1 villager, pillager, and vindicator",
 
   "book.spiritmancy.spiritmancyguide.name": "Spiritus Libri",
   "book.spiritmancy.spiritmancyguide.basics.name": "Basics",
@@ -108,6 +110,9 @@
   "book.spiritmancy.condition.knowledge.ln1": "Required Knowledge : %1$s",
   "book.spiritmancy.condition.knowledge.ln2": "Your Knowledge : %1$s",
   "book.spiritmancy.condition.knowledge.ln3": "Requires Advancement : %1$s",
+  "book.spiritmancy.condition.ancientknowledge.ln1": "Required Ancient Knowledge : %1$s",
+  "book.spiritmancy.condition.ancientknowledge.ln2": "Your Ancient Knowledge : %1$s",
+  "book.spiritmancy.condition.ancientknowledge.ln3": "Requires Advancement : %1$s",
 
   "book.spiritmancy.spiritmancyguide.basics.alloys.name": "Soul Sand Alloys",
   "book.spiritmancy.spiritmancyguide.basics.alloys.page1.text": "It seems that by combining soul sand and gold I can create an alloy capable of harnessing souls",
@@ -186,6 +191,9 @@
   "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page4.title": "Life Crystal",
   "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page5.text": "Using an ender pearl for its teleportation properties and a soul crystal I can create a soulcaster's crystal that teleports the caster to the location it hit",
   "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page5.title": "Ender Crystal",
-  "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page6.text": "It seems that I have already found an amplifier crystal! I just didnt know it yet! The Soul Crystal works as a basic amplifier crystal",
-  "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page6.title": "Soul Crystal"
+  "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page6.text": "It seems that I have already found an amplifier crystal! I just didn't know it yet! The Soul Crystal works as a basic amplifier crystal",
+  "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page6.title": "Soul Crystal",
+  "book.spiritmancy.spiritmancyguide.arcane.soulritual.name": "Soul Ritual",
+  "book.spiritmancy.spiritmancyguide.arcane.soulritual.page1.title": "Soul Ritual",
+  "book.spiritmancy.spiritmancyguide.arcane.soulritual.page2.text": "Finally, I can use this ritual to gain more power, I must light all the candles or else it wont work, to start the ritual I must create a soul fire above the center soul soil     WARNING : The progression path towards this ritual is unfinished, The ritual itself is complete though"
 }

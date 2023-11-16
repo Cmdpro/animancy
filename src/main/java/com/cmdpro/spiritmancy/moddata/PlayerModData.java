@@ -26,6 +26,7 @@ public class PlayerModData {
     private int knowledge;
     private int ancientknowledge;
     private BlockPos linkingFrom;
+    private boolean canDoubleJump;
     public HashMap<ResourceLocation, List<ResourceLocation>> getUnlocked() {
         return unlocked;
     }
@@ -34,6 +35,12 @@ public class PlayerModData {
     }
     public void setSouls(float amount) {
         this.souls = amount;
+    }
+    public boolean getCanDoubleJump() {
+        return canDoubleJump;
+    }
+    public void setCanDoubleJump(boolean value) {
+        this.canDoubleJump = value;
     }
     public int getKnowledge() {
         return knowledge;
@@ -55,7 +62,7 @@ public class PlayerModData {
     }
 
     public void updateData(ServerPlayer player) {
-        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls(), getKnowledge(), getAncientKnowledge()), (player));
+        ModMessages.sendToPlayer(new PlayerDataSyncS2CPacket(getSouls(), getKnowledge(), getAncientKnowledge(), getCanDoubleJump()), (player));
     }
     public void updateData(Player player) {
         updateData((ServerPlayer)player);

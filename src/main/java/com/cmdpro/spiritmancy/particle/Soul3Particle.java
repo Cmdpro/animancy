@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class Soul3Particle extends TextureSheetParticle {
+    public float startQuadSize;
     public Soul3Particle.Options options;
     protected Soul3Particle(ClientLevel level, double xCoord, double yCoord, double zCoord,
                             SpriteSet spriteSet, double xd, double yd, double zd, Soul3Particle.Options options) {
@@ -42,13 +43,13 @@ public class Soul3Particle extends TextureSheetParticle {
         this.yd = yd+0.75;
         this.zd = zd+RandomUtils.nextFloat(0f, 0.5f)-0.25f;
         this.quadSize *= 1.25F;
+        startQuadSize = this.quadSize;
         this.lifetime = 2;
         this.setSpriteFromAge(spriteSet);
 
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 1f;
-        this.alpha = 1f;
         this.hasPhysics = true;
         this.options = options;
         this.spd = 0.25f;
@@ -60,7 +61,6 @@ public class Soul3Particle extends TextureSheetParticle {
     public void tick() {
         super.tick();
         ticks++;
-        level.addParticle(ParticleInit.SOUL.get(), x, y, z, 0, 0, 0);
         if (ticks >= 10) {
             hasPhysics = false;
             Vec3 pos = getPos();
@@ -76,6 +76,7 @@ public class Soul3Particle extends TextureSheetParticle {
             hasPhysics = true;
             yd -= ticks*0.01f;
         }
+        level.addParticle(ParticleInit.SOUL.get(), x, y, z, 0, 0, 0);
     }
 
     @Override

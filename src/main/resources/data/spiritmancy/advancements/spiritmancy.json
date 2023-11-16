@@ -4,10 +4,10 @@
       "item": "spiritmancy:soullinker"
     },
     "title": {
-      "translate": "advancement.spiritmancy.spiritmancy.title"
+      "translate": "advancements.spiritmancy.spiritmancy.title"
     },
     "description": {
-      "translate": "advancement.spiritmancy.spiritmancy.description"
+      "translate": "advancements.spiritmancy.spiritmancy.description"
     },
     "background": "minecraft:textures/block/soul_sand.png",
     "frame": "task",

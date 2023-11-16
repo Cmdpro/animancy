@@ -4,10 +4,10 @@
       "item": "minecraft:emerald"
     },
     "title": {
-      "translate": "advancement.spiritmancy.sentienceexperience.title"
+      "translate": "advancements.spiritmancy.sentienceexperience.title"
     },
     "description": {
-      "translate": "advancement.spiritmancy.sentienceexperience.description"
+      "translate": "advancements.spiritmancy.sentienceexperience.description"
     },
     "frame": "task",
     "show_toast": true,

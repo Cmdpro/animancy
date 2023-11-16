@@ -2,6 +2,9 @@ package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.entity.SoulKeeper;
 import com.cmdpro.spiritmancy.init.SoundInit;
+import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
+import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.networking.packet.PlayerDoubleJumpC2SPacket;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
@@ -17,6 +20,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
@@ -27,10 +31,20 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Spiritmancy.MOD_ID)
 public class ClientEvents {
     public static SimpleSoundInstance music;
+    static boolean jumpJustDown = false;
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
+        if (mc.options.keyJump.isDown()) {
+            if (ClientPlayerData.getCanDoubleJump() && !Minecraft.getInstance().player.onGround() && !jumpJustDown && ClientPlayerData.getPlayerSouls() >= 2) {
+                ModMessages.sendToServer(new PlayerDoubleJumpC2SPacket());
+                mc.player.setDeltaMovement(mc.player.getDeltaMovement().x, 0.5, mc.player.getDeltaMovement().z);
+            }
+            jumpJustDown = true;
+        } else {
+            jumpJustDown = false;
+        }
         if (event.phase == TickEvent.Phase.END && mc.level != null)
         {
             boolean playMusic = false;

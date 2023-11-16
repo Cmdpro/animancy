@@ -1,28 +1,40 @@
 package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.api.*;
+import com.cmdpro.spiritmancy.block.SpiritTank;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
+import com.cmdpro.spiritmancy.entity.SoulKeeper;
+import com.cmdpro.spiritmancy.entity.SoulRitualController;
 import com.cmdpro.spiritmancy.init.*;
+import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.networking.packet.PlayerDoubleJumpC2SPacket;
+import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
+import com.klikli_dev.modonomicon.api.ModonomiconConstants;
+import com.klikli_dev.modonomicon.api.datagen.MultiblockProvider;
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookMultiblockPageModel;
+import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.data.MultiblockDataManager;
+import com.klikli_dev.modonomicon.multiblock.DenseMultiblock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.FrameType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.controls.KeyBindsList;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -32,6 +44,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -40,6 +54,7 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.*;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -51,6 +66,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -60,8 +76,10 @@ import org.joml.Math;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosCapability;
 
+import javax.swing.text.JTextComponent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -113,6 +131,9 @@ public class ModEvents {
                 if (data.getSouls() > PlayerModData.getMaxSouls(event.player)) {
                     data.setSouls(PlayerModData.getMaxSouls(event.player));
                 }
+                if (event.player.onGround()) {
+                    data.setCanDoubleJump(false);
+                }
                 data.updateData(event.player);
             });
         }
@@ -162,6 +183,27 @@ public class ModEvents {
                 player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                     data.updateData((ServerPlayer)event.getEntity());
                 });
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event) {
+        if (event.getPlacedBlock().is(Blocks.SOUL_FIRE) && !event.getLevel().isClientSide()) {
+            Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritual"));
+            if (
+                    ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.NONE) ||
+                    ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_90) ||
+                    ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_180) ||
+                    ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.COUNTERCLOCKWISE_90)
+            ) {
+                List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
+                if (entitiesNearby.size() <= 0) {
+                    SoulRitualController ritualController = new SoulRitualController(EntityInit.SOULRITUALCONTROLLER.get(), event.getEntity().level());
+                    ritualController.setPos(event.getPos().getCenter());
+                    event.getEntity().level().addFreshEntity(ritualController);
+                } else {
+                    event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.soulritualfail"));
+                }
             }
         }
     }

@@ -1,6 +1,10 @@
 package com.cmdpro.spiritmancy.entity;
 
+import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ParticleInit;
+import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -9,15 +13,23 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.commands.SummonCommand;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -27,8 +39,13 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -55,7 +72,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 500.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5f)
+                .add(Attributes.ATTACK_DAMAGE, 0f)
                 .add(Attributes.ATTACK_SPEED, 2f)
                 .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
     }
@@ -65,17 +82,22 @@ public class SoulKeeper extends Monster implements GeoEntity {
         this.bossEvent.setName(this.getDisplayName());
     }
     public int spawnAnimTimer = 0;
+    public Vec3 ritualPos;
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("spawnanimtimer", spawnAnimTimer);
         pCompound.putInt("revivalphasetimer", revivalPhaseTimer);
+        pCompound.putDouble("ritualPosX", ritualPos.x);
+        pCompound.putDouble("ritualPosY", ritualPos.y);
+        pCompound.putDouble("ritualPosZ", ritualPos.z);
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         spawnAnimTimer = tag.getInt("spawnanimtimer");
         revivalPhaseTimer = tag.getInt("revivalphasetimer");
+        ritualPos = new Vec3(tag.getDouble("ritualPosX"), tag.getDouble("ritualPosY"), tag.getDouble("ritualPosZ"));
         if (this.hasCustomName()) {
             this.bossEvent.setName(this.getDisplayName());
         }
@@ -92,6 +114,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
     }
 
     public int atkTimer;
+    public int atk;
     @Override
     public void customServerAiStep() {
         super.customServerAiStep();
@@ -99,11 +122,119 @@ public class SoulKeeper extends Monster implements GeoEntity {
             atkTimer += 1;
             if (atkTimer >= 250) {
                 atkTimer = 0;
-                int atk = random.nextInt(0, 4);
-
+                atk = random.nextInt(0, 2);
+                if (revivalPhaseTimer > 200) {
+                    atk = random.nextInt(0, 4);
+                }
+                if (atk == 2) {
+                    boolean succeed = false;
+                    for (LivingEntity i : level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(ritualPos, 20f, 20f, 20f))) {
+                        if (i instanceof Player) {
+                            continue;
+                        }
+                        if (i.getMaxHealth() > 30) {
+                            continue;
+                        }
+                        if (ritualPos.distanceTo(i.position()) > 10) {
+                            continue;
+                        }
+                        setPos(i.position());
+                        i.setLastHurtByMob(this);
+                        i.kill();
+                        heal(i.getHealth());
+                        succeed = true;
+                        break;
+                    }
+                    if (succeed == false) {
+                        atk = 0;
+                    }
+                }
+                if (atk == 3) {
+                    atkTimer = -20;
+                    boolean succeed = false;
+                    for (LivingEntity i : level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(ritualPos, 20f, 20f, 20f))) {
+                        if (i instanceof Player) {
+                            continue;
+                        }
+                        if (i.getMaxHealth() > 30) {
+                            continue;
+                        }
+                        if (ritualPos.distanceTo(i.position()) > 10) {
+                            continue;
+                        }
+                        ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 50, 0, 0, 0, 0.75f);
+                        succeed = true;
+                    }
+                    if (succeed == false) {
+                        atk = 0;
+                    }
+                }
+                if (atk == 0) {
+                    for (int i = 0; i < 2; i++) {
+                        Zombie zombie = new Zombie(EntityType.ZOMBIE, level());
+                        zombie.setPos(position());
+                        zombie.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 1));
+                        level().addFreshEntity(zombie);
+                    }
+                    for (int i = 0; i < 2; i++) {
+                        Skeleton skeleton = new Skeleton(EntityType.SKELETON, level());
+                        skeleton.setPos(position());
+                        skeleton.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW,1));
+                        skeleton.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, Integer.MAX_VALUE, 1));
+                        level().addFreshEntity(skeleton);
+                    }
+                }
+                if (atk == 1) {
+                    atkTimer = -20;
+                    ArrayList<Player> players = new ArrayList<>();
+                    if (ritualPos != null) {
+                        for (Player i : level().players()) {
+                            if (ritualPos.distanceTo(i.position()) <= 10) {
+                                players.add(i);
+                            }
+                        }
+                    } else {
+                        for (Player i : level().players()) {
+                            if (position().distanceTo(i.position()) <= 10) {
+                                players.add(i);
+                            }
+                        }
+                    }
+                    setPos(players.get(RandomUtils.nextInt(0, players.size())).position());
+                }
+            }
+            if (atk == 1 && atkTimer == 0) {
+                ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), position().x, position().y+1f, position().z, 200, 0, 0, 0, 0.75f);
+                level().playSound(null, position().x, position().y, position().z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0f, 1.0f);
+                List<LivingEntity> entities = level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(position(), 5f, 5f, 5f));
+                for (LivingEntity p : entities) {
+                    p.hurt(level().damageSources().mobAttack(this), 20);
+                }
+            }
+            if (atk == 3 && atkTimer == 0) {
+                for (LivingEntity i : level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(ritualPos, 20f, 20f, 20f))) {
+                    if (i instanceof Player) {
+                        continue;
+                    }
+                    if (i.getMaxHealth() > 30) {
+                        continue;
+                    }
+                    if (ritualPos.distanceTo(i.position()) > 10) {
+                        continue;
+                    }
+                    i.setLastHurtByMob(this);
+                    i.kill();
+                    List<LivingEntity> entities = level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(position(), 5f, 5f, 5f));
+                    for (LivingEntity p : entities) {
+                        p.hurt(level().damageSources().mobAttack(this), 20);
+                    }
+                    ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 200, 0, 0, 0, 0.75f);
+                    level().playSound(null, i.position().x, i.position().y, i.position().z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0f, 1.0f);
+                }
             }
         }
     }
+
     public static final EntityDataAccessor<Boolean> IS_SPAWN_ANIM = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> IS_PHASE2 = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     @Override
@@ -123,7 +254,31 @@ public class SoulKeeper extends Monster implements GeoEntity {
                     level().addParticle(ParticleInit.SOUL.get(), pos.x, pos.y, pos.z, -offset.x / 4f, -offset.y / 4f, -offset.z / 4f);
                 }
             }
+            for (int i = 0; i < 360; i++) {
+                Vec3 pos = new Vec3(ritualPos.x, ritualPos.y, ritualPos.z);
+                pos = pos.add(Math.cos(i)*10, -0.5, Math.sin(i)*10);
+                level().addParticle(ParticleInit.SOUL.get(), pos.x, pos.y, pos.z, 0, 0.5f, 0);
+            }
         } else {
+            if (ritualPos != null) {
+                boolean anyPlayers = false;
+                for (Player i : level().players()) {
+                    if (ritualPos.distanceTo(i.position()) <= 10) {
+                        anyPlayers = true;
+                    }
+                }
+                if (!anyPlayers) {
+                    remove(RemovalReason.DISCARDED);
+                }
+                Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
+                if (
+                        !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
+                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
+                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_180) &&
+                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.COUNTERCLOCKWISE_90)) {
+                    remove(RemovalReason.DISCARDED);
+                }
+            }
             this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
             if (spawnAnimTimer <= 0) {
                 if (revivalPhaseTimer <= -1) {
@@ -145,27 +300,12 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 setNoAi(true);
                 entityData.set(IS_SPAWN_ANIM, true);
                 setHealth(((200-spawnAnimTimer)*(getMaxHealth()/200f))+1);
-                List<Player> nearbyPlayers = level().getNearbyPlayers(TargetingConditions.forNonCombat(), this, new AABB(position().subtract(30, 30, 30), position().add(30, 30, 30)));
-                if (spawnAnimTimer == 200) {
-                    for (Player i : nearbyPlayers) {
-                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text1"));
-                    }
-                }
-                if (spawnAnimTimer == 150) {
-                    for (Player i : nearbyPlayers) {
-                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text2"));
-                    }
-                }
-                if (spawnAnimTimer == 100) {
-                    for (Player i : nearbyPlayers) {
-                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text3"));
-                    }
-                }
-                if (spawnAnimTimer == 50) {
-                    for (Player i : nearbyPlayers) {
-                        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text4"));
-                    }
-                }
+                //List<Player> nearbyPlayers = level().getNearbyPlayers(TargetingConditions.forNonCombat(), this, new AABB(position().subtract(30, 30, 30), position().add(30, 30, 30)));
+                //if (spawnAnimTimer == 200) {
+                //    for (Player i : nearbyPlayers) {
+                //        i.sendSystemMessage(Component.translatable("entity.spiritmancy.soulkeeper.phase1.text1"));
+                //    }
+                //}
                 spawnAnimTimer--;
             }
         }
@@ -205,6 +345,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        ritualPos = position().subtract(0, 5, 0);
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
         data.add(new AnimationController(this, "controller", 0, this::predicate));

@@ -205,7 +205,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                             pBlockEntity.craftProgress = 0;
                             pBlockEntity.focusItemHandler.extractItem(0, 1, false);
                             ((ServerLevel) pLevel).sendParticles(ParticleTypes.EXPLOSION_EMITTER, pPos.getX(), pPos.getY(), pPos.getZ(), 1, 0, 0, 0, 0);
-                            pLevel.playSound(null, pPos.getX(), pPos.getY(), pPos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.0f, 1.0f);
+                            pLevel.playSound(null, pPos.getX(), pPos.getY(), pPos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0f, 1.0f);
                             List<LivingEntity> entities = pLevel.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, null, AABB.ofSize(pPos.getCenter(), 5f, 5f, 5f));
                             for (LivingEntity p : entities) {
                                 p.hurt(pLevel.damageSources().source(Spiritmancy.soulExplosion), 10);

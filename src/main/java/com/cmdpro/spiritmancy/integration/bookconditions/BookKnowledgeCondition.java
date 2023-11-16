@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Player;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,9 +67,16 @@ public class BookKnowledgeCondition extends BookCondition {
         list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln1", knowledge));
         list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln2", ClientPlayerData.getPlayerKnowledge()));
         if (hasAdvancement) {
-            list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln3", Component.translatable(Util.makeDescriptionId("advancement", advancementId) + ".title")));
+            list.add(Component.translatable("book.spiritmancy.condition.knowledge.ln3", Component.translatable(makeDescriptionId("advancements", advancementId) + ".title")));
         }
         return list;
+    }
+    public static String makeDescriptionId(String pType, @Nullable ResourceLocation pId) {
+        if (pId.getNamespace().equals("minecraft")) {
+            return pId == null ? pType + ".unregistered_sadface" : pType + "." + pId.getPath().replace('/', '.');
+        } else {
+            return pId == null ? pType + ".unregistered_sadface" : pType + "." + pId.getNamespace() + "." + pId.getPath().replace('/', '.');
+        }
     }
 
     public static BookKnowledgeCondition fromNetwork(FriendlyByteBuf buffer) {

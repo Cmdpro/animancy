@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class Soul2Particle extends TextureSheetParticle {
+    public float startQuadSize;
     protected Soul2Particle(ClientLevel level, double xCoord, double yCoord, double zCoord,
                             SpriteSet spriteSet, double xd, double yd, double zd) {
         super(level, xCoord, yCoord, zCoord, xd, yd, zd);
@@ -25,13 +26,14 @@ public class Soul2Particle extends TextureSheetParticle {
         this.yd = yd;
         this.zd = zd;
         this.quadSize *= 1.25F;
+        startQuadSize = this.quadSize;
+        this.quadSize = 0;
         this.lifetime = 40;
         this.setSpriteFromAge(spriteSet);
 
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 1f;
-        this.alpha = 0f;
         this.hasPhysics = false;
     }
 
@@ -43,14 +45,14 @@ public class Soul2Particle extends TextureSheetParticle {
 
     private void fadeOut() {
         if (age < 20) {
-            alpha += 1f/20f;
-            if (alpha > 1f) {
-                alpha = 1f;
+            quadSize += 1f/(20f/startQuadSize);
+            if (quadSize > startQuadSize) {
+                alpha = startQuadSize;
             }
         } else {
-            alpha -= 1f/20f;
-            if (alpha < 0f) {
-                alpha = 0f;
+            quadSize -= 1f/20f;
+            if (quadSize < 0f) {
+                quadSize = 0f;
             }
         }
     }

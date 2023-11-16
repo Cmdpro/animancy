@@ -4,10 +4,10 @@
       "item": "minecraft:netherrack"
     },
     "title": {
-      "translate": "advancement.spiritmancy.netherexperience.title"
+      "translate": "advancements.spiritmancy.netherexperience.title"
     },
     "description": {
-      "translate": "advancement.spiritmancy.netherexperience.description"
+      "translate": "advancements.spiritmancy.netherexperience.description"
     },
     "frame": "task",
     "show_toast": true,
