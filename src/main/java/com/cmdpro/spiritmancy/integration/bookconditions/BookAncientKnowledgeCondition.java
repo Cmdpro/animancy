@@ -64,7 +64,7 @@ public class BookAncientKnowledgeCondition extends BookCondition {
             list.add(tooltip);
         }
         list.add(Component.translatable("book.spiritmancy.condition.ancientknowledge.ln1", knowledge));
-        list.add(Component.translatable("book.spiritmancy.condition.ancientknowledge.ln2", ClientPlayerData.getPlayerKnowledge()));
+        list.add(Component.translatable("book.spiritmancy.condition.ancientknowledge.ln2", ClientPlayerData.getPlayerAncientKnowledge()));
         if (hasAdvancement) {
             list.add(Component.translatable("book.spiritmancy.condition.ancientknowledge.ln3", Component.translatable(makeDescriptionId("advancements", advancementId) + ".title")));
         }

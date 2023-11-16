@@ -17,6 +17,7 @@ import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.datagen.MultiblockProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookMultiblockPageModel;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import com.klikli_dev.modonomicon.multiblock.DenseMultiblock;
 import net.minecraft.ChatFormatting;
@@ -80,6 +81,8 @@ import javax.swing.text.JTextComponent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -186,6 +189,20 @@ public class ModEvents {
             }
         }
     }
+    public static boolean playerHasNeededEntry(ServerPlayer player, boolean mustRead, String entry) {
+        ConcurrentMap<ResourceLocation, Set<ResourceLocation>> entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).unlockedEntries;
+        if (mustRead) {
+            entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).readEntries;
+        }
+        for (Map.Entry<ResourceLocation, Set<ResourceLocation>> i : entries.entrySet()) {
+            for (ResourceLocation o : i.getValue()) {
+                if (o.toString().equals(entry)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @SubscribeEvent
     public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event) {
         if (event.getPlacedBlock().is(Blocks.SOUL_FIRE) && !event.getLevel().isClientSide()) {
@@ -196,13 +213,17 @@ public class ModEvents {
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_180) ||
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.COUNTERCLOCKWISE_90)
             ) {
-                List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
-                if (entitiesNearby.size() <= 0) {
-                    SoulRitualController ritualController = new SoulRitualController(EntityInit.SOULRITUALCONTROLLER.get(), event.getEntity().level());
-                    ritualController.setPos(event.getPos().getCenter());
-                    event.getEntity().level().addFreshEntity(ritualController);
+                if (playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "spiritmancy:arcane/soulritual")) {
+                    List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
+                    if (entitiesNearby.size() <= 0) {
+                        SoulRitualController ritualController = new SoulRitualController(EntityInit.SOULRITUALCONTROLLER.get(), event.getEntity().level());
+                        ritualController.setPos(event.getPos().getCenter());
+                        event.getEntity().level().addFreshEntity(ritualController);
+                    } else {
+                        event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.soulritualfail").withStyle(ChatFormatting.RED));
+                    }
                 } else {
-                    event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.soulritualfail"));
+                    event.getEntity().sendSystemMessage(Component.translatable("object.spiritmancy.soulritualfail2").withStyle(ChatFormatting.RED));
                 }
             }
         }

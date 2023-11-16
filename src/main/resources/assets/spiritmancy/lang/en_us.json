@@ -72,6 +72,7 @@
   "item.spiritmancy.soulfocus.spiritmancy.villageraltar": "Recipe : Villager",
 
   "object.spiritmancy.soulritualfail": "There is already a Soul Keeper nearby!",
+  "object.spiritmancy.soulritualfail2": "You do not know how to perform the Soul Ritual!",
 
   "object.soulcastereffect.spiritmancy.ice": "Ice",
   "object.soulcastereffect.spiritmancy.death": "Death",
