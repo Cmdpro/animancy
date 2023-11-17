@@ -257,7 +257,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
             for (int i = 0; i < 360; i++) {
                 Vec3 pos = new Vec3(ritualPos.x, ritualPos.y, ritualPos.z);
                 pos = pos.add(Math.cos(i)*10, -0.5, Math.sin(i)*10);
-                level().addParticle(ParticleInit.SOUL.get(), pos.x, pos.y, pos.z, 0, 0.5f, 0);
+                level().addParticle(ParticleInit.SOUL.get(), pos.x+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), pos.y-0.1, pos.z+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), RandomUtils.nextFloat(0f, 0.4f)-0.2f, 0.5f, RandomUtils.nextFloat(0f, 0.4f)-0.2f);
             }
         } else {
             if (ritualPos != null) {

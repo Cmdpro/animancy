@@ -134,9 +134,15 @@ public class ModEvents {
                 if (data.getSouls() > PlayerModData.getMaxSouls(event.player)) {
                     data.setSouls(PlayerModData.getMaxSouls(event.player));
                 }
-                if (event.player.onGround()) {
-                    data.setCanDoubleJump(false);
-                }
+                event.player.getCapability(CuriosCapability.INVENTORY).ifPresent((data2) -> {
+                    if (data2.findFirstCurio(ItemInit.SOULBOOSTER.get()).isPresent()) {
+                        if (event.player.onGround()) {
+                            data.setCanDoubleJump(true);
+                        }
+                    } else {
+                        data.setCanDoubleJump(false);
+                    }
+                });
                 data.updateData(event.player);
             });
         }

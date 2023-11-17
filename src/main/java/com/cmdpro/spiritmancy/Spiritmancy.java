@@ -121,6 +121,10 @@ public class Spiritmancy
             event.accept(ItemInit.DEATHCRYSTAL);
             event.accept(ItemInit.LIFECRYSTAL);
             event.accept(ItemInit.ENDERCRYSTAL);
+            event.accept(ItemInit.SOULBARRIER);
+            event.accept(ItemInit.SOULORB);
+            event.accept(ItemInit.SOULTRANSFORMER);
+            event.accept(ItemInit.SOULBOOSTER);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);

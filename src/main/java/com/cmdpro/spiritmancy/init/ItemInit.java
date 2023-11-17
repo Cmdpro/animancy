@@ -31,9 +31,10 @@ public class ItemInit {
     public static final RegistryObject<Item> THESOULSREVENGEMUSICDISC = register("thesoulsrevengemusicdisc", () -> new RecordItem(6, SoundInit.SOULKEEPERPHASE2, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 1500));
     public static final RegistryObject<Item> FULLSOULCRYSTAL = register("fullsoulcrystal", () -> new FullSoulCrystal(new Item.Properties()));
     public static final RegistryObject<Item> ANCIENTPAGE = register("ancientpage", () -> new AncientPage(new Item.Properties()));
-    public static final RegistryObject<Item> SOULBARRIER = register("soulbarrier", () -> new SoulBarrier(new Item.Properties()));
-    public static final RegistryObject<Item> SOULORB = register("soulorb", () -> new SoulOrb(new Item.Properties()));
-    public static final RegistryObject<Item> SOULTRANSFORMER = register("soultransformer", () -> new SoulTransformer(new Item.Properties()));
+    public static final RegistryObject<Item> SOULBARRIER = register("soulbarrier", () -> new SoulBarrier(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SOULORB = register("soulorb", () -> new SoulOrb(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SOULTRANSFORMER = register("soultransformer", () -> new SoulTransformer(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SOULBOOSTER = register("soulbooster", () -> new SoulBooster(new Item.Properties().stacksTo(1)));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
