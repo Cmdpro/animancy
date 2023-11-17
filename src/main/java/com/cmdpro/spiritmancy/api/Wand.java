@@ -5,6 +5,7 @@ import com.cmdpro.spiritmancy.entity.SpellProjectile;
 import com.cmdpro.spiritmancy.init.EntityInit;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -33,7 +34,9 @@ public class Wand extends Item {
         super(pProperties);
         this.castCostMultiplier = castCostMultiplier;
     }
-
+    public float getCastCostMultiplier(Player player, ItemStack stack) {
+        return castCostMultiplier;
+    }
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
@@ -70,6 +73,7 @@ public class Wand extends Item {
                 }
             }
         }
+        pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.costmultiplier", getCastCostMultiplier(Minecraft.getInstance().player, pStack)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -93,6 +97,7 @@ public class Wand extends Item {
                             effects.add(effect);
                         }
                     }
+                    soulCost *= getCastCostMultiplier(Minecraft.getInstance().player, stack);
                     final int soulCostFinal = soulCost;
                     pPlayer.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                         if (data.getSouls() >= soulCostFinal) {
@@ -113,6 +118,7 @@ public class Wand extends Item {
                                 arrow.setDeltaMovement(pPlayer.getLookAngle().multiply(0.5, 0.5, 0.5));
                                 arrow.amplifier = stack.getTag().getInt("amplifier");
                                 arrow.effects = effects;
+                                customWandEffects(arrow);
                                 pPlayer.level().addFreshEntity(arrow);
                             }
                         }
@@ -122,4 +128,5 @@ public class Wand extends Item {
         }
         return super.use(pLevel, pPlayer, pUsedHand);
     }
+    public void customWandEffects(SpellProjectile proj) {}
 }

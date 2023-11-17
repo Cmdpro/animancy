@@ -25,7 +25,7 @@ public class ItemInit {
     public static final RegistryObject<Item> FLAMECRYSTAL = register("flamecrystal", () -> new FlameCrystal(new Item.Properties()));
     public static final RegistryObject<Item> LIFECRYSTAL = register("lifecrystal", () -> new LifeCrystal(new Item.Properties()));
     public static final RegistryObject<Item> DEATHCRYSTAL = register("deathcrystal", () -> new DeathCrystal(new Item.Properties()));
-    public static final RegistryObject<Item> SOULMETALWAND = register("soulmetalwand", () -> new Wand(new Item.Properties().stacksTo(1), 1));
+    public static final RegistryObject<Item> SOULMETALWAND = register("soulmetalwand", () -> new SoulmetalWand(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> CRYSTALSOULSMUSICDISC = register("crystalsoulsmusicdisc", () -> new RecordItem(6, SoundInit.CRYSTALSOULS, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2220));
     public static final RegistryObject<Item> THESOULSSCREAMMUSICDISC = register("thesoulsscreammusicdisc", () -> new RecordItem(6, SoundInit.SOULKEEPERPHASE1, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 1860));
     public static final RegistryObject<Item> THESOULSREVENGEMUSICDISC = register("thesoulsrevengemusicdisc", () -> new RecordItem(6, SoundInit.SOULKEEPERPHASE2, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 1500));
@@ -35,6 +35,11 @@ public class ItemInit {
     public static final RegistryObject<Item> SOULORB = register("soulorb", () -> new SoulOrb(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SOULTRANSFORMER = register("soultransformer", () -> new SoulTransformer(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SOULBOOSTER = register("soulbooster", () -> new SoulBooster(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> LAPISWAND = register("lapiswand", () -> new LapisWand(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> AMETHYSTWAND = register("amethystwand", () -> new Wand(new Item.Properties().stacksTo(1), 0.9f));
+    public static final RegistryObject<Item> ECHOWAND = register("echowand", () -> new Wand(new Item.Properties().stacksTo(1), 0.8f));
+    public static final RegistryObject<Item> PURGATORYWAND = register("purgatorywand", () -> new Wand(new Item.Properties().stacksTo(1), 0.5f));
+    public static final RegistryObject<Item> PURGATORYINGOT = register("purgatoryingot", () -> new Item(new Item.Properties()));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

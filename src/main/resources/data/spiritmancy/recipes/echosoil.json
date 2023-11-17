@@ -1,0 +1,17 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "locked": true,
+  "entry": "spiritmancy:arcane/soulritual",
+  "input": [
+    {
+      "item": "minecraft:soul_soil"
+    },
+    {
+      "item": "minecraft:echo_shard"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:echosoil",
+    "count": 1
+  }
+}

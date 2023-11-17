@@ -33,7 +33,7 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<SoulAltarRecipe>
     private final IDrawable icon;
 
     public SoulAltarRecipeCategory(IGuiHelper guiHelper) {
-        background = guiHelper.createDrawable(TEXTURE, 0, 0, 108, 92);
+        background = guiHelper.createDrawable(TEXTURE, 0, 0, 53, 109);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockInit.SOULALTAR.get()));
     }
 
@@ -66,12 +66,12 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<SoulAltarRecipe>
         for (Ingredient i : input) {
             builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(i);
             x += 18;
-            if (x >= (18*5)+1) {
+            if (x >= (18*3)+1) {
                 x = 0;
                 y += 18;
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 67).addItemStack(output);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 20, 85).addItemStack(output);
     }
 
 }

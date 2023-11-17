@@ -22,6 +22,7 @@
   "death.attack.soulexplosion.player": "%1$s was exploded by souls.",
   "item.spiritmancy.wand.amplifier": "Amplifier : %1$s",
   "item.spiritmancy.wand.cost": "Soul Cost : %1$s",
+  "item.spiritmancy.wand.costmultiplier": "Soul Cost Multiplier : %1$sx",
   "item.spiritmancy.crystalsoulsmusicdisc": "Music Disc",
   "item.spiritmancy.crystalsoulsmusicdisc.desc": "DavidRarria09 - Crystal Souls",
   "item.spiritmancy.thesoulsscreammusicdisc": "Music Disc",
@@ -41,6 +42,12 @@
   "item.spiritmancy.soulorb": "Soul Orb",
   "item.spiritmancy.soultransformer": "Soul Transformer",
   "item.spiritmancy.soulbooster": "Soul Booster",
+  "block.spiritmancy.echosoil": "Echo Soil",
+  "item.spiritmancy.purgatoryingot": "Purgatory Ingot",
+  "item.spiritmancy.lapiswand": "Lapis Wand",
+  "item.spiritmancy.amethystwand": "Amethyst Wand",
+  "item.spiritmancy.echowand": "Echo Wand",
+  "item.spiritmancy.purgatorywand": "Purgatory Wand",
 
   "attribute.spiritmancy.maxsouls": "Max Souls",
 
@@ -197,5 +204,6 @@
   "book.spiritmancy.spiritmancyguide.soulcasting.soulcastercrystals.page6.title": "Soul Crystal",
   "book.spiritmancy.spiritmancyguide.arcane.soulritual.name": "Soul Ritual",
   "book.spiritmancy.spiritmancyguide.arcane.soulritual.page1.title": "Soul Ritual",
-  "book.spiritmancy.spiritmancyguide.arcane.soulritual.page2.text": "Finally, I can use this ritual to gain more power, I must light all the candles or else it wont work, to start the ritual I must create a soul fire above the center soul soil     WARNING : The progression path towards this ritual is unfinished, The ritual itself is complete though"
+  "book.spiritmancy.spiritmancyguide.arcane.soulritual.page2.text": "Finally, I can use this ritual to gain more power, I must light all the candles or else it wont work, to start the ritual I must create a soul fire above the center echo soil",
+  "book.spiritmancy.spiritmancyguide.arcane.soulritual.page3.text": "WARNING : The progression path towards this ritual is unfinished, The ritual itself is complete though"
 }

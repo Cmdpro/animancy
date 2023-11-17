@@ -1,6 +1,10 @@
 {
 	"replace": false,
 	"values": [
-
+		"spiritmancy:soulaltar",
+		"spiritmancy:soulcasterstable",
+		"spiritmancy:soulpoint",
+		"spiritmancy:soulshaper",
+		"spiritmancy:spirittank"
 	]
 }

@@ -125,6 +125,7 @@ public class Spiritmancy
             event.accept(ItemInit.SOULORB);
             event.accept(ItemInit.SOULTRANSFORMER);
             event.accept(ItemInit.SOULBOOSTER);
+            event.accept(ItemInit.PURGATORYINGOT);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);
@@ -132,6 +133,7 @@ public class Spiritmancy
             event.accept(ItemInit.SOULALTAR_ITEM);
             event.accept(BlockInit.SOULSHAPER);
             event.accept(BlockInit.SOULCASTERSTABLE);
+            event.accept(BlockInit.ECHOSOIL);
         }
         setupSoulCrystalEntities();
         if (event.getTabKey() == CreativeModeTabInit.FULLCRYSTALS.getKey()) {

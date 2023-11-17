@@ -212,11 +212,11 @@
   "mapping": {
     "0": {
       "type": "modonomicon:block",
-      "block": "minecraft:soul_soil"
+      "block": "spiritmancy:echosoil"
     },
     "a": {
       "type": "modonomicon:block",
-      "block": "minecraft:soul_soil"
+      "block": "spiritmancy:echosoil"
     },
     "N":  {
       "type": "modonomicon:blockstate",

@@ -61,7 +61,7 @@ public class SoulRitualController extends Entity {
     }
 
     public void soulEffect(Vec3 pos) {
-        ((ServerLevel)level()).sendParticles(ParticleTypes.SOUL, pos.x, pos.y, pos.z, 15, 0, 0, 0, 0.1);
+        ((ServerLevel)level()).sendParticles(ParticleTypes.SCULK_SOUL, pos.x, pos.y, pos.z, 15, 0, 0, 0, 0.1);
         level().playSound(null, pos.x, pos.y, pos.z, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1, 1);
     }
 

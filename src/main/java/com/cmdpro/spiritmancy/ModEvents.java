@@ -131,6 +131,9 @@ public class ModEvents {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             event.player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
+                if (event.player.isHolding(ItemInit.PURGATORYWAND.get()) && data.getSouls() < 5f) {
+                    data.setSouls(data.getSouls()+0.1f);
+                }
                 if (data.getSouls() > PlayerModData.getMaxSouls(event.player)) {
                     data.setSouls(PlayerModData.getMaxSouls(event.player));
                 }

@@ -7,11 +7,11 @@
       "item": "spiritmancy:soulcrystal"
     },
     {
-      "item": "minecraft:iron_sword"
+      "item": "minecraft:fermented_spider_eye"
     }
   ],
   "output": {
-    "item": "spiritmancy:flamecrystal",
+    "item": "spiritmancy:deathcrystal",
     "count": 1
   }
 }
