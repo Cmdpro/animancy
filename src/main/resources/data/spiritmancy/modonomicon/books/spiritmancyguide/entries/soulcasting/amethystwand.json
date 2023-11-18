@@ -1,0 +1,29 @@
+{
+  "category": "spiritmancy:soulcasting",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:amethystwand",
+  "name": "book.spiritmancy.spiritmancyguide.soulcasting.amethystwand.name",
+  "pages": [
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "spiritmancy:amethystwand",
+      "title1": "book.spiritmancy.spiritmancyguide.soulcasting.amethystwand.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.soulcasting.amethystwand.page1.text"
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spiritmancy:soulcasting/soulmetalwand",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "x": 4,
+  "y": 1,
+  "condition": {
+    "type": "spiritmancy:knowledge",
+    "advancement": "spiritmancy:magicalgems"
+  }
+}

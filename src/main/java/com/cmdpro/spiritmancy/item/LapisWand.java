@@ -22,7 +22,7 @@ public class LapisWand extends Wand {
 
     @Override
     public float getCastCostMultiplier(Player player, ItemStack stack) {
-        float mult = 1/((player.experienceLevel/30)+1);
+        float mult = 1-(((float)player.experienceLevel)/30f);
         if (mult <= 0.25f) {
             mult = 0.25f;
         }

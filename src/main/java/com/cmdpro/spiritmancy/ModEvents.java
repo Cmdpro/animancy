@@ -240,8 +240,14 @@ public class ModEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         if (!event.getEntity().level().isClientSide) {
-            if (event.getSource().getEntity() instanceof Player) {
-                Player player = (Player) event.getSource().getEntity();
+            if (event.getEntity() instanceof SoulKeeper soulKeeper) {
+                for (Player i : soulKeeper.level().players()) {
+                    if (soulKeeper.ritualPos.distanceTo(i.position()) <= 10) {
+                        ModCriteriaTriggers.KILLSOULKEEPER.trigger((ServerPlayer)i);
+                    }
+                }
+            }
+            if (event.getSource().getEntity() instanceof Player player) {
                 player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
                     if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
                         player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {

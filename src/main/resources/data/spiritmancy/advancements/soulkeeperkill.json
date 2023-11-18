@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "spiritmancy:purgatoryingot"
+    },
+    "title": {
+      "translate": "advancements.spiritmancy.soulkeeperkill.title"
+    },
+    "description": {
+      "translate": "advancements.spiritmancy.soulkeeperkill.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "spiritmancy:soulkeeperspawn",
+  "criteria": {
+    "requirement": {
+      "trigger": "spiritmancy:killsoulkeeper"
+    }
+  }
+}

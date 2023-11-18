@@ -1,11 +1,11 @@
 {
   "type": "spiritmancy:shapedlockedrecipe",
   "locked": true,
-  "entry": "spiritmancy:soulcasting/soulmetalwand",
+  "entry": "spiritmancy:equipment/soultransformer",
   "pattern": [
-    "  a",
-    " a ",
-    "a  "
+    "a a",
+    "aaa",
+    " a "
   ],
   "key": {
     "a": {
@@ -13,6 +13,6 @@
     }
   },
   "result": {
-    "item": "spiritmancy:soulmetalwand"
+    "item": "spiritmancy:soultransformer"
   }
 }

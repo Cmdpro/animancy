@@ -1,7 +1,7 @@
 {
   "type": "spiritmancy:shapedlockedrecipe",
   "locked": true,
-  "entry": "spiritmancy:soulcasting/soulmetalwand",
+  "entry": "spiritmancy:soulcasting/amethystwand",
   "pattern": [
     "  a",
     " a ",
@@ -9,10 +9,10 @@
   ],
   "key": {
     "a": {
-      "item": "spiritmancy:soulmetal"
+      "item": "minecraft:amethyst_shard"
     }
   },
   "result": {
-    "item": "spiritmancy:soulmetalwand"
+    "item": "spiritmancy:amethystwand"
   }
 }

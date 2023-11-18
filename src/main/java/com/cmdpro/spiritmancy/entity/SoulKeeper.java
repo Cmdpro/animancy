@@ -2,6 +2,7 @@ package com.cmdpro.spiritmancy.entity;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.ItemInit;
+import com.cmdpro.spiritmancy.init.ModCriteriaTriggers;
 import com.cmdpro.spiritmancy.init.ParticleInit;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
@@ -350,6 +351,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
     public void onAddedToWorld() {
         super.onAddedToWorld();
         ritualPos = position().subtract(0, 5, 0);
+        if (!level().isClientSide) {
+            for (Player i : level().players()) {
+                if (ritualPos.distanceTo(i.position()) <= 10) {
+                    ModCriteriaTriggers.SPAWNSOULKEEPER.trigger((ServerPlayer) i);
+                }
+            }
+        }
     }
 
     @Override

@@ -1,0 +1,20 @@
+{
+  "category": "spiritmancy:equipment",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:soultransformer",
+  "name": "book.spiritmancy.spiritmancyguide.equipment.soultransformer.name",
+  "pages": [
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "spiritmancy:soultransformer",
+      "title1": "book.spiritmancy.spiritmancyguide.equipment.soultransformer.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.equipment.soultransformer.page1.text"
+    }
+  ],
+  "x": 1,
+  "y": -1,
+  "condition": {
+    "type": "spiritmancy:knowledge"
+  }
+}
