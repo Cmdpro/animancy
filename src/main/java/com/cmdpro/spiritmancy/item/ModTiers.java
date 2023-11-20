@@ -12,5 +12,8 @@ import net.minecraftforge.common.crafting.StrictNBTIngredient;
 public class ModTiers {
     public static final ForgeTier SCYTHE = new ForgeTier(4, 1800, 8f,
             4f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
-            () -> Ingredient.of(Items.IRON_INGOT));
+            () -> Ingredient.of(ItemInit.SOULMETAL.get()));
+    public static final ForgeTier PURGATORY = new ForgeTier(4, 2400, 8f,
+            7f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
+            () -> Ingredient.of(ItemInit.PURGATORYINGOT.get()));
 }

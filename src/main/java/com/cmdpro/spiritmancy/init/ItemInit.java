@@ -13,6 +13,8 @@ import java.util.function.Supplier;
 public class ItemInit {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Spiritmancy.MOD_ID);
     public static final RegistryObject<Item> SOULMETALDAGGER = register("soulmetaldagger", () -> new SwordItem(ModTiers.SCYTHE, 1, -2.4F, new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYDAGGER = register("purgatorydagger", () -> new SwordItem(ModTiers.PURGATORY, 1, -2.4F, new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYSWORD = register("purgatorysword", () -> new SwordItem(ModTiers.PURGATORY, 5, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPIRITTANK_ITEM = register("spirittank", () -> new SpiritTankItem(BlockInit.SPIRITTANK.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULPOINT_ITEM = register("soulpoint", () -> new SoulPointItem(BlockInit.SOULPOINT.get(), new Item.Properties()));

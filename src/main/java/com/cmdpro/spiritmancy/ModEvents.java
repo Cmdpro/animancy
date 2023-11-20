@@ -249,7 +249,7 @@ public class ModEvents {
             }
             if (event.getSource().getEntity() instanceof Player player) {
                 player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
-                    if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
+                    if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
                         player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {
                             float amount = Math.floor(event.getEntity().getMaxHealth() / 10) + 1;
                             if (!data.findFirstCurio(ItemInit.SOULTRANSFORMER.get()).isPresent()) {
