@@ -42,6 +42,10 @@ public class ItemInit {
     public static final RegistryObject<Item> ECHOWAND = register("echowand", () -> new Wand(new Item.Properties().stacksTo(1), 0.8f));
     public static final RegistryObject<Item> PURGATORYWAND = register("purgatorywand", () -> new Wand(new Item.Properties().stacksTo(1), 0.5f));
     public static final RegistryObject<Item> PURGATORYINGOT = register("purgatoryingot", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYHELMET = register("purgatoryhelmet", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYCHESTPLATE = register("purgatorychestplate", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYLEGGINGS = register("purgatoryleggings", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYBOOTS = register("purgatoryboots", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.BOOTS, new Item.Properties()));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

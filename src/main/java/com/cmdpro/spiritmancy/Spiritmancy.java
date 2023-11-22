@@ -132,6 +132,10 @@ public class Spiritmancy
             event.accept(ItemInit.ECHOWAND);
             event.accept(ItemInit.AMETHYSTWAND);
             event.accept(ItemInit.PURGATORYWAND);
+            event.accept(ItemInit.PURGATORYHELMET);
+            event.accept(ItemInit.PURGATORYCHESTPLATE);
+            event.accept(ItemInit.PURGATORYLEGGINGS);
+            event.accept(ItemInit.PURGATORYBOOTS);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);

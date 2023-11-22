@@ -23,7 +23,9 @@
           {
             "items": [
               "minecraft:lapis_lazuli"
-            ],
+            ]
+          },
+          {
             "items": [
               "minecraft:amethyst_shard"
             ]

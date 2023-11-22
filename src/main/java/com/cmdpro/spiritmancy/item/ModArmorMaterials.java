@@ -14,7 +14,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    ;
+    PURGATORY("purgatory", 33, new int[]{5, 8, 10, 5}, 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 3.0F, 0.0F, () -> {
+        return Ingredient.of(ItemInit.PURGATORYINGOT.get());
+    });
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
     private final String name;
@@ -37,22 +39,14 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
     }
 
-    public int getDurabilityForSlot(EquipmentSlot p_40484_) {
-        return HEALTH_PER_SLOT[p_40484_.getIndex()] * this.durabilityMultiplier;
-    }
-
-    public int getDefenseForSlot(EquipmentSlot p_40487_) {
-        return this.slotProtections[p_40487_.getIndex()];
-    }
-
     @Override
     public int getDurabilityForType(ArmorItem.Type pType) {
-        return 0;
+        return HEALTH_PER_SLOT[pType.getSlot().getIndex()] * this.durabilityMultiplier;
     }
 
     @Override
     public int getDefenseForType(ArmorItem.Type pType) {
-        return 0;
+        return this.slotProtections[pType.getSlot().getIndex()];
     }
 
     public int getEnchantmentValue() {
