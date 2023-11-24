@@ -1,0 +1,29 @@
+{
+  "category": "spiritmancy:equipment",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:purgatorydagger",
+  "name": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.name",
+  "pages": [
+    {
+      "type": "spiritmancy:altar_recipe",
+      "recipe_id_1": "spiritmancy:purgatorydagger",
+      "title1": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.page1.text"
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spiritmancy:equipment/purgatoryingot",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "x": 1,
+  "y": 3,
+  "condition": {
+    "type": "spiritmancy:ancientknowledge",
+    "advancement": "spiritmancy:soulkeeperkill"
+  }
+}

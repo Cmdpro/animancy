@@ -252,6 +252,9 @@ public class ModEvents {
                     if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
                         player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {
                             float amount = Math.floor(event.getEntity().getMaxHealth() / 10) + 1;
+                            if (player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get())) {
+                                amount *= 2;
+                            }
                             if (!data.findFirstCurio(ItemInit.SOULTRANSFORMER.get()).isPresent()) {
                                 data2.setSouls(data2.getSouls() + amount);
                                 if (data2.getSouls() >= PlayerModData.getMaxSouls(player)) {

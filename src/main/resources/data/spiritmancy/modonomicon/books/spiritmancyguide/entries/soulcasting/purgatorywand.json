@@ -15,13 +15,13 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "spiritmancy:soulcasting/soulmetalwand",
+      "entry": "spiritmancy:soulcasting/purgatoryingot",
       "line_enabled": true,
       "line_reversed": false
     }
   ],
-  "x": 3,
-  "y": 2,
+  "x": 5,
+  "y": 3,
   "condition": {
     "type": "spiritmancy:ancientknowledge",
     "advancement": "spiritmancy:soulkeeperkill"

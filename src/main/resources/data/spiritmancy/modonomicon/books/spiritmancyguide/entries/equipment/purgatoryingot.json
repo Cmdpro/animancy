@@ -1,0 +1,20 @@
+{
+  "category": "spiritmancy:equipment",
+  "description": "",
+  "hide_while_locked": true,
+  "icon": "spiritmancy:purgatoryingot",
+  "name": "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.name",
+  "pages": [
+    {
+      "type": "modonomicon:text",
+      "title": "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.page1.text"
+    }
+  ],
+  "x": 0,
+  "y": 2,
+  "condition": {
+    "type": "modonomicon:advancement",
+    "advancement_id": "spiritmancy:soulkeeperkill"
+  }
+}
