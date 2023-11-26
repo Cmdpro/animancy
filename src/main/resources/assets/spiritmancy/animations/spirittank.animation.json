@@ -27,10 +27,33 @@
 							"vector": [1, 1, 1]
 						}
 					}
+				},
+				"body": {
+					"position": {
+						"vector": [0, 8, 0]
+					}
 				}
 			}
 		},
 		"animation.spirittank.empty": {
+			"loop": true,
+			"bones": {
+				"fill": {
+					"position": {
+						"vector": [0, -1, 0]
+					},
+					"scale": {
+						"vector": [1, 0, 1]
+					}
+				},
+				"body": {
+					"position": {
+						"vector": [0, 8, 0]
+					}
+				}
+			}
+		},
+		"animation.spirittank.item": {
 			"loop": true,
 			"bones": {
 				"fill": {

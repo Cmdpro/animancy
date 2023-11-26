@@ -111,6 +111,7 @@ public class SpiritTankBlockEntity extends BlockEntity implements ISoulContainer
         this.setChanged();
     }
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
+        event.getController().setAnimation(RawAnimation.begin().then("animation.spirittank.empty", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 

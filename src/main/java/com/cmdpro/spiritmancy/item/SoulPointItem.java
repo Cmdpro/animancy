@@ -23,7 +23,7 @@ public class SoulPointItem extends BlockItem implements GeoItem {
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        event.getController().setAnimation(RawAnimation.begin().then("animation.soulpoint.still", Animation.LoopType.LOOP));
+        event.getController().setAnimation(RawAnimation.begin().then("animation.soulpoint.item", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 

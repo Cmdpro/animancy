@@ -22,7 +22,7 @@ public class SpiritTankItem extends BlockItem implements GeoItem {
     }
 
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        event.getController().setAnimation(RawAnimation.begin().then("animation.spirittank.empty", Animation.LoopType.LOOP));
+        event.getController().setAnimation(RawAnimation.begin().then("animation.spirittank.item", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 

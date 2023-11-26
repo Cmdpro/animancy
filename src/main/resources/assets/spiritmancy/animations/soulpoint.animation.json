@@ -13,12 +13,22 @@
 						"1.0": {
 							"vector": [360, 0, 360]
 						}
+					},
+					"position": {
+						"vector": [0, 8, 0]
 					}
 				}
 			}
 		},
-		"animation.soulpoint.still": {
-			"loop": true
+		"animation.soulpoint.item": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
