@@ -6,6 +6,19 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
+					"name": "spiritmancy:purgatoryingot",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 15,
+								"max": 25
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
 					"name": "spiritmancy:thesoulsscreammusicdisc",
 					"conditions": [
 						{

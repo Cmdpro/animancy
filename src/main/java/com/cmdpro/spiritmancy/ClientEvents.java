@@ -60,6 +60,7 @@ public class ClientEvents {
             SoundManager manager = mc.getSoundManager();
             if (manager.isActive(music))
             {
+                mc.getMusicManager().stopPlaying();
                 if (!playMusic)
                 {
                     manager.stop(music);
@@ -70,7 +71,6 @@ public class ClientEvents {
             } else {
                 if (!manager.isActive(music) && playMusic)
                 {
-                    mc.getMusicManager().stopPlaying();
                     music = SimpleSoundInstance.forMusic(mus);
                     manager.play(music);
                 }
