@@ -36,12 +36,12 @@ public class ItemInit {
     public static final RegistryObject<Item> SOULBARRIER = register("soulbarrier", () -> new SoulBarrier(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SOULORB = register("soulorb", () -> new SoulOrb(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SOULTRANSFORMER = register("soultransformer", () -> new SoulTransformer(new Item.Properties().stacksTo(1)));
-    public static final RegistryObject<Item> SOULBOOSTER = register("soulbooster", () -> new SoulBooster(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SOULBOOSTER =register("soulbooster", () -> new SoulBooster(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> LAPISWAND = register("lapiswand", () -> new LapisWand(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> AMETHYSTWAND = register("amethystwand", () -> new Wand(new Item.Properties().stacksTo(1), 0.9f));
     public static final RegistryObject<Item> ECHOWAND = register("echowand", () -> new Wand(new Item.Properties().stacksTo(1), 0.8f));
     public static final RegistryObject<Item> PURGATORYWAND = register("purgatorywand", () -> new Wand(new Item.Properties().stacksTo(1), 0.5f));
-    public static final RegistryObject<Item> PURGATORYINGOT = register("purgatoryingot", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PURGATORYINGOT  = register("purgatoryingot", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> PURGATORYHELMET = register("purgatoryhelmet", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> PURGATORYCHESTPLATE = register("purgatorychestplate", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> PURGATORYLEGGINGS = register("purgatoryleggings", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.LEGGINGS, new Item.Properties()));

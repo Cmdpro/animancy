@@ -21,6 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -30,13 +32,17 @@ import java.util.Map;
 
 public class Wand extends Item {
     public float castCostMultiplier;
+
     public Wand(Properties pProperties, float castCostMultiplier) {
         super(pProperties);
         this.castCostMultiplier = castCostMultiplier;
     }
+
     public float getCastCostMultiplier(Player player, ItemStack stack) {
         return castCostMultiplier;
     }
+
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
@@ -97,7 +103,7 @@ public class Wand extends Item {
                             effects.add(effect);
                         }
                     }
-                    soulCost *= getCastCostMultiplier(Minecraft.getInstance().player, stack);
+                    soulCost *= getCastCostMultiplier(pPlayer, stack);
                     final int soulCostFinal = soulCost;
                     pPlayer.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                         if (data.getSouls() >= soulCostFinal) {

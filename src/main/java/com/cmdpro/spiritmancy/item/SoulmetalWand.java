@@ -2,8 +2,6 @@ package com.cmdpro.spiritmancy.item;
 
 import com.cmdpro.spiritmancy.api.Wand;
 import com.cmdpro.spiritmancy.entity.SpellProjectile;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 
 public class SoulmetalWand extends Wand {
 

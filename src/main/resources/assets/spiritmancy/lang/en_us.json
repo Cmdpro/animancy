@@ -50,6 +50,10 @@
   "item.spiritmancy.purgatorywand": "Purgatory Wand",
   "item.spiritmancy.purgatorydagger": "Purgatory Dagger",
   "item.spiritmancy.purgatorysword": "Purgatory Sword",
+  "item.spiritmancy.purgatoryhelmet": "Purgatory Helmet",
+  "item.spiritmancy.purgatorychestplate": "Purgatory Chestplate",
+  "item.spiritmancy.purgatoryleggings": "Purgatory Leggings",
+  "item.spiritmancy.purgatoryboots": "Purgatory Boots",
 
   "attribute.spiritmancy.maxsouls": "Max Souls",
 
@@ -242,13 +246,20 @@
   "book.spiritmancy.spiritmancyguide.equipment.soultransformer.name": "Soul Transformer",
   "book.spiritmancy.spiritmancyguide.equipment.soultransformer.page1.title": "Soul Transformer",
   "book.spiritmancy.spiritmancyguide.equipment.soultransformer.page1.text": "This will transform every soul i get into 0.25 health",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.name": "Purgatory Dagger",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.page1.title": "Purgatory Dagger",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorydagger.page1.text": "I have managed to create an upgrade to the Soulmetal Dagger capable of harnessing double the amount of souls and dealing more damage",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.name": "Purgatory Sword",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.page1.title": "Purgatory Sword",
-  "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.page1.text": "The Purgatory Sword, instead of using its capability to harness souls to harvest souls, it uses the capability to harness souls to deal more damage, it uses the players own soul to sharpen the blade",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorydagger.name": "Purgatory Dagger",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorydagger.page1.title": "Purgatory Dagger",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorydagger.page1.text": "I have managed to create an upgrade to the Soulmetal Dagger capable of harnessing double the amount of souls and dealing more damage",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.name": "Purgatory Sword",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.page1.title": "Purgatory Sword",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.page1.text": "The Purgatory Sword, instead of using its capability to harness souls to harvest souls, it uses the capability to harness souls to deal more damage, it uses the players own soul to sharpen the blade",
   "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.name": "Purgatory Ingot",
   "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.page1.title": "Purgatory Ingot",
-  "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.page1.text": "Purgatory Ingots are a metal far superior to Soulmetal, this metal is forged out of pure souls causing it to be much better at harnessing souls"
+  "book.spiritmancy.spiritmancyguide.multiuse.purgatoryingot.page1.text": "Purgatory Ingots are a metal far superior to Soulmetal, this metal is forged out of pure souls causing it to be much better at harnessing souls",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.name": "Purgatory Armor",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page1.title": "Purgatory Armor",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page1.text": "I have figured out how to make armor out of Purgatory Ingots, It will give me the ability to hold 25 more souls for every piece of armor I wear",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page2.title": "Purgatory Helmet",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page2.title2": "Purgatory Chestplate",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page3.title": "Purgatory Leggings",
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page3.title2": "Purgatory Boots"
 }

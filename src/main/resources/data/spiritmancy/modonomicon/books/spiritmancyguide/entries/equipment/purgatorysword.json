@@ -3,13 +3,13 @@
   "description": "",
   "hide_while_locked": false,
   "icon": "spiritmancy:purgatorysword",
-  "name": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.name",
+  "name": "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.name",
   "pages": [
     {
       "type": "spiritmancy:altar_recipe",
       "recipe_id_1": "spiritmancy:purgatorysword",
-      "title1": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.page1.title",
-      "text": "book.spiritmancy.spiritmancyguide.soulcasting.purgatorysword.page1.text"
+      "title1": "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.page1.title",
+      "text": "book.spiritmancy.spiritmancyguide.equipment.purgatorysword.page1.text"
     }
   ],
   "parents": [

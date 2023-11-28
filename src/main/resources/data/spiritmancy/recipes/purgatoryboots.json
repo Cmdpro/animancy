@@ -1,0 +1,23 @@
+{
+  "type": "spiritmancy:soulaltar",
+  "locked": true,
+  "entry": "spiritmancy:equipment/purgatoryarmor",
+  "input": [
+    {
+      "item": "spiritmancy:purgatoryingot"
+    },
+    {
+      "item": "spiritmancy:purgatoryingot"
+    },
+    {
+      "item": "spiritmancy:purgatoryingot"
+    },
+    {
+      "item": "spiritmancy:purgatoryingot"
+    }
+  ],
+  "output": {
+    "item": "spiritmancy:purgatoryboots",
+    "count": 1
+  }
+}

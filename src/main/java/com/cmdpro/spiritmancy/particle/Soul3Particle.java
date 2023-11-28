@@ -31,11 +31,12 @@ import org.joml.Vector3f;
 import java.util.Locale;
 import java.util.UUID;
 
+@OnlyIn(Dist.CLIENT)
 public class Soul3Particle extends TextureSheetParticle {
     public float startQuadSize;
-    public Soul3Particle.Options options;
+    public Soul3ParticleOptions options;
     protected Soul3Particle(ClientLevel level, double xCoord, double yCoord, double zCoord,
-                            SpriteSet spriteSet, double xd, double yd, double zd, Soul3Particle.Options options) {
+                            SpriteSet spriteSet, double xd, double yd, double zd, Soul3ParticleOptions options) {
         super(level, xCoord, yCoord, zCoord, xd, yd, zd);
 
         this.friction = 0.8F;
@@ -107,54 +108,17 @@ public class Soul3Particle extends TextureSheetParticle {
         }
     };
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<Soul3Particle.Options> {
+    public static class Provider implements ParticleProvider<Soul3ParticleOptions> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet spriteSet) {
             this.sprites = spriteSet;
         }
 
-        public Particle createParticle(Soul3Particle.Options particleType, ClientLevel level,
+        public Particle createParticle(Soul3ParticleOptions particleType, ClientLevel level,
                                        double x, double y, double z,
                                        double dx, double dy, double dz) {
             return new Soul3Particle(level, x, y, z, this.sprites, dx, dy, dz, particleType);
-        }
-    }
-    public static class Options implements ParticleOptions {
-        public UUID player;
-        public Options(UUID player) {
-            this.player = player;
-        }
-        @Override
-        public ParticleType<?> getType() {
-            return ParticleInit.SOUL3.get();
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf pBuffer) {
-            pBuffer.writeUUID(player);
-        }
-        public static final Codec<Soul3Particle.Options> CODEC = RecordCodecBuilder.create((p_253370_) -> {
-            return p_253370_.group(Codecs.UUID.fieldOf("player").forGetter((p_253371_) -> {
-                return p_253371_.player;
-            })).apply(p_253370_, Soul3Particle.Options::new);
-        });
-        public static final ParticleOptions.Deserializer<Soul3Particle.Options> DESERIALIZER = new ParticleOptions.Deserializer<Soul3Particle.Options>() {
-            @Override
-            public Soul3Particle.Options fromCommand(ParticleType<Soul3Particle.Options> options, StringReader reader) throws CommandSyntaxException {
-                UUID uuid = UUID.fromString(reader.readString());
-                return new Soul3Particle.Options(uuid);
-            }
-            @Override
-            public Soul3Particle.Options fromNetwork(ParticleType<Soul3Particle.Options> options, FriendlyByteBuf buf) {
-                UUID uuid = buf.readUUID();
-                return new Soul3Particle.Options(uuid);
-            }
-        };
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %s", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), this.player);
         }
     }
 }

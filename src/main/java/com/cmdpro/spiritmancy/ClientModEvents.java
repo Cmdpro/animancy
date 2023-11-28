@@ -140,7 +140,7 @@ public class ClientModEvents {
         PageRendererRegistry.registerPageRenderer(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, p -> new BookAltarRecipePageRenderer((BookAltarRecipePage) p));
     }
     @SubscribeEvent
-    public static void registerParticleFactories(final RegisterParticleProvidersEvent event) {
+    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
         Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL.get(),
                 SoulParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL2.get(),

@@ -13,6 +13,7 @@ import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.cmdpro.spiritmancy.networking.packet.PlayerDoubleJumpC2SPacket;
 import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
+import com.cmdpro.spiritmancy.particle.Soul3ParticleOptions;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.datagen.MultiblockProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookMultiblockPageModel;
@@ -264,7 +265,7 @@ public class ModEvents {
                                 amount /= 4;
                                 player.heal(amount);
                             }
-                            Soul3Particle.Options particle = new Soul3Particle.Options(player.getUUID());
+                            Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID());
                             ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
                         });
                     }
