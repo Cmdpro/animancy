@@ -17,6 +17,7 @@ public class ItemInit {
     public static final RegistryObject<Item> PURGATORYSWORD = register("purgatorysword", () -> new PurgatorySword(ModTiers.PURGATORY, 5, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPIRITTANK_ITEM = register("spirittank", () -> new SpiritTankItem(BlockInit.SPIRITTANK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> DIVINATIONTABLE_ITEM = register("divinationtable", () -> new DivinationTableItem(BlockInit.DIVINATIONTABLE.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULPOINT_ITEM = register("soulpoint", () -> new SoulPointItem(BlockInit.SOULPOINT.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULALTAR_ITEM = register("soulaltar", () -> new SoulAltarItem(BlockInit.SOULALTAR.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULLINKER = register("soullinker", () -> new SoulLinker(new Item.Properties().stacksTo(1)));

@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.entity.DivinationTableBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
@@ -26,6 +27,10 @@ public class BlockEntityInit {
             BLOCK_ENTITIES.register("soulaltar_block_entity", () ->
                     BlockEntityType.Builder.of(SoulAltarBlockEntity::new,
                             BlockInit.SOULALTAR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<DivinationTableBlockEntity>> DIVINATIONTABLE =
+            BLOCK_ENTITIES.register("divinationtable_block_entity", () ->
+                    BlockEntityType.Builder.of(DivinationTableBlockEntity::new,
+                            BlockInit.DIVINATIONTABLE.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

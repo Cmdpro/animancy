@@ -21,6 +21,8 @@ public class BlockInit {
     public static final DeferredRegister<Item> ITEMS = ItemInit.ITEMS;
     public static final RegistryObject<Block> SPIRITTANK = registerBlock("spirittank",
             () -> new SpiritTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
+    public static final RegistryObject<Block> DIVINATIONTABLE = registerBlock("divinationtable",
+            () -> new SpiritTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.WOOL).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULPOINT = registerBlock("soulpoint",
             () -> new SoulPoint(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
