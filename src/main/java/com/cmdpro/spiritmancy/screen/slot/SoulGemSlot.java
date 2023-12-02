@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.screen.slot;
 
 import com.cmdpro.spiritmancy.api.ISoulcastersCrystal;
+import com.cmdpro.spiritmancy.api.SoulGem;
 import com.cmdpro.spiritmancy.init.ItemInit;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
@@ -15,6 +16,6 @@ public class SoulGemSlot extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return stack.is(ItemInit.SOULGEMEASY) || stack.is(ItemInit.SOULGEMMEDIUM) || stack.is(ItemInit.SOULGEMHARD) || stack.is(ItemInit.SOULGEMINSANE);
+        return stack.getItem() instanceof SoulGem;
     }
 }

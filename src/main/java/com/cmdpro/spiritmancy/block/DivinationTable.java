@@ -29,7 +29,7 @@ public class DivinationTable extends BaseEntityBlock {
         super(properties);
     }
 
-    private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 16, 12, 16);
+    private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 16, 16, 16);
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -51,6 +51,9 @@ public class DivinationTable extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
                                  Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
+            if (pPlayer.getItemInHand(InteractionHand.MAIN_HAND).is(ItemInit.SOULLINKER.get()) || pPlayer.getItemInHand(InteractionHand.OFF_HAND).is(ItemInit.SOULLINKER.get())) {
+                return InteractionResult.FAIL;
+            }
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof DivinationTableBlockEntity) {
                 NetworkHooks.openScreen(((ServerPlayer)pPlayer), (DivinationTableBlockEntity)entity, pPos);

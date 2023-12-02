@@ -16,7 +16,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class DivinationTableMenu extends AbstractContainerMenu {
-    private final DivinationTableBlockEntity blockEntity;
+    public final DivinationTableBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
     public DivinationTableMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
@@ -31,9 +31,9 @@ public class DivinationTableMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            this.addSlot(new SlotItemHandler(handler, 0, 34, 35));
-            this.addSlot(new SoulGemSlot(handler, 1, 126, 23));
-            this.addSlot(new ModResultSlot(handler, 2, 126, 47));
+            this.addSlot(new SlotItemHandler(handler, 0, 25, 35));
+            this.addSlot(new SoulGemSlot(handler, 1, 135, 23));
+            this.addSlot(new ModResultSlot(handler, 2, 135, 47));
         });
         addDataSlots(data);
     }
@@ -41,7 +41,7 @@ public class DivinationTableMenu extends AbstractContainerMenu {
     public int getScaledProgress() {
         int progress = this.data.get(0);
         int maxProgress = this.data.get(1);  // Max Progress
-        int progressArrowSize = 29; // This is the height in pixels of your arrow
+        int progressArrowSize = 42; // This is the height in pixels of your arrow
 
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }

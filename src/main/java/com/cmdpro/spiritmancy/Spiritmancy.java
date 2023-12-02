@@ -138,6 +138,27 @@ public class Spiritmancy
             event.accept(ItemInit.PURGATORYCHESTPLATE);
             event.accept(ItemInit.PURGATORYLEGGINGS);
             event.accept(ItemInit.PURGATORYBOOTS);
+            event.accept(ItemInit.EMPTYSOULGEM);
+            event.accept(ItemInit.EASYSOULGEM);
+            event.accept(ItemInit.MEDIUMSOULGEM);
+            event.accept(ItemInit.HARDSOULGEM);
+            event.accept(ItemInit.INSANESOULGEM);
+            ItemStack stack = new ItemStack(ItemInit.STUDYRESULTS.get());
+            stack.getOrCreateTag().putInt("studytype", 0);
+            stack.getOrCreateTag().putInt("studyamount", 0);
+            event.accept(stack);
+            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
+            stack.getOrCreateTag().putInt("studytype", 1);
+            stack.getOrCreateTag().putInt("studyamount", 1);
+            event.accept(stack);
+            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
+            stack.getOrCreateTag().putInt("studytype", 1);
+            stack.getOrCreateTag().putInt("studyamount", 2);
+            event.accept(stack);
+            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
+            stack.getOrCreateTag().putInt("studytype", 2);
+            stack.getOrCreateTag().putInt("studyamount", 1);
+            event.accept(stack);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SPIRITTANK_ITEM);

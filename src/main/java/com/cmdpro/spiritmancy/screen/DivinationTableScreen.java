@@ -2,6 +2,8 @@ package com.cmdpro.spiritmancy.screen;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -11,7 +13,6 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class DivinationTableScreen extends AbstractContainerScreen<DivinationTableMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Spiritmancy.MOD_ID, "textures/gui/divinationtable.png");
-    public static float uiChange;
     public DivinationTableScreen(DivinationTableMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
@@ -24,8 +25,11 @@ public class DivinationTableScreen extends AbstractContainerScreen<DivinationTab
         int y = (height - imageHeight) / 2;
 
         pGuiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-        if(menu.getScaledProgress() > 0) {
-            pGuiGraphics.blit(TEXTURE, x + 8, y + 76, 176, 0, 12, menu.getScaledProgress());
+        if (menu.getScaledProgress() > 0) {
+            pGuiGraphics.blit(TEXTURE, x + 8, y + 23 + (42 - menu.getScaledProgress()), 176, (42 - menu.getScaledProgress()), 12, menu.getScaledProgress());
+        }
+        if (menu.blockEntity.getSouls() < 5) {
+            pGuiGraphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("block.spiritmancy.divinationtable.notenoughsouls"), x + (imageWidth / 2), y + 38, 0xFF0000);
         }
     }
 

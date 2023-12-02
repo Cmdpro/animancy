@@ -37,6 +37,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -62,6 +63,16 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
             setChanged();
         }
     };
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        lazyFocusHandler = LazyOptional.of(() -> focusItemHandler);
+    }
+    @Override
+    public void invalidateCaps()  {
+        super.invalidateCaps();
+        lazyFocusHandler.invalidate();
+    }
     private LazyOptional<IItemHandler> lazyFocusHandler = LazyOptional.empty();
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.SOULALTAR.get(), pos, state);

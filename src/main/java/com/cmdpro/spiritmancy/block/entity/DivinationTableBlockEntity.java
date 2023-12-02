@@ -2,26 +2,35 @@ package com.cmdpro.spiritmancy.block.entity;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.ISoulContainer;
+import com.cmdpro.spiritmancy.api.SoulGem;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
+import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ParticleInit;
 import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
+import com.cmdpro.spiritmancy.screen.DivinationTableMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -31,10 +40,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -43,23 +55,35 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DivinationTableBlockEntity extends BlockEntity implements ISoulContainer, GeoBlockEntity {
+public class DivinationTableBlockEntity extends BlockEntity implements MenuProvider, ISoulContainer, GeoBlockEntity {
     private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private float souls;
-    public int craftProgress;
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
         }
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return slot == 0 ? stack.is(Items.AMETHYST_SHARD) : true;
+            if (slot == 1) {
+                if (stack.getItem() instanceof SoulGem) {
+                    return true;
+                }
+                return false;
+            }
+            if (slot == 2) {
+                if (stack.isEmpty()) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
         }
     };
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
@@ -68,7 +92,7 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
     private int progress = 0;
     private int maxProgress = 80;
     public DivinationTableBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.SOULALTAR.get(), pos, state);
+        super(BlockEntityInit.DIVINATIONTABLE.get(), pos, state);
         item = ItemStack.EMPTY;
         linked = new ArrayList<>();
         this.data = new ContainerData() {
@@ -92,6 +116,19 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
             }
         };
     }
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
+        return super.getCapability(cap, side);
+    }
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return lazyItemHandler.cast();
+        }
+        return super.getCapability(cap);
+    }
 
     @Override
     public float getMaxSouls() {
@@ -107,16 +144,19 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
     public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt){
         CompoundTag tag = pkt.getTag();
         item = ItemStack.of(tag.getCompound("item"));
+        souls = tag.getFloat("souls");
     }
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
         tag.put("item", item.save(new CompoundTag()));
+        tag.putFloat("souls", souls);
         return tag;
     }
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
         tag.putFloat("souls", souls);
+        tag.put("inventory", itemHandler.serializeNBT());
         if (!this.linked.isEmpty()) {
             ListTag listtag = new ListTag();
             for(BlockPos i : this.linked) {
@@ -134,6 +174,7 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
     public void load(CompoundTag nbt) {
         super.load(nbt);
         souls = nbt.getFloat("souls");
+        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
         linked.clear();
         if (nbt.contains("linked")) {
             ((ListTag) nbt.get("linked")).forEach((i) -> {
@@ -164,9 +205,61 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
         }
         return inventory;
     }
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+    }
+    @Override
+    public void invalidateCaps()  {
+        super.invalidateCaps();
+        lazyItemHandler.invalidate();
+    }
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, DivinationTableBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
-
+            int progress = 0;
+            ItemStack stack = pBlockEntity.itemHandler.getStackInSlot(1);
+            List<String> items = new ArrayList<>();
+            if (stack.hasTag()) {
+                if (stack.getTag().contains("items")) {
+                    ListTag tag = (ListTag)stack.getTag().get("items");
+                    progress = tag.size();
+                    for (Tag i : tag) {
+                        items.add(((CompoundTag)i).getString("item"));
+                    }
+                }
+            }
+            pBlockEntity.item = pBlockEntity.itemHandler.getStackInSlot(1);
+            pBlockEntity.progress = progress;
+            int maxProgress = 1;
+            if (stack.getItem() instanceof SoulGem gem) {
+                maxProgress = gem.itemCost;
+            }
+            pBlockEntity.maxProgress = maxProgress;
+            ItemStack stack2 = pBlockEntity.itemHandler.getStackInSlot(0);
+            if (!items.contains(stack2.getDescriptionId()) && !stack2.isEmpty() && pBlockEntity.souls >= 5 && !stack.isEmpty()) {
+                items.add(stack2.getDescriptionId());
+                pBlockEntity.itemHandler.extractItem(0, 1, false);
+                pBlockEntity.souls -= 5;
+            }
+            if (progress >= maxProgress) {
+                if (stack.getItem() instanceof SoulGem gem && hasNotReachedStackLimit(pBlockEntity)) {
+                    ItemStack stack3 = new ItemStack(ItemInit.STUDYRESULTS.get(), pBlockEntity.itemHandler.getStackInSlot(2).getCount() + 1);
+                    stack3.getOrCreateTag().putInt("studytype", gem.rewardType);
+                    stack3.getOrCreateTag().putInt("studyamount", gem.rewardAmount);
+                    pBlockEntity.itemHandler.setStackInSlot(2, stack3);
+                    pBlockEntity.itemHandler.extractItem(1, 1, false);
+                }
+            }
+            if (items.size() > 0) {
+                ListTag list = new ListTag();
+                for (String i : items) {
+                    CompoundTag tag = new CompoundTag();
+                    tag.putString("item", i);
+                    list.add(tag);
+                }
+                stack.getOrCreateTag().put("items", list);
+            }
             pBlockEntity.updateBlock();
             pLevel.sendBlockUpdated(pPos, pState, pState, Block.UPDATE_ALL);
         }
@@ -178,9 +271,10 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
         this.setChanged();
     }
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        event.getController().setAnimation(RawAnimation.begin().then("animation.divinationtable.idle", Animation.LoopType.LOOP));
         if (!item.isEmpty()) {
             event.getController().setAnimation(RawAnimation.begin().then("animation.divinationtable.studying", Animation.LoopType.LOOP));
+        } else {
+            event.getController().setAnimation(RawAnimation.begin().then("animation.divinationtable.idle", Animation.LoopType.LOOP));
         }
         return PlayState.CONTINUE;
     }
@@ -193,5 +287,19 @@ public class DivinationTableBlockEntity extends BlockEntity implements ISoulCont
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.factory;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.spiritmancy.divinationtable");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
+        return new DivinationTableMenu(pContainerId, pInventory, this, this.data);
+    }
+    private static boolean hasNotReachedStackLimit(DivinationTableBlockEntity entity) {
+        return entity.itemHandler.getStackInSlot(2).getCount() < entity.itemHandler.getStackInSlot(2).getMaxStackSize();
     }
 }

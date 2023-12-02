@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy.item;
 
+import com.cmdpro.spiritmancy.renderers.DivinationTableItemRenderer;
 import com.cmdpro.spiritmancy.renderers.SoulAltarItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
@@ -30,7 +31,7 @@ public class DivinationTableItem extends BlockItem implements GeoItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         super.initializeClient(consumer);
         consumer.accept(new IClientItemExtensions() {
-            private final BlockEntityWithoutLevelRenderer renderer = new SoulAltarItemRenderer();
+            private final BlockEntityWithoutLevelRenderer renderer = new DivinationTableItemRenderer();
 
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {

@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.api.SoulGem;
 import com.cmdpro.spiritmancy.api.Wand;
 import com.cmdpro.spiritmancy.item.*;
 import net.minecraft.world.item.*;
@@ -47,6 +48,12 @@ public class ItemInit {
     public static final RegistryObject<Item> PURGATORYCHESTPLATE = register("purgatorychestplate", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> PURGATORYLEGGINGS = register("purgatoryleggings", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> PURGATORYBOOTS = register("purgatoryboots", () -> new PurgatoryArmor(ModArmorMaterials.PURGATORY, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryObject<Item> EMPTYSOULGEM  = register("emptysoulgem", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> EASYSOULGEM  = register("easysoulgem", () -> new SoulGem(new Item.Properties(), 0, 0, 10));
+    public static final RegistryObject<Item> MEDIUMSOULGEM  = register("mediumsoulgem", () -> new SoulGem(new Item.Properties(), 1, 1, 20));
+    public static final RegistryObject<Item> HARDSOULGEM  = register("hardsoulgem", () -> new SoulGem(new Item.Properties(), 1, 2, 30));
+    public static final RegistryObject<Item> INSANESOULGEM  = register("insanesoulgem", () -> new SoulGem(new Item.Properties(), 2, 1, 40));
+    public static final RegistryObject<Item> STUDYRESULTS  = register("studyresults", () -> new StudyResults(new Item.Properties()));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

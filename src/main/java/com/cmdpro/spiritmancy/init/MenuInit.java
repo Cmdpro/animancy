@@ -2,6 +2,7 @@ package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.block.SoulcastersTable;
+import com.cmdpro.spiritmancy.screen.DivinationTableMenu;
 import com.cmdpro.spiritmancy.screen.SoulShaperMenu;
 import com.cmdpro.spiritmancy.screen.SoulcastersTableMenu;
 import net.minecraft.client.gui.screens.MenuScreens;
