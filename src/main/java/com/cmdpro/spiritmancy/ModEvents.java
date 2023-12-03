@@ -30,6 +30,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.commands.GiveCommand;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -229,6 +230,26 @@ public class ModEvents {
                 }
             }
             if (event.getSource().getEntity() instanceof Player player) {
+                if (player.getInventory().contains(new ItemStack(ItemInit.EMPTYSOULGEM.get()))) {
+                    int slot = 0;
+                    for (ItemStack i : player.getInventory().items) {
+                        if (i.is(ItemInit.EMPTYSOULGEM.get())) {
+                            break;
+                        }
+                        slot++;
+                    }
+                    Item gem = ItemInit.EASYSOULGEM.get();
+                    if (event.getEntity().level().random.nextBoolean()) {
+                        gem = ItemInit.MEDIUMSOULGEM.get();
+                        if (event.getEntity().level().random.nextBoolean()) {
+                            gem = ItemInit.HARDSOULGEM.get();
+                            if (event.getEntity().level().random.nextBoolean()) {
+                                gem = ItemInit.INSANESOULGEM.get();
+                            }
+                        }
+                    }
+                    player.getInventory().setItem(slot, new ItemStack(gem));
+                }
                 player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
                     if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
                         player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {

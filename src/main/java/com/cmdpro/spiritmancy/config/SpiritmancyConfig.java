@@ -17,16 +17,16 @@ public class SpiritmancyConfig {
         }
     }
     public SpiritmancyConfig(ForgeConfigSpec.Builder builder) {
-        otherModAdvancementsAllowedValue = buildBoolean(builder, "otherModAdvancementsAllowed", "all", false, "Should advancements from other mods give knowledge?");
+        //otherModAdvancementsAllowedValue = buildBoolean(builder, "otherModAdvancementsAllowed", "all", false, "Should advancements from other mods give knowledge?");
     }
     private static ForgeConfigSpec.BooleanValue buildBoolean(ForgeConfigSpec.Builder builder, String name, String catagory, boolean defaultValue, String comment) {
         return builder.comment(comment).translation(name).define(name, defaultValue);
     }
-    public static boolean otherModAdvancementsAllowed = false;
-    public final ForgeConfigSpec.BooleanValue otherModAdvancementsAllowedValue;
+    //public static boolean otherModAdvancementsAllowed = false;
+    //public final ForgeConfigSpec.BooleanValue otherModAdvancementsAllowedValue;
     public static void bake(ModConfig config) {
         try {
-            otherModAdvancementsAllowed = COMMON.otherModAdvancementsAllowedValue.get();
+            //otherModAdvancementsAllowed = COMMON.otherModAdvancementsAllowedValue.get();
         } catch (Exception e) {
             Spiritmancy.LOGGER.warn("Failed to load Spiritmancy config");
             e.printStackTrace();

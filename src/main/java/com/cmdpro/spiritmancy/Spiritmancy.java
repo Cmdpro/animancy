@@ -98,7 +98,7 @@ public class Spiritmancy
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
         random = RandomSource.create();
-        modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
+        //modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
 
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "ancientknowledge"), BookAncientKnowledgeCondition::fromJson, BookAncientKnowledgeCondition::fromNetwork);
@@ -167,6 +167,7 @@ public class Spiritmancy
             event.accept(BlockInit.SOULSHAPER);
             event.accept(BlockInit.SOULCASTERSTABLE);
             event.accept(BlockInit.ECHOSOIL);
+            event.accept(ItemInit.DIVINATIONTABLE_ITEM);
         }
         setupSoulCrystalEntities();
         if (event.getTabKey() == CreativeModeTabInit.FULLCRYSTALS.getKey()) {
