@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aaa",
+    "aAa",
+    " b "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:light_blue_wool"
+    },
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "b": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "item": "spiritmancy:divinationtable"
+  }
+}

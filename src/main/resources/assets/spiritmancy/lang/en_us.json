@@ -280,5 +280,9 @@
   "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page2.title": "Purgatory Helmet",
   "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page2.title2": "Purgatory Chestplate",
   "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page3.title": "Purgatory Leggings",
-  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page3.title2": "Purgatory Boots"
+  "book.spiritmancy.spiritmancyguide.equipment.purgatoryarmor.page3.title2": "Purgatory Boots",
+  "book.spiritmancy.spiritmancyguide.basics.studying.name": "Studying Souls",
+  "book.spiritmancy.spiritmancyguide.basics.studying.page1.title": "Divination Table",
+  "book.spiritmancy.spiritmancyguide.basics.studying.page1.title2": "Empty Soul Gem",
+  "book.spiritmancy.spiritmancyguide.basics.studying.page2.text": "For using the divination table, I must first craft an empty soul gem, if I kill any living being with an empty soul gem in my inventory then the soul gem will fill, some living beings have a more powerful soul than others, I must give it a bunch of items to fully study the soul contained in the soul gem, it will drain 5 souls from the divination tables internal storage for every item though"
 }

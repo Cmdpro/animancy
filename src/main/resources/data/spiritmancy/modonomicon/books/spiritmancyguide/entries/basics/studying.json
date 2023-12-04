@@ -1,0 +1,22 @@
+{
+  "category": "spiritmancy:basics",
+  "description": "",
+  "hide_while_locked": false,
+  "icon": "spiritmancy:divinationtable",
+  "name": "book.spiritmancy.spiritmancyguide.basics.studying.name",
+  "pages": [
+    {
+      "type": "modonomicon:crafting_recipe",
+      "recipe_id_1": "spiritmancy:divinationtable",
+      "title1": "book.spiritmancy.spiritmancyguide.basics.studying.page1.title",
+      "recipe_id_2": "spiritmancy:emptysoulgem",
+      "title2": "book.spiritmancy.spiritmancyguide.basics.studying.page1.title2"
+    },
+    {
+      "type": "modonomicon:text",
+      "text": "book.spiritmancy.spiritmancyguide.basics.studying.page2.text"
+    }
+  ],
+  "x": 0,
+  "y": 0
+}

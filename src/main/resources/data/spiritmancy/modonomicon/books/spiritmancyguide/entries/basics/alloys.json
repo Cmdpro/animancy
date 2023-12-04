@@ -18,6 +18,14 @@
       "text": "book.spiritmancy.spiritmancyguide.basics.alloys.page2.text"
     }
   ],
-  "x": 0,
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "spiritmancy:basics/studying",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "x": 2,
   "y": 0
 }

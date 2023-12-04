@@ -12,17 +12,14 @@
       "text": "book.spiritmancy.spiritmancyguide.basics.spirittank.page1.text"
     }
   ],
-  "x": 1,
-  "y": 4,
+  "x": -2,
+  "y": 0,
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "spiritmancy:basics/soullinker",
+      "entry": "spiritmancy:basics/studying",
       "line_enabled": true,
       "line_reversed": false
     }
-  ],
-  "condition": {
-    "type": "spiritmancy:knowledge"
-  }
+  ]
 }
