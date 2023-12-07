@@ -1,19 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "aaa",
+    "bbb",
     "aAa",
-    " b "
+    " B "
   ],
   "key": {
     "a": {
       "item": "minecraft:light_blue_wool"
     },
     "A": {
-      "item": "minecraft:diamond"
+      "item": "spiritmancy:soulcrystal"
     },
     "b": {
-      "item": "minecraft:diamond_block"
+      "item": "spiritmancy:soulmetal"
+    },
+    "B": {
+      "item": "minecraft:oak_log"
     }
   },
   "result": {
