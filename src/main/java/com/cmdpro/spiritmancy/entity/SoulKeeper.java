@@ -52,6 +52,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 import org.apache.commons.lang3.RandomUtils;
+import org.joml.Vector3f;
 import org.lwjgl.system.MathUtil;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -238,16 +239,19 @@ public class SoulKeeper extends Monster implements GeoEntity {
 
     public static final EntityDataAccessor<Boolean> IS_SPAWN_ANIM = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> IS_PHASE2 = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Vector3f> RITUAL_POS = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.VECTOR3);
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(IS_SPAWN_ANIM, true);
         this.entityData.define(IS_PHASE2, false);
+        this.entityData.define(RITUAL_POS, new Vector3f(0, 0, 0));
     }
     @Override
     public void tick() {
         super.tick();
         if (level().isClientSide) {
+            ritualPos = new Vec3(entityData.get(RITUAL_POS).x, entityData.get(RITUAL_POS).y, entityData.get(RITUAL_POS).z);
             if (entityData.get(IS_SPAWN_ANIM)) {
                 for (int i = 0; i < 5; i++) {
                     Vec3 offset = new Vec3(RandomUtils.nextDouble(0, 4) - 2d, RandomUtils.nextDouble(0, 4) - 2d, RandomUtils.nextDouble(0, 4) - 2d);
@@ -261,6 +265,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 level().addParticle(ParticleInit.SOUL.get(), pos.x+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), pos.y-0.1, pos.z+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), RandomUtils.nextFloat(0f, 0.4f)-0.2f, 0.5f, RandomUtils.nextFloat(0f, 0.4f)-0.2f);
             }
         } else {
+            entityData.set(RITUAL_POS, new Vector3f((float)ritualPos.x, (float)ritualPos.y, (float)ritualPos.z));
             if (ritualPos != null) {
                 boolean anyPlayers = false;
                 for (Player i : level().players()) {

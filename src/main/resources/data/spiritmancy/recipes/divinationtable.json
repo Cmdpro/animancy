@@ -3,7 +3,7 @@
   "pattern": [
     "bbb",
     "aAa",
-    " B "
+    " b "
   ],
   "key": {
     "a": {
@@ -14,9 +14,6 @@
     },
     "b": {
       "item": "spiritmancy:soulmetal"
-    },
-    "B": {
-      "item": "minecraft:oak_log"
     }
   },
   "result": {
