@@ -186,6 +186,7 @@ public class Spiritmancy
         ModMessages.register();
         event.enqueueWork(ModCriteriaTriggers::register);
         LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:airorfire"), (getter, pos, state) -> state.isAir() || state.is(Blocks.SOUL_FIRE) || state.is(Blocks.FIRE));
+        LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:empty"), (getter, pos, state) -> !state.isSolid());
         LoaderRegistry.registerPageLoader(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, BookAltarRecipePage::fromJson, BookAltarRecipePage::fromNetwork);
     }
     private void complete(final FMLLoadCompleteEvent event)

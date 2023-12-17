@@ -67,7 +67,7 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<SoulAltarRecipe>
             builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(i);
             x += 18;
             if (x >= (18*3)+1) {
-                x = 0;
+                x = 1;
                 y += 18;
             }
         }

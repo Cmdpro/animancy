@@ -25,6 +25,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -58,6 +61,9 @@ public class SoulRitualController extends Entity {
     @Override
     protected void defineSynchedData() {
 
+    }
+    public static AttributeSupplier setAttributes() {
+        return Monster.createMobAttributes().build();
     }
 
     public void soulEffect(Vec3 pos) {
