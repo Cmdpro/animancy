@@ -239,10 +239,10 @@ public class DivinationTableBlockEntity extends BlockEntity implements MenuProvi
             }
             pBlockEntity.maxProgress = maxProgress;
             ItemStack stack2 = pBlockEntity.itemHandler.getStackInSlot(0);
-            if (!items.contains(stack2.getDescriptionId()) && !stack2.isEmpty() && pBlockEntity.souls >= 5 && !stack.isEmpty()) {
+            if (!items.contains(stack2.getDescriptionId()) && !stack2.isEmpty() && pBlockEntity.souls >= 2 && !stack.isEmpty()) {
                 items.add(stack2.getDescriptionId());
                 pBlockEntity.itemHandler.extractItem(0, 1, false);
-                pBlockEntity.souls -= 5;
+                pBlockEntity.souls -= 2;
             }
             if (progress >= maxProgress) {
                 if (stack.getItem() instanceof SoulGem gem && hasNotReachedStackLimit(pBlockEntity)) {

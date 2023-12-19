@@ -16,9 +16,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -59,6 +63,20 @@ public class FullSoulCrystal extends Item {
             BlockPos blockpos = context.getClickedPos();
             Direction direction = context.getClickedFace();
             BlockState blockstate = level.getBlockState(blockpos);
+
+            if (blockstate.is(Blocks.SPAWNER)) {
+                BlockEntity blockentity = level.getBlockEntity(blockpos);
+                if (blockentity instanceof SpawnerBlockEntity) {
+                    SpawnerBlockEntity spawnerblockentity = (SpawnerBlockEntity)blockentity;
+                    EntityType<?> entitytype1 = EntityType.byString(context.getItemInHand().getOrCreateTag().getString("entitytype")).get();
+                    spawnerblockentity.setEntityId(entitytype1, level.getRandom());
+                    blockentity.setChanged();
+                    level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                    level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
+                    itemstack.shrink(1);
+                    return InteractionResult.CONSUME;
+                }
+            }
 
             BlockPos blockpos1;
             if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {
