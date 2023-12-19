@@ -33,6 +33,7 @@ public class SoulParticle extends TextureSheetParticle {
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 1f;
+        this.alpha = 1f;
         this.hasPhysics = false;
     }
 
@@ -51,7 +52,7 @@ public class SoulParticle extends TextureSheetParticle {
         return SOULRENDER;
     }
 
-    static final ParticleRenderType SOULRENDER = new ParticleRenderType() {
+    public static final ParticleRenderType SOULRENDER = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
             Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
