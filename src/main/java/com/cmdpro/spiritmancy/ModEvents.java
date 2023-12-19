@@ -14,6 +14,7 @@ import com.cmdpro.spiritmancy.networking.packet.PlayerDoubleJumpC2SPacket;
 import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
 import com.cmdpro.spiritmancy.particle.Soul3ParticleOptions;
+import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.datagen.MultiblockProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookMultiblockPageModel;

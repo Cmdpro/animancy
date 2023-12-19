@@ -5,6 +5,8 @@ import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
+import com.verdantartifice.primalmagick.common.config.Config;
+import com.verdantartifice.primalmagick.common.wands.IWand;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +30,13 @@ public class ModHud {
         int ypos = 3;
         if (ModList.get().isLoaded("magicaladventure")) {
             ypos += 15;
+        }
+        if (ModList.get().isLoaded("primalmagick")) {
+            if (!minecraft.options.hideGui && !minecraft.player.isSpectator() && Config.SHOW_WAND_HUD.get()) {
+                if (minecraft.player.getMainHandItem().getItem() instanceof IWand || minecraft.player.getOffhandItem().getItem() instanceof IWand) {
+                    xpos += 60;
+                }
+            }
         }
 
         guiGraphics.blit(soulmeterbg, xpos, ypos, 0, 0, 64, 24, 64, 24);

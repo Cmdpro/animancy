@@ -34,6 +34,7 @@ public class Soul2Particle extends TextureSheetParticle {
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 1f;
+        this.alpha = 1f;
         this.hasPhysics = false;
     }
 
@@ -59,31 +60,9 @@ public class Soul2Particle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return SOULRENDER;
+        return SoulParticle.SOULRENDER;
     }
 
-    static final ParticleRenderType SOULRENDER = new ParticleRenderType() {
-        @Override
-        public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
-            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-            RenderSystem.enableBlend();
-            RenderSystem.enableCull();
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableDepthTest();
-            RenderSystem.depthMask(false);
-            pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-        }
-
-        @Override
-        public String toString() {
-            return "spiritmancy:soulrender";
-        }
-    };
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;

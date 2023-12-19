@@ -12,10 +12,12 @@ import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -50,26 +52,27 @@ public class ShapedLockedRecipe extends ShapedRecipe {
 
     @Override
     public ItemStack assemble(CraftingContainer pContainer, RegistryAccess pRegistryAccess) {
+        Player player = null;
         if (EffectiveSide.get().isServer()) {
-            ServerPlayer player = null;
-            for(ServerPlayer i : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                if(i.containerMenu == ((TransientCraftingContainer)pContainer).menu && pContainer.stillValid(i)) {
-                    if(player != null) {
+            for (ServerPlayer i : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+                if (i.containerMenu == ((TransientCraftingContainer) pContainer).menu && pContainer.stillValid(i)) {
+                    if (player != null) {
                         return ItemStack.EMPTY;
                     }
                     player = i;
                 }
             }
-            if (playerHasNeededEntry(player)) {
-                return recipe.assemble(pContainer, pRegistryAccess);
-            } else {
-                return ItemStack.EMPTY;
-            }
+        } else {
+            player = Minecraft.getInstance().player;
         }
-        return ItemStack.EMPTY;
+        if (playerHasNeededEntry(player)) {
+            return recipe.assemble(pContainer, pRegistryAccess);
+        } else {
+            return ItemStack.EMPTY;
+        }
     }
 
-    public boolean playerHasNeededEntry(ServerPlayer player) {
+    public boolean playerHasNeededEntry(Player player) {
         ConcurrentMap<ResourceLocation, Set<ResourceLocation>> entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).unlockedEntries;
         if (mustRead) {
             entries = BookUnlockStateManager.get().saveData.getUnlockStates(player.getUUID()).readEntries;
