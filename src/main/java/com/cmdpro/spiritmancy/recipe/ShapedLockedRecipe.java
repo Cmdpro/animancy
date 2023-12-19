@@ -50,23 +50,20 @@ public class ShapedLockedRecipe extends ShapedRecipe {
 
     @Override
     public ItemStack assemble(CraftingContainer pContainer, RegistryAccess pRegistryAccess) {
-        if (EffectiveSide.get().isServer()) {
-            ServerPlayer player = null;
-            for(ServerPlayer i : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                if(i.containerMenu == ((TransientCraftingContainer)pContainer).menu && pContainer.stillValid(i)) {
-                    if(player != null) {
-                        return ItemStack.EMPTY;
-                    }
-                    player = i;
+        ServerPlayer player = null;
+        for(ServerPlayer i : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+            if(i.containerMenu == ((TransientCraftingContainer)pContainer).menu && pContainer.stillValid(i)) {
+                if(player != null) {
+                    return ItemStack.EMPTY;
                 }
-            }
-            if (playerHasNeededEntry(player)) {
-                return recipe.assemble(pContainer, pRegistryAccess);
-            } else {
-                return ItemStack.EMPTY;
+                player = i;
             }
         }
-        return ItemStack.EMPTY;
+        if (playerHasNeededEntry(player)) {
+            return recipe.assemble(pContainer, pRegistryAccess);
+        } else {
+            return ItemStack.EMPTY;
+        }
     }
 
     public boolean playerHasNeededEntry(ServerPlayer player) {

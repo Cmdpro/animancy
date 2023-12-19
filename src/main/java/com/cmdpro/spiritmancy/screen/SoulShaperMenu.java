@@ -215,10 +215,6 @@ public class SoulShaperMenu extends AbstractContainerMenu {
             this.recipes.sort(Comparator.comparing(SoulShaperRecipe::getId));
             this.recipes.removeIf((i) -> !playerHasNeededEntry(player, i));
         }
-        Spiritmancy.LOGGER.info(recipes.size() + "");
-        for (SoulShaperRecipe i : recipes) {
-            Spiritmancy.LOGGER.info(i.getId().toString());
-        }
     }
 
     void setupResultSlot() {

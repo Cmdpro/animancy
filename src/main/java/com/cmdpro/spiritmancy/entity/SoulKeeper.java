@@ -75,7 +75,6 @@ public class SoulKeeper extends Monster implements GeoEntity {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 500.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0f)
-                .add(Attributes.ATTACK_SPEED, 2f)
                 .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
     }
     @Override
@@ -114,6 +113,9 @@ public class SoulKeeper extends Monster implements GeoEntity {
         super.stopSeenByPlayer(p_31488_);
         this.bossEvent.removePlayer(p_31488_);
     }
+
+    @Override
+    public void swing(InteractionHand pHand, boolean pUpdateSelf) {}
 
     public int atkTimer;
     public int atk;
