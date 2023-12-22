@@ -236,7 +236,7 @@
     },
     "b":  {
       "type": "modonomicon:blockstate",
-      "block": "minecraft:white_candle[lit=true,candles=1]"
+      "block": "minecraft:candle[lit=true,candles=1]"
     },
     "c":  {
       "type": "modonomicon:block",

@@ -28,11 +28,6 @@ public class SpiritmanyCommands {
                                 })
                         )
                 )
-                .then(Commands.literal("spawnsoulkeeper")
-                    .executes((command) -> {
-                        return spawnsoulkeeper(command);
-                    })
-                )
                 .then(Commands.literal("setknowledge")
                         .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                 .executes((command) -> {
@@ -63,10 +58,6 @@ public class SpiritmanyCommands {
                 BookUnlockStateManager.get().updateAndSyncFor((ServerPlayer)player);
             });
         }
-        return Command.SINGLE_SUCCESS;
-    }
-    private static int spawnsoulkeeper(CommandContext<CommandSourceStack> command) {
-        SpiritmancyUtil.spawnSoulKeeper(command.getSource().getPosition(), command.getSource().getLevel());
         return Command.SINGLE_SUCCESS;
     }
     private static int setsouls(CommandContext<CommandSourceStack> command){
