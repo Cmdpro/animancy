@@ -75,7 +75,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
         return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 500.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.3f).build();
     }
     @Override
     public void setCustomName(@Nullable Component p_31476_) {
@@ -124,7 +124,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
         super.customServerAiStep();
         if (spawnAnimTimer < 200) {
             atkTimer += 1;
-            if (atkTimer >= 250) {
+            if (atkTimer >= 100) {
                 atkTimer = 0;
                 atk = random.nextInt(0, 2);
                 if (revivalPhaseTimer > 200) {
