@@ -250,6 +250,12 @@
       "type": "modonomicon:predicate",
       "predicate": "spiritmancy:airorfire",
       "display": "minecraft:air"
+    },
+    " ": {
+      "type": "modonomicon:predicate",
+      "predicate": "spiritmancy:empty",
+      "display": "minecraft:air",
+      "counts_towards_total_blocks": false
     }
   }
 }

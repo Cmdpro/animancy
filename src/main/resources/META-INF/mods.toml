@@ -71,7 +71,7 @@ A magic mod about manipulating souls
 [[dependencies.spiritmancy]]
     modId="modonomicon"
     mandatory=true
-    versionRange="[1.38.5,)"
+    versionRange="[1.43.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.spiritmancy]]
