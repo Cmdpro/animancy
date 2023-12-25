@@ -60,7 +60,7 @@ public class ClientModEvents {
     }
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-        EntityRenderers.register(EntityInit.SPELLPROJECTILE.get(), BillboardProjectileRenderer::new);
+        EntityRenderers.register(EntityInit.SPELLPROJECTILE.get(), SpellProjectileRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SPIRITTANK.get(), SpiritTankRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULPOINT.get(), SoulPointRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.SOULALTAR.get(), SoulAltarRenderer::new);
