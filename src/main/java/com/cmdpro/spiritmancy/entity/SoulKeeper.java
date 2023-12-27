@@ -122,7 +122,29 @@ public class SoulKeeper extends Monster implements GeoEntity {
     @Override
     public void customServerAiStep() {
         super.customServerAiStep();
-        if (spawnAnimTimer < 200) {
+        boolean canAtk = true;
+        if (ritualPos != null) {
+            boolean anyPlayers = false;
+            for (Player i : level().players()) {
+                if (ritualPos.distanceTo(i.position()) <= 10) {
+                    anyPlayers = true;
+                }
+            }
+            if (!anyPlayers) {
+                canAtk = false;
+            }
+            Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
+            if (
+                    !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
+                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
+                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_180) &&
+                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.COUNTERCLOCKWISE_90)) {
+                canAtk = false;
+            }
+        } else {
+            canAtk = false;
+        }
+        if (spawnAnimTimer < 200 && canAtk) {
             atkTimer += 1;
             if (atkTimer >= 100) {
                 atkTimer = 0;
