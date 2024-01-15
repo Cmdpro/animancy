@@ -19,6 +19,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -28,6 +30,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ShapelessLockedRecipe extends ShapelessRecipe {
     private final ShapelessRecipe recipe;
@@ -58,8 +61,11 @@ public class ShapelessLockedRecipe extends ShapelessRecipe {
                     player = i;
                 }
             }
-        } else {
-            player = Minecraft.getInstance().player;
+        }
+        if (EffectiveSide.get().isClient()) {
+            player = DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> () -> {
+                return Minecraft.getInstance().player;
+            });
         }
         if (playerHasNeededEntry(player)) {
             return recipe.assemble(pContainer, pRegistryAccess);

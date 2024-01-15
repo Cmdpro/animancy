@@ -1,0 +1,4 @@
+Fixed the Spiritus Libri recipe
+Fixed the required entry for crafting the Soulcaster's Table
+Removed some text leftover from development in the Soul Ritual entry
+Fixed the mod crashing servers

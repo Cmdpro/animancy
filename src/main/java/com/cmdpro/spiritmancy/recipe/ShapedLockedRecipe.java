@@ -11,6 +11,7 @@ import com.klikli_dev.modonomicon.apiimpl.ModonomiconAPIImpl;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
@@ -23,6 +24,9 @@ import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -62,8 +66,11 @@ public class ShapedLockedRecipe extends ShapedRecipe {
                     player = i;
                 }
             }
-        } else {
-            player = Minecraft.getInstance().player;
+        }
+        if (EffectiveSide.get().isClient()) {
+            player = DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> () -> {
+                return Minecraft.getInstance().player;
+            });
         }
         if (playerHasNeededEntry(player)) {
             return recipe.assemble(pContainer, pRegistryAccess);

@@ -1,7 +1,7 @@
 {
   "type": "spiritmancy:shapedlockedrecipe",
   "locked": true,
-  "entry": "spiritmancy:basics/soulmetaldagger",
+  "entry": "spiritmancy:soulcasting/soulcasterstable",
   "pattern": [
     "aaa",
     "a a",

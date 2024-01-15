@@ -14,10 +14,6 @@
       "type": "spiritmancy:altar_recipe",
       "recipe_id_1": "spiritmancy:echosoil",
       "text": "book.spiritmancy.spiritmancyguide.arcane.soulritual.page2.text"
-    },
-    {
-      "type": "modonomicon:text",
-      "text": "book.spiritmancy.spiritmancyguide.arcane.soulritual.page3.text"
     }
   ],
   "condition": {

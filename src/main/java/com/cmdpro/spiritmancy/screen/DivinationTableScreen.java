@@ -28,7 +28,7 @@ public class DivinationTableScreen extends AbstractContainerScreen<DivinationTab
         if (menu.getScaledProgress() > 0) {
             pGuiGraphics.blit(TEXTURE, x + 8, y + 23 + (42 - menu.getScaledProgress()), 176, (42 - menu.getScaledProgress()), 12, menu.getScaledProgress());
         }
-        if (menu.blockEntity.getSouls() < 5) {
+        if (menu.blockEntity.getSouls() < 2) {
             pGuiGraphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("block.spiritmancy.divinationtable.notenoughsouls"), x + (imageWidth / 2), y + 38, 0xFF0000);
         }
     }
