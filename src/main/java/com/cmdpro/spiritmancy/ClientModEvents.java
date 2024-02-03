@@ -32,11 +32,13 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -48,6 +50,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosCapability;
 
 import java.util.List;
 
@@ -140,6 +144,39 @@ public class ClientModEvents {
         MenuScreens.register(MenuInit.DIVINATIONTABLE_MENU.get(), DivinationTableScreen::new);
         EntityRenderers.register(EntityInit.SOULKEEPER.get(), SoulKeeperRenderer::new);
         EntityRenderers.register(EntityInit.SOULRITUALCONTROLLER.get(), SoulRitualControllerRenderer::new);
+        SpiritmancyUtil.VIEW_SOUL_METER_PREDICATES.add((player) -> {
+            if (player.getMainHandItem().is(TagInit.Items.WANDS) || player.getOffhandItem().is(TagInit.Items.WANDS)) {
+                return true;
+            }
+            return false;
+        });
+        SpiritmancyUtil.VIEW_SOUL_METER_PREDICATES.add((player) -> {
+            if (player.getMainHandItem().is(TagInit.Items.SOULDAGGERS) || player.getOffhandItem().is(TagInit.Items.SOULDAGGERS)) {
+                return true;
+            }
+            return false;
+        });
+        SpiritmancyUtil.VIEW_SOUL_METER_PREDICATES.add((player) -> {
+            double d0 = (double)Minecraft.getInstance().gameMode.getPickRange();
+            double entityReach = player.getEntityReach();
+            if (player.pick(Math.max(d0, entityReach), 1, false) instanceof BlockHitResult result) {
+                if (player.level().getBlockState(result.getBlockPos()).is(TagInit.Blocks.SHOWSOULMETERBLOCKS)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+        SpiritmancyUtil.VIEW_SOUL_METER_PREDICATES.add((player) -> {
+            var inv = CuriosApi.getCuriosInventory(player).resolve();
+            if (inv.isPresent()) {
+                if (inv.get().findFirstCurio((item) -> {
+                    return item.is(TagInit.Items.SOULCURIOS);
+                }).isPresent()) {
+                    return true;
+                }
+            }
+            return false;
+        });
         PageRendererRegistry.registerPageRenderer(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, p -> new BookAltarRecipePageRenderer((BookAltarRecipePage) p));
     }
     @SubscribeEvent
