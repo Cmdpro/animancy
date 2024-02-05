@@ -1,4 +1,2 @@
-Fixed the Spiritus Libri recipe
-Fixed the required entry for crafting the Soulcaster's Table
-Removed some text leftover from development in the Soul Ritual entry
-Fixed the mod crashing servers
+Made the Soul Altar not void items when it doesn't accept them
+Added some config options

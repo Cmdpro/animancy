@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.entity.SoulKeeper;
 import com.cmdpro.spiritmancy.init.SoundInit;
 import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
@@ -37,7 +38,7 @@ public class ClientEvents {
     {
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.keyJump.isDown()) {
-            if (ClientPlayerData.getCanDoubleJump() && !Minecraft.getInstance().player.onGround() && !jumpJustDown && ClientPlayerData.getPlayerSouls() >= 2) {
+            if (ClientPlayerData.getCanDoubleJump() && !Minecraft.getInstance().player.onGround() && !jumpJustDown && ClientPlayerData.getPlayerSouls() >= ((float) SpiritmancyConfig.soulBoosterSoulCost)) {
                 ModMessages.sendToServer(new PlayerDoubleJumpC2SPacket());
                 mc.player.setDeltaMovement(mc.player.getDeltaMovement().x, 0.5, mc.player.getDeltaMovement().z);
             }

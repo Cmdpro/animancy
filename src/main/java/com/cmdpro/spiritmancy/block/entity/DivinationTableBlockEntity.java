@@ -3,6 +3,7 @@ package com.cmdpro.spiritmancy.block.entity;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.ISoulContainer;
 import com.cmdpro.spiritmancy.api.SoulGem;
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
 import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ParticleInit;
@@ -239,10 +240,10 @@ public class DivinationTableBlockEntity extends BlockEntity implements MenuProvi
             }
             pBlockEntity.maxProgress = maxProgress;
             ItemStack stack2 = pBlockEntity.itemHandler.getStackInSlot(0);
-            if (!items.contains(stack2.getDescriptionId()) && !stack2.isEmpty() && pBlockEntity.souls >= 2 && !stack.isEmpty()) {
+            if (!items.contains(stack2.getDescriptionId()) && !stack2.isEmpty() && pBlockEntity.souls >= ((float)SpiritmancyConfig.divinationTableSoulCost) && !stack.isEmpty()) {
                 items.add(stack2.getDescriptionId());
                 pBlockEntity.itemHandler.extractItem(0, 1, false);
-                pBlockEntity.souls -= 2;
+                pBlockEntity.souls -= ((float) SpiritmancyConfig.divinationTableSoulCost);
             }
             if (progress >= maxProgress) {
                 if (stack.getItem() instanceof SoulGem gem && hasNotReachedStackLimit(pBlockEntity)) {

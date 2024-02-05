@@ -107,9 +107,9 @@ public class ModEvents {
             player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
                 if (data.findFirstCurio(ItemInit.SOULBARRIER.get()).isPresent()) {
                     player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data2) -> {
-                        if (data2.getSouls() > 0) {
-                            event.setAmount(event.getAmount()*0.9f);
-                            data2.setSouls(data2.getSouls()-1);
+                        if (data2.getSouls() > ((float)SpiritmancyConfig.soulBarrierSoulCost)) {
+                            event.setAmount(event.getAmount()*((float)SpiritmancyConfig.soulBarrierDamageMultiplier));
+                            data2.setSouls(data2.getSouls()-((float)SpiritmancyConfig.soulBarrierSoulCost));
                         }
                     });
                 }
@@ -254,9 +254,15 @@ public class ModEvents {
                 player.getCapability(CuriosCapability.INVENTORY).ifPresent((data) -> {
                     if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get()) || player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get()) || data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
                         player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data2 -> {
-                            float amount = Math.floor(event.getEntity().getMaxHealth() / 10) + 1;
+                            float amount = Math.floor(event.getEntity().getMaxHealth() / ((float) SpiritmancyConfig.baseHealthPerSoul)) + 1;
+                            if (data.findFirstCurio(ItemInit.SOULORB.get()).isPresent()) {
+                                amount *= ((float)SpiritmancyConfig.soulOrbSoulMultiplier);
+                            }
+                            if (player.getMainHandItem().is(ItemInit.SOULMETALDAGGER.get())) {
+                                amount *= ((float)SpiritmancyConfig.soulmetalDaggerSoulMultiplier);
+                            }
                             if (player.getMainHandItem().is(ItemInit.PURGATORYDAGGER.get())) {
-                                amount *= 2;
+                                amount *= ((float)SpiritmancyConfig.purgatoryDaggerSoulMultiplier);
                             }
                             if (!data.findFirstCurio(ItemInit.SOULTRANSFORMER.get()).isPresent()) {
                                 data2.setSouls(data2.getSouls() + amount);
@@ -264,7 +270,7 @@ public class ModEvents {
                                     data2.setSouls(PlayerModData.getMaxSouls(player));
                                 }
                             } else {
-                                amount /= 4;
+                                amount *= ((float) SpiritmancyConfig.soulTransformerHealthPerSoul);
                                 player.heal(amount);
                             }
                             Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID());

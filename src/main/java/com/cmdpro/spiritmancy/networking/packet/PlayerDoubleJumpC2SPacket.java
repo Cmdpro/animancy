@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy.networking.packet;
 
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.integration.bookconditions.BookAncientKnowledgeCondition;
 import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
@@ -35,8 +36,8 @@ public class PlayerDoubleJumpC2SPacket {
         context.enqueueWork(() -> {
             context.getSender().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data) -> {
                 data.setCanDoubleJump(false);
-                if (data.getSouls() >= 2) {
-                    data.setSouls(data.getSouls() - 2);
+                if (data.getSouls() >= ((float) SpiritmancyConfig.soulBoosterSoulCost)) {
+                    data.setSouls(data.getSouls() - ((float) SpiritmancyConfig.soulBoosterSoulCost));
                 }
                 context.getSender().level().playSound(null, context.getSender().position().x, context.getSender().position().y, context.getSender().position().z, SoundEvents.SOUL_ESCAPE, SoundSource.PLAYERS, 2, 1);
             });

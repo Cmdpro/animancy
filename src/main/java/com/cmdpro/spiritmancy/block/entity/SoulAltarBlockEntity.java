@@ -2,7 +2,9 @@ package com.cmdpro.spiritmancy.block.entity;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.ISoulContainer;
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
+import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ParticleInit;
 import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
 import net.minecraft.core.BlockPos;
@@ -115,7 +117,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                     } else {
                         if (altar.craftProgress == 0) {
                             ItemStack stack = pPlayer.getItemInHand(pHand).copy();
-                            if (stack.getCount() > 0) {
+                            if (stack.getCount() > 0 && stack.is(ItemInit.SOULFOCUS.get())) {
                                 stack.setCount(1);
                                 pPlayer.getItemInHand(pHand).shrink(1);
                                 altar.focusItemHandler.setStackInSlot(0, stack);
@@ -205,7 +207,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                 } else {
                     pBlockEntity.item = match.get().getIngredients().get(pBlockEntity.craftProgress-1).getItems()[0];
                     if (pBlockEntity.getSouls() > 0) {
-                        pBlockEntity.setSouls(pBlockEntity.getSouls() - 0.1f);
+                        pBlockEntity.setSouls(pBlockEntity.getSouls() - ((float)SpiritmancyConfig.soulAltarSoulDrain));
                     } else {
                         pBlockEntity.explosionTimer++;
                         ((ServerLevel)pLevel).sendParticles(ParticleInit.SOUL.get(), (float)pPos.getX()+0.5f, (float)pPos.getY()+0.5f, (float)pPos.getZ()+0.5f, 25, 0, 0, 0, 0.75f);

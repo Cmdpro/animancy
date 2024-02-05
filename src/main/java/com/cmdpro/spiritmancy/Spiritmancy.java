@@ -82,6 +82,8 @@ public class Spiritmancy
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
 
+        modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
+
         ItemInit.ITEMS.register(bus);
         BlockInit.BLOCKS.register(bus);
         BlockEntityInit.BLOCK_ENTITIES.register(bus);
@@ -98,7 +100,6 @@ public class Spiritmancy
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
         random = RandomSource.create();
-        //modLoadingContext.registerConfig(ModConfig.Type.COMMON, SpiritmancyConfig.COMMON_SPEC, "spiritmancy.toml");
 
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
         LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "ancientknowledge"), BookAncientKnowledgeCondition::fromJson, BookAncientKnowledgeCondition::fromNetwork);

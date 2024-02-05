@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.screen;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -28,7 +29,7 @@ public class DivinationTableScreen extends AbstractContainerScreen<DivinationTab
         if (menu.getScaledProgress() > 0) {
             pGuiGraphics.blit(TEXTURE, x + 8, y + 23 + (42 - menu.getScaledProgress()), 176, (42 - menu.getScaledProgress()), 12, menu.getScaledProgress());
         }
-        if (menu.blockEntity.getSouls() < 2) {
+        if (menu.blockEntity.getSouls() < ((float) SpiritmancyConfig.divinationTableSoulCost)) {
             pGuiGraphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("block.spiritmancy.divinationtable.notenoughsouls"), x + (imageWidth / 2), y + 38, 0xFF0000);
         }
     }
