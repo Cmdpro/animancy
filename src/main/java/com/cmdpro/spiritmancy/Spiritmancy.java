@@ -1,5 +1,14 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
+import com.cmdpro.spiritmancy.block.DivinationTable;
+import com.cmdpro.spiritmancy.block.SoulAltar;
+import com.cmdpro.spiritmancy.block.SoulPoint;
+import com.cmdpro.spiritmancy.block.SpiritTank;
+import com.cmdpro.spiritmancy.block.entity.DivinationTableBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;

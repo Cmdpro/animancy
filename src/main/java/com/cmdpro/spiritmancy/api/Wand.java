@@ -23,8 +23,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,48 +40,58 @@ public class Wand extends Item {
         this.castCostMultiplier = castCostMultiplier;
     }
 
+    public String formatNumber(float val) {
+        DecimalFormat format = new DecimalFormat("0.0#");
+        String num = format.format(val);
+        return num;
+    }
     public float getCastCostMultiplier(Player player, ItemStack stack) {
         return castCostMultiplier;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        if (pStack.hasTag()) {
-            if (pStack.getTag().contains("types")) {
-                ListTag types = (ListTag) pStack.getTag().get("types");
-                types.forEach((i) -> {
-                    CompoundTag i2 = (CompoundTag) i;
-                    String id = i2.getString("id");
-                    pTooltipComponents.add(Component.translatable("object.soulcastereffect." + id.replace(":", ".")).withStyle(ChatFormatting.GRAY));
-                });
-            }
-            if (pStack.getTag().contains("amplifier")) {
-                pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.amplifier", pStack.getTag().getInt("amplifier")).withStyle(ChatFormatting.GRAY));
-            }
+        Player player = null;
+        player = DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            return Minecraft.getInstance().player;
+        });
+        if (player != null) {
             if (pStack.hasTag()) {
                 if (pStack.getTag().contains("types")) {
                     ListTag types = (ListTag) pStack.getTag().get("types");
-                    int soulCost = 0;
-                    List<SoulcasterEffect> effects = new ArrayList<>();
-                    for (Tag i : types) {
-                        int times = 1;
-                        if (pStack.getTag().contains("amplifier")) {
-                            times = pStack.getTag().getInt("amplifier");
-                        }
+                    types.forEach((i) -> {
                         CompoundTag i2 = (CompoundTag) i;
-                        SoulcasterEffect effect = SpiritmancyUtil.SOULCASTER_EFFECTS_REGISTRY.get().getValue(ResourceLocation.of(i2.getString("id"), ':'));
-                        for (int o = 0; o < times; o++) {
-                            soulCost += effect.soulCost;
-                            effects.add(effect);
+                        String id = i2.getString("id");
+                        pTooltipComponents.add(Component.translatable("object.soulcastereffect." + id.replace(":", ".")).withStyle(ChatFormatting.GRAY));
+                    });
+                }
+                if (pStack.getTag().contains("amplifier")) {
+                    pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.amplifier", pStack.getTag().getInt("amplifier")).withStyle(ChatFormatting.GRAY));
+                }
+                if (pStack.hasTag()) {
+                    if (pStack.getTag().contains("types")) {
+                        ListTag types = (ListTag) pStack.getTag().get("types");
+                        int soulCost = 0;
+                        List<SoulcasterEffect> effects = new ArrayList<>();
+                        for (Tag i : types) {
+                            int times = 1;
+                            if (pStack.getTag().contains("amplifier")) {
+                                times = pStack.getTag().getInt("amplifier");
+                            }
+                            CompoundTag i2 = (CompoundTag) i;
+                            SoulcasterEffect effect = SpiritmancyUtil.SOULCASTER_EFFECTS_REGISTRY.get().getValue(ResourceLocation.of(i2.getString("id"), ':'));
+                            for (int o = 0; o < times; o++) {
+                                soulCost += effect.soulCost;
+                                effects.add(effect);
+                            }
                         }
+                        pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.cost", formatNumber(soulCost)).withStyle(ChatFormatting.AQUA));
                     }
-                    pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.cost", soulCost).withStyle(ChatFormatting.AQUA));
                 }
             }
+            pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.costmultiplier", formatNumber(getCastCostMultiplier(player, pStack))).withStyle(ChatFormatting.GRAY));
         }
-        pTooltipComponents.add(Component.translatable("item.spiritmancy.wand.costmultiplier", getCastCostMultiplier(Minecraft.getInstance().player, pStack)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

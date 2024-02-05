@@ -1,5 +1,9 @@
 package com.cmdpro.spiritmancy.api;
 
+import com.cmdpro.spiritmancy.block.entity.DivinationTableBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
+import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import com.cmdpro.spiritmancy.entity.SoulKeeper;
 import com.cmdpro.spiritmancy.init.EntityInit;
 import com.cmdpro.spiritmancy.init.SoulcasterEffectInit;
@@ -10,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;

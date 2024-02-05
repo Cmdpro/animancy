@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -41,6 +43,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -59,12 +62,29 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
     private float souls;
     public int craftProgress;
 
-    private final ItemStackHandler focusItemHandler = new ItemStackHandler(1) {
+    private final ItemStackHandler focusItemHandler = new ItemStackHandler(10) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
         }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            if (slot == 0) {
+                return stack.is(ItemInit.SOULFOCUS.get());
+            }
+            return super.isItemValid(slot, stack);
+        }
     };
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return lazyFocusHandler.cast();
+        }
+        return super.getCapability(cap);
+    }
+
     @Override
     public void onLoad() {
         super.onLoad();
@@ -113,6 +133,12 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                     if (pPlayer.isShiftKeyDown()) {
                         altar.craftProgress = 0;
                         altar.focusItemHandler.extractItem(0, 1, false);
+                        Vec3 pos = pPos.offset(0, 1, 0).getCenter();
+                        for (int i = 1; i < 10; i++) {
+                            ItemEntity item = new ItemEntity(pLevel, pos.x, pos.y, pos.z, altar.focusItemHandler.getStackInSlot(i));
+                            pLevel.addFreshEntity(item);
+                            altar.focusItemHandler.extractItem(i, 1, false);
+                        }
                         altar.item = ItemStack.EMPTY;
                     } else {
                         if (altar.craftProgress == 0) {
@@ -125,6 +151,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                             }
                         } else {
                             if (altar.item.is(pPlayer.getItemInHand(pHand).getItem())) {
+                                ItemStack stack = pPlayer.getItemInHand(pHand).copy();
+                                stack.setCount(1);
+                                altar.focusItemHandler.setStackInSlot(altar.craftProgress, stack);
                                 pPlayer.getItemInHand(pHand).shrink(1);
                                 altar.craftProgress++;
                                 pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
@@ -203,6 +232,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                     pBlockEntity.item = ItemStack.EMPTY;
                     pBlockEntity.craftProgress = 0;
                     pBlockEntity.focusItemHandler.extractItem(0, 1, false);
+                    for (int i = 1; i < 10; i++) {
+                        pBlockEntity.focusItemHandler.extractItem(i, 1, false);
+                    }
                     pBlockEntity.explosionTimer = 0;
                 } else {
                     pBlockEntity.item = match.get().getIngredients().get(pBlockEntity.craftProgress-1).getItems()[0];
@@ -222,11 +254,17 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
                                 p.hurt(pLevel.damageSources().source(Spiritmancy.soulExplosion), 10);
                             }
                             pBlockEntity.item = ItemStack.EMPTY;
+                            for (int i = 1; i < 10; i++) {
+                                pBlockEntity.focusItemHandler.extractItem(i, 1, false);
+                            }
                         }
                     }
                 }
             } else if (!focusSlot.is(ItemStack.EMPTY.getItem())) {
                 pBlockEntity.focusItemHandler.extractItem(0, 1, false);
+                for (int i = 1; i < 10; i++) {
+                    pBlockEntity.focusItemHandler.extractItem(i, 1, false);
+                }
                 pBlockEntity.craftProgress = 0;
                 pLevel.playSound(null, pPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 2, 1);
             }

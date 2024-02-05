@@ -74,6 +74,9 @@
   "block.spiritmancy.divinationtable": "Divination Table",
   "block.spiritmancy.divinationtable.notenoughsouls": "Not enough souls",
 
+  "spiritmancy.souls": "Souls: %1$s/%2$s",
+  "config.jade.plugin_spiritmancy.blockprovider": "Spiritmancy Block Provider",
+
   "attribute.spiritmancy.maxsouls": "Max Souls",
 
   "curios.identifier.spiritmancertrinket": "Spiritmancer Trinket",
