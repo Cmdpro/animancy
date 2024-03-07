@@ -71,12 +71,12 @@ public class SpiritTank extends BaseEntityBlock {
                 pPlayer.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
                     SpiritTankBlockEntity tank = (SpiritTankBlockEntity) entity;
                     if (pPlayer.isShiftKeyDown()) {
-                        if (tank.getSouls() > 0 && data.getSouls() < PlayerModData.getMaxSouls(pPlayer)) {
+                        if (tank.getSouls() >= 1 && data.getSouls() < PlayerModData.getMaxSouls(pPlayer)) {
                             tank.setSouls(tank.getSouls() - 1);
                             data.setSouls(data.getSouls()+1);
                         }
                     } else {
-                        if (tank.getSouls() < tank.getMaxSouls() && data.getSouls() > 0) {
+                        if (tank.getSouls() < tank.getMaxSouls() && data.getSouls() >= 1) {
                             tank.setSouls(tank.getSouls() + 1);
                             data.setSouls(data.getSouls()-1);
                         }

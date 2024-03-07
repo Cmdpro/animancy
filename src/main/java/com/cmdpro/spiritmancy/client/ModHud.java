@@ -49,7 +49,7 @@ public class ModHud {
             }
 
             guiGraphics.blit(soulmeterbg, xpos, ypos, 0, 0, 64, 24, 64, 24);
-            float w = (26 * 2) * (Math.clamp(0f, 1f, souls / maxsouls));
+            float w = (26 * 2) * (Math.clamp(0f, 1f, Math.floor(souls) / Math.floor(maxsouls)));
             guiGraphics.blit(soulmeter, xpos + 6, ypos, 0, 0, (int) w, 24, 52, 24);
             int textx = xpos + 32;
             int texty = ypos + 8;

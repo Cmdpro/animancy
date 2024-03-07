@@ -1,5 +1,1 @@
-Made the Soul Altar not void items when it doesn't accept them
-Added some config options
-Made it so shift right clicking the soul altar will cancel the recipe and return the items
-Added jade support
-Fixed a small bug where an absurdly long number would show up with the lapis wand
+Fixed the mod version
