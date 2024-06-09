@@ -15,8 +15,8 @@ import java.util.function.Supplier;
 public class SoulTypeSyncS2CPacket {
     private final Map<ResourceLocation, SoulType> types;
 
-    public SoulTypeSyncS2CPacket(Map<ResourceLocation, SoulType> blocks) {
-        this.types = blocks;
+    public SoulTypeSyncS2CPacket(Map<ResourceLocation, SoulType> types) {
+        this.types = types;
     }
 
     public SoulTypeSyncS2CPacket(FriendlyByteBuf buf) {

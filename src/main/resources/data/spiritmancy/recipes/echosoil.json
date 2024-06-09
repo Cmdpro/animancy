@@ -8,7 +8,7 @@
       "item": "minecraft:echo_shard"
     }
   ],
-  "output": {
+  "result": {
     "item": "spiritmancy:echosoil",
     "count": 1
   }

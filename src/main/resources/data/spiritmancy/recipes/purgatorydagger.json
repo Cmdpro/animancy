@@ -12,7 +12,7 @@
       "item": "spiritmancy:purgatoryingot"
     }
   },
-  "output": {
+  "result": {
     "item": "spiritmancy:purgatorydagger",
     "count": 1
   }

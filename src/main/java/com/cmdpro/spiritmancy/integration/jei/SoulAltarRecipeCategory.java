@@ -14,7 +14,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -22,11 +21,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRecipe> {
+public class SoulAltarRecipeCategory implements IRecipeCategory<ISoulAltarRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(Spiritmancy.MOD_ID, "soulaltar");
     public final static ResourceLocation TEXTURE =
             new ResourceLocation(Spiritmancy.MOD_ID, "textures/gui/jeicrafting.png");
@@ -34,7 +32,7 @@ public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRe
     private final IDrawable icon;
     private final ICraftingGridHelper craftingGridHelper;
 
-    public RunicCraftingRecipeCategory(IGuiHelper guiHelper) {
+    public SoulAltarRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(TEXTURE, 0, 0, 116, 74);
         this.craftingGridHelper = guiHelper.createCraftingGridHelper();
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemInit.SOULALTARITEM.get()));
@@ -51,7 +49,6 @@ public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRe
         List<List<ItemStack>> inputs = recipe.getIngredients().stream().map(ingredient -> List.of(ingredient.getItems())).toList();
         this.craftingGridHelper.createAndSetInputs(builder, VanillaTypes.ITEM_STACK, inputs, width, height);
     }
-
     @Override
     public void draw(ISoulAltarRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         if (recipe.getSoulCost() != null) {
@@ -61,7 +58,7 @@ public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRe
                 SoulType type = SoulTypeManager.types.get(i.getKey());
                 if (type != null) {
                     guiGraphics.blit(type.icon, x, y, 0, 0, 16, 16);
-                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, i.getValue().toString(), x+9, y+9, 0xFFFFFFFF);
+                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, i.getValue().toString(), x+8, y+8, 0xFFFFFFFF);
                 }
                 x += 18;
             }
@@ -75,7 +72,7 @@ public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRe
 
     @Override
     public Component getTitle() {
-        return Component.translatable("block.runology.runicworkbench");
+        return Component.translatable("block.spiritmancy.soulaltar");
     }
 
     @Override
@@ -87,4 +84,5 @@ public class RunicCraftingRecipeCategory implements IRecipeCategory<ISoulAltarRe
     public IDrawable getIcon() {
         return icon;
     }
+
 }

@@ -30,7 +30,7 @@ public class JEIRunologyPlugin implements IModPlugin {
     public static final RecipeType SOULALTAR = RecipeType.create(Spiritmancy.MOD_ID, RecipeInit.SOULALTAR.getId().getPath(), ISoulAltarRecipe.class);
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new RunicCraftingRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new SoulAltarRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
     @Override
     public void registerRecipes(IRecipeRegistration registration) {

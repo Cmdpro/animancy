@@ -309,7 +309,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             int i = astring[0].length();
             int j = astring.length;
             NonNullList<Ingredient> nonnulllist = ShapedSoulAltarRecipe.dissolvePattern(astring, map, i, j);
-            ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+            ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
             boolean flag = GsonHelper.getAsBoolean(json, "show_notification", true);
             ResourceLocation advancement = ResourceLocation.tryParse(GsonHelper.getAsString(json, "advancement", ""));
             HashMap<ResourceLocation, Float> souls = new HashMap<>();

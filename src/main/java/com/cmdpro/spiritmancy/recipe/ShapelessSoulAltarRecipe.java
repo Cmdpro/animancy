@@ -128,7 +128,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             } else if (nonnulllist.size() > ShapedSoulAltarRecipe.MAX_WIDTH * ShapedSoulAltarRecipe.MAX_HEIGHT) {
                 throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is " + (ShapedSoulAltarRecipe.MAX_WIDTH * ShapedSoulAltarRecipe.MAX_HEIGHT));
             } else {
-                ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+                ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
                 return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, souls);
             }
         }
