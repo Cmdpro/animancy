@@ -27,7 +27,11 @@ public class ModMessages {
 
         INSTANCE = net;
 
-
+        net.messageBuilder(SoulTypeSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SoulTypeSyncS2CPacket::new)
+                .encoder(SoulTypeSyncS2CPacket::toBytes)
+                .consumerMainThread(SoulTypeSyncS2CPacket::handle)
+                .add();
     }
     public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);

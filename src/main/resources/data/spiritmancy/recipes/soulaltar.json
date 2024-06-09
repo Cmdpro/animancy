@@ -1,7 +1,5 @@
 {
-  "type": "spiritmancy:shapedlockedrecipe",
-  "locked": true,
-  "entry": "spiritmancy:basics/soulaltar",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     " a ",
     "AbA",

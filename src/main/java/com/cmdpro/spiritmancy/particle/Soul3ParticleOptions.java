@@ -1,7 +1,6 @@
 package com.cmdpro.spiritmancy.particle;
 
 import com.cmdpro.spiritmancy.init.ParticleInit;
-import com.klikli_dev.modonomicon.util.Codecs;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
@@ -16,8 +15,8 @@ import java.util.UUID;
 
 public class Soul3ParticleOptions implements ParticleOptions {
     public UUID player;
-    public Soul3ParticleOptions(UUID player) {
-        this.player = player;
+    public Soul3ParticleOptions(String player) {
+        this.player = UUID.fromString(player);
     }
     @Override
     public ParticleType<?> getType() {
@@ -29,19 +28,19 @@ public class Soul3ParticleOptions implements ParticleOptions {
         pBuffer.writeUUID(player);
     }
     public static final Codec<Soul3ParticleOptions> CODEC = RecordCodecBuilder.create((p_253370_) -> {
-        return p_253370_.group(Codecs.UUID.fieldOf("player").forGetter((p_253371_) -> {
-            return p_253371_.player;
+        return p_253370_.group(Codec.STRING.fieldOf("player").forGetter((p_253371_) -> {
+            return p_253371_.player.toString();
         })).apply(p_253370_, Soul3ParticleOptions::new);
     });
     public static final ParticleOptions.Deserializer<Soul3ParticleOptions> DESERIALIZER = new ParticleOptions.Deserializer<Soul3ParticleOptions>() {
         @Override
         public Soul3ParticleOptions fromCommand(ParticleType<Soul3ParticleOptions> options, StringReader reader) throws CommandSyntaxException {
-            UUID uuid = UUID.fromString(reader.readString());
+            String uuid = reader.readString();
             return new Soul3ParticleOptions(uuid);
         }
         @Override
         public Soul3ParticleOptions fromNetwork(ParticleType<Soul3ParticleOptions> options, FriendlyByteBuf buf) {
-            UUID uuid = buf.readUUID();
+            String uuid = buf.readUtf();
             return new Soul3ParticleOptions(uuid);
         }
     };

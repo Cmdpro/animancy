@@ -4,9 +4,6 @@ import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
-import com.klikli_dev.modonomicon.book.Book;
-import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -22,50 +19,5 @@ public class SpiritmanyCommands {
         dispatcher.register(Commands.literal(Spiritmancy.MOD_ID)
                 .requires(source -> source.hasPermission(4))
         );
-    }
-    private static int resetlearned(CommandContext<CommandSourceStack> command){
-        if(command.getSource().getEntity() instanceof Player) {
-            Player player = (Player) command.getSource().getEntity();
-            player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                data.getUnlocked().clear();
-                BookUnlockStateManager.get().resetFor((ServerPlayer)player, BookDataManager.get().getBook(new ResourceLocation("spiritmancy", "spiritmancyguide")));
-                BookUnlockStateManager.get().updateAndSyncFor((ServerPlayer)player);
-            });
-        }
-        return Command.SINGLE_SUCCESS;
-    }
-    private static int setsouls(CommandContext<CommandSourceStack> command){
-        if(command.getSource().getEntity() instanceof Player) {
-            Player player = (Player) command.getSource().getEntity();
-            player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                float souls = command.getArgument("amount", int.class);
-                if (PlayerModData.getMaxSouls(player) >= souls) {
-                    data.setSouls(souls);
-                } else {
-                    data.setSouls(PlayerModData.getMaxSouls(player));
-                }
-            });
-        }
-        return Command.SINGLE_SUCCESS;
-    }
-    private static int setknowledge(CommandContext<CommandSourceStack> command){
-        if(command.getSource().getEntity() instanceof Player) {
-            Player player = (Player) command.getSource().getEntity();
-            player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                int knowledge = command.getArgument("amount", int.class);
-                data.setKnowledge(knowledge);
-            });
-        }
-        return Command.SINGLE_SUCCESS;
-    }
-    private static int setancientknowledge(CommandContext<CommandSourceStack> command){
-        if(command.getSource().getEntity() instanceof Player) {
-            Player player = (Player) command.getSource().getEntity();
-            player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-                int knowledge = command.getArgument("amount", int.class);
-                data.setAncientKnowledge(knowledge);
-            });
-        }
-        return Command.SINGLE_SUCCESS;
     }
 }

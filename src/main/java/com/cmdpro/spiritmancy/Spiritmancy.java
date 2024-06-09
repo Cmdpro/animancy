@@ -2,9 +2,10 @@ package com.cmdpro.spiritmancy;
 
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.*;
+import com.cmdpro.spiritmancy.integration.PageSoulAltar;
+import com.cmdpro.spiritmancy.integration.PatchouliMultiblocks;
 import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.google.common.collect.ImmutableList;
-import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -27,17 +28,17 @@ import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
+import vazkii.patchouli.api.PatchouliAPI;
+import vazkii.patchouli.client.book.ClientBookRegistry;
 
 
+import javax.sound.midi.Patch;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -60,6 +61,8 @@ public class Spiritmancy
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        // Register the loadComplete method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
@@ -80,6 +83,11 @@ public class Spiritmancy
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
         random = RandomSource.create();
+    }
+
+    public void loadComplete(FMLLoadCompleteEvent event)
+    {
+        PatchouliMultiblocks.register();
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -106,8 +114,6 @@ public class Spiritmancy
         // some preinit code
         ModMessages.register();
         event.enqueueWork(ModCriteriaTriggers::register);
-        LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:airorfire"), (getter, pos, state) -> state.isAir() || state.is(Blocks.SOUL_FIRE) || state.is(Blocks.FIRE));
-        LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:empty"), (getter, pos, state) -> !state.isSolid());
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

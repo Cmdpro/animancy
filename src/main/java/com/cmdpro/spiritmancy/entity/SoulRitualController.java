@@ -2,8 +2,8 @@ package com.cmdpro.spiritmancy.entity;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
-import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
-import com.klikli_dev.modonomicon.data.MultiblockDataManager;
+import com.cmdpro.spiritmancy.init.ParticleInit;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -20,6 +20,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
+import org.apache.commons.lang3.RandomUtils;
+import vazkii.patchouli.api.IMultiblock;
+import vazkii.patchouli.api.PatchouliAPI;
 
 public class SoulRitualController extends Entity {
     public int time;
@@ -48,49 +51,41 @@ public class SoulRitualController extends Entity {
         level().playSound(null, pos.x, pos.y, pos.z, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1, 1);
     }
 
+    public boolean isRitualFine() {
+        IMultiblock ritual = PatchouliAPI.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
+        if (ritual != null) {
+            return ritual.validate(level(), blockPosition().below(), Rotation.NONE) &&
+                    ritual.validate(level(), blockPosition().below(), Rotation.CLOCKWISE_90) &&
+                    ritual.validate(level(), blockPosition().below(), Rotation.CLOCKWISE_180) &&
+                    ritual.validate(level(), blockPosition().below(), Rotation.COUNTERCLOCKWISE_90);
+        }
+        return false;
+    }
     @Override
     public void tick() {
+        time++;
         if (!level().isClientSide) {
-            Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
-            if (
-                    !ritual.validate(level(), blockPosition().below(), Rotation.NONE) &&
-                            !ritual.validate(level(), blockPosition().below(), Rotation.CLOCKWISE_90) &&
-                            !ritual.validate(level(), blockPosition().below(), Rotation.CLOCKWISE_180) &&
-                            !ritual.validate(level(), blockPosition().below(), Rotation.COUNTERCLOCKWISE_90)
-            ) {
+            if (!isRitualFine()) {
                 remove(RemovalReason.DISCARDED);
             }
-            time++;
             if (time == 20) {
                 Vec3 pos = blockPosition().getCenter().subtract(0, 0.5f, 0);
                 soulEffect(pos);
                 level().removeBlock(blockPosition(), false);
             }
-            if (time == 40) {
-                Vec3 pos = blockPosition().offset(4, 0, 0).getCenter().subtract(0, 0.5f, 0);
-                soulEffect(pos);
-                level().removeBlock(blockPosition().offset(4, 0, 0), false);
-            }
-            if (time == 60) {
-                Vec3 pos = blockPosition().offset(-4, 0, 0).getCenter().subtract(0, 0.5f, 0);
-                soulEffect(pos);
-                level().removeBlock(blockPosition().offset(-4, 0, 0), false);
-            }
-            if (time == 80) {
-                Vec3 pos = blockPosition().offset(0, 0, 4).getCenter().subtract(0, 0.5f, 0);
-                soulEffect(pos);
-                level().removeBlock(blockPosition().offset(0, 0, 4), false);
-            }
-            if (time == 100) {
-                Vec3 pos = blockPosition().offset(0, 0, -4).getCenter().subtract(0, 0.5f, 0);
-                soulEffect(pos);
-                level().removeBlock(blockPosition().offset(0, 0, -4), false);
-            }
-            if (time == 150) {
+            if (time == 50) {
                 SpiritmancyUtil.spawnSoulKeeper(blockPosition().getCenter().add(0, 4, 0), level());
             }
-            if (time >= 150) {
+            if (time >= 50) {
                 remove(RemovalReason.DISCARDED);
+            }
+        } else {
+            if (time >= 20) {
+                for (int i = 0; i < 5; i++) {
+                    Vec3 offset = new Vec3(RandomUtils.nextDouble(0, 1) - 0.5d, 0, RandomUtils.nextDouble(0, 1) - 0.5d);
+                    Vec3 pos = blockPosition().getCenter().subtract(0, 0.5f, 0).add(offset);
+                    level().addParticle(ParticleInit.SOUL.get(), pos.x+offset.x, pos.y, pos.z+offset.y, -offset.x / 4f, 1, -offset.z / 4f);
+                }
             }
         }
         super.tick();

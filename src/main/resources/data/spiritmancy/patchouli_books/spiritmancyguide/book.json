@@ -1,0 +1,9 @@
+{
+  "name": "item.spiritmancy.spiritmancyguide.name",
+  "landing_text": "item.spiritmancy.spiritmancyguide.landing",
+  "model": "spiritmancy:spiritmancyguideicon",
+  "version": "50",
+  "creative_tab": "spiritmancy:spiritmancyitems",
+  "use_resource_pack": true,
+  "text_overflow_mode": "resize"
+}

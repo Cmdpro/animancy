@@ -1,8 +1,6 @@
 {
-  "type": "spiritmancy:soulaltar",
-  "locked": true,
-  "entry": "spiritmancy:arcane/soulritual",
-  "input": [
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
     {
       "item": "minecraft:soul_soil"
     },

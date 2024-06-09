@@ -1,8 +1,6 @@
 package com.cmdpro.spiritmancy.recipe;
 
 
-import com.cmdpro.runology.Runology;
-import com.cmdpro.runology.init.RecipeInit;
 import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.RecipeInit;
 import com.google.gson.JsonArray;
@@ -31,12 +29,12 @@ import java.util.Map;
 public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
     private final ResourceLocation id;
     private final ResourceLocation advancement;
-    private final Map<String, Float> souls;
+    private final Map<ResourceLocation, Float> souls;
     final ItemStack result;
     final NonNullList<Ingredient> ingredients;
     private final boolean isSimple;
 
-    public ShapelessSoulAltarRecipe(ResourceLocation id, ItemStack result, NonNullList<Ingredient> ingredients, ResourceLocation advancement, Map<String, Float> souls) {
+    public ShapelessSoulAltarRecipe(ResourceLocation id, ItemStack result, NonNullList<Ingredient> ingredients, ResourceLocation advancement, Map<ResourceLocation, Float> souls) {
         this.id = id;
         this.advancement = advancement;
         this.souls = souls;
@@ -108,7 +106,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
     }
 
     @Override
-    public Map<String, Float> getSoulCost() {
+    public Map<ResourceLocation, Float> getSoulCost() {
         return souls;
     }
 
@@ -120,9 +118,9 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
         @Override
         public ShapelessSoulAltarRecipe fromJson(ResourceLocation id, JsonObject json) {
             ResourceLocation advancement = ResourceLocation.tryParse(GsonHelper.getAsString(json, "advancement", ""));
-            HashMap<String, Float> souls = new HashMap<>();
+            HashMap<ResourceLocation, Float> souls = new HashMap<>();
             for (JsonElement i : GsonHelper.getAsJsonArray(json, "souls")) {
-                souls.put(GsonHelper.getAsString(i.getAsJsonObject(), "type"), GsonHelper.getAsFloat(i.getAsJsonObject(), "amount"));
+                souls.put(ResourceLocation.tryParse(GsonHelper.getAsString(i.getAsJsonObject(), "type")), GsonHelper.getAsFloat(i.getAsJsonObject(), "amount"));
             }
             NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
             if (nonnulllist.isEmpty()) {
@@ -130,7 +128,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             } else if (nonnulllist.size() > ShapedSoulAltarRecipe.MAX_WIDTH * ShapedSoulAltarRecipe.MAX_HEIGHT) {
                 throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is " + (ShapedSoulAltarRecipe.MAX_WIDTH * ShapedSoulAltarRecipe.MAX_HEIGHT));
             } else {
-                ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+                ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
                 return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, souls);
             }
         }
@@ -158,7 +156,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             }
 
             ItemStack itemstack = buf.readItem();
-            Map<String, Float> map = buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readFloat);
+            Map<ResourceLocation, Float> map = buf.readMap(FriendlyByteBuf::readResourceLocation, FriendlyByteBuf::readFloat);
             boolean hasAdvancement = buf.readBoolean();
             ResourceLocation advancement = null;
             if (hasAdvancement) {
@@ -176,7 +174,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             }
 
             buf.writeItem(recipe.result);
-            buf.writeMap(recipe.souls, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeFloat);
+            buf.writeMap(recipe.souls, FriendlyByteBuf::writeResourceLocation, FriendlyByteBuf::writeFloat);
             buf.writeBoolean(recipe.advancement != null);
             if (recipe.advancement != null) {
                 buf.writeResourceLocation(recipe.advancement);

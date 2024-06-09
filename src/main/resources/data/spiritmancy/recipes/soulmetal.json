@@ -1,7 +1,5 @@
 {
-  "type": "spiritmancy:shapelesslockedrecipe",
-  "locked": true,
-  "entry": "spiritmancy:basics/alloys",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
       "item": "minecraft:gold_ingot"

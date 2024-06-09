@@ -188,8 +188,7 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:magicaladventure-910133:4754016")
 
     implementation fg.deobf("curse.maven:jade-324717:5072729")
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
+    implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency

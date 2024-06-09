@@ -18,7 +18,7 @@ public class CreativeModeTabInit {
             CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULMETAL.get()))
                     .title(Component.translatable("creativemodetab.spiritmancyitems")).build());
     public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("spiritmancyblocks", () ->
-            CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULPOINT_ITEM.get()))
+            CreativeModeTab.builder().icon(() -> new ItemStack(ItemInit.SOULALTARITEM.get()))
                     .title(Component.translatable("creativemodetab.spiritmancyblocks")).build());
 
     public static void register(IEventBus eventBus) {

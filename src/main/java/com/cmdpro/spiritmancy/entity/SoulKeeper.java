@@ -4,8 +4,6 @@ import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.init.ItemInit;
 import com.cmdpro.spiritmancy.init.ModCriteriaTriggers;
 import com.cmdpro.spiritmancy.init.ParticleInit;
-import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
-import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -60,6 +58,8 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import vazkii.patchouli.api.IMultiblock;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -119,6 +119,16 @@ public class SoulKeeper extends Monster implements GeoEntity {
 
     public int atkTimer;
     public int atk;
+    public boolean isRitualFine() {
+        IMultiblock ritual = PatchouliAPI.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
+        if (ritual != null) {
+            return ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
+                    ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
+                    ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_180) &&
+                    ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.COUNTERCLOCKWISE_90);
+        }
+        return false;
+    }
     @Override
     public void customServerAiStep() {
         super.customServerAiStep();
@@ -133,12 +143,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
             if (!anyPlayers) {
                 canAtk = false;
             }
-            Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
-            if (
-                    !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
-                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
-                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_180) &&
-                            !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.COUNTERCLOCKWISE_90)) {
+            if (!isRitualFine()) {
                 canAtk = false;
             }
         } else {
@@ -300,12 +305,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 if (!anyPlayers) {
                     remove(RemovalReason.DISCARDED);
                 }
-                Multiblock ritual = MultiblockDataManager.get().getMultiblock(new ResourceLocation(Spiritmancy.MOD_ID, "soulritualnoflames"));
-                if (
-                        !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
-                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
-                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_180) &&
-                                !ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.COUNTERCLOCKWISE_90)) {
+                if (!isRitualFine()) {
                     remove(RemovalReason.DISCARDED);
                 }
             }

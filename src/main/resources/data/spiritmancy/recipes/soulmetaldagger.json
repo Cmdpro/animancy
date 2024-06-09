@@ -1,7 +1,5 @@
 {
-  "type": "spiritmancy:shapedlockedrecipe",
-  "locked": true,
-  "entry": "spiritmancy:basics/soulmetaldagger",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "A",
     "a"

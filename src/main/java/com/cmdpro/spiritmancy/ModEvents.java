@@ -6,7 +6,11 @@ import com.cmdpro.spiritmancy.entity.SoulRitualController;
 import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.moddata.PlayerModData;
 import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
+import com.cmdpro.spiritmancy.networking.ModMessages;
+import com.cmdpro.spiritmancy.networking.packet.SoulTypeSyncS2CPacket;
 import com.cmdpro.spiritmancy.particle.Soul3ParticleOptions;
+import com.cmdpro.spiritmancy.soultypes.SoulTypeManager;
+import com.cmdpro.spiritmancy.soultypes.SoulTypeSerializer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +34,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Math;
-import top.theillusivec4.curios.api.CuriosCapability;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
 
@@ -61,7 +64,7 @@ public class ModEvents {
         }
     }
     protected static void syncToPlayer(ServerPlayer player) {
-
+        ModMessages.sendToPlayer(new SoulTypeSyncS2CPacket(SoulTypeManager.types), player);
     }
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -135,5 +138,9 @@ public class ModEvents {
                 }
             }
         }
+    }
+    @SubscribeEvent
+    public static void addReloadListenerEvent(AddReloadListenerEvent event) {
+        event.addListener(SoulTypeManager.getOrCreateInstance());
     }
 }

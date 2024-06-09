@@ -1,15 +1,17 @@
 {
-  "type": "spiritmancy:soulaltar",
-  "locked": true,
-  "entry": "spiritmancy:equipment/purgatorydagger",
-  "input": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "a"
+  ],
+  "key": {
+    "a": {
       "item": "minecraft:stick"
     },
-    {
+    "A": {
       "item": "spiritmancy:purgatoryingot"
     }
-  ],
+  },
   "output": {
     "item": "spiritmancy:purgatorydagger",
     "count": 1

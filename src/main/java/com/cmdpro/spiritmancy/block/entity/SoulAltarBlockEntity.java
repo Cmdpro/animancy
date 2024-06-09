@@ -5,6 +5,7 @@ import com.cmdpro.spiritmancy.init.BlockEntityInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
 import com.cmdpro.spiritmancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.NonMenuCraftingContainer;
+import com.cmdpro.spiritmancy.screen.SoulAltarMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
@@ -67,6 +69,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
+        souls = new HashMap<>();
     }
     @Nonnull
     @Override
@@ -84,12 +87,12 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt){
         CompoundTag tag = pkt.getTag();
         getSouls().clear();
-        for (Tag i : (ListTag)tag.get("runicEnergy")) {
-            getSouls().put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        for (Tag i : (ListTag)tag.get("souls")) {
+            getSouls().put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
         soulCost.clear();
-        for (Tag i : (ListTag)tag.get("runicEnergyCost")) {
-            soulCost.put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        for (Tag i : (ListTag)tag.get("soulCost")) {
+            soulCost.put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
         item = ItemStack.of(tag.getCompound("item"));
     }
@@ -97,21 +100,21 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
         ListTag tag2 = new ListTag();
-        for (Map.Entry<String, Float> i : getSouls().entrySet()) {
+        for (Map.Entry<ResourceLocation, Float> i : getSouls().entrySet()) {
             CompoundTag tag3 = new CompoundTag();
-            tag3.putString("key", i.getKey());
+            tag3.putString("key", i.getKey().toString());
             tag3.putFloat("value", i.getValue());
             tag2.add(tag3);
         }
-        tag.put("runicEnergy", tag2);
+        tag.put("souls", tag2);
         ListTag tag4 = new ListTag();
-        for (Map.Entry<String, Float> i : soulCost.entrySet()) {
+        for (Map.Entry<ResourceLocation, Float> i : soulCost.entrySet()) {
             CompoundTag tag3 = new CompoundTag();
-            tag3.putString("key", i.getKey());
+            tag3.putString("key", i.getKey().toString());
             tag3.putFloat("value", i.getValue());
             tag4.add(tag3);
         }
-        tag.put("runicEnergyCost", tag4);
+        tag.put("soulCost", tag4);
         tag.put("item", item.save(new CompoundTag()));
         return tag;
     }
@@ -119,13 +122,13 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     protected void saveAdditional(@NotNull CompoundTag tag) {
         tag.put("inventory", itemHandler.serializeNBT());
         ListTag tag2 = new ListTag();
-        for (Map.Entry<String, Float> i : getSouls().entrySet()) {
+        for (Map.Entry<ResourceLocation, Float> i : getSouls().entrySet()) {
             CompoundTag tag3 = new CompoundTag();
-            tag3.putString("key", i.getKey());
+            tag3.putString("key", i.getKey().toString());
             tag3.putFloat("value", i.getValue());
             tag2.add(tag3);
         }
-        tag.put("runicEnergy", tag2);
+        tag.put("souls", tag2);
         super.saveAdditional(tag);
     }
     @Override
@@ -133,8 +136,8 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         super.load(nbt);
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
         getSouls().clear();
-        for (Tag i : (ListTag)nbt.get("runicEnergy")) {
-            getSouls().put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        for (Tag i : (ListTag)nbt.get("souls")) {
+            getSouls().put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
     }
     public ItemStack item;
@@ -192,14 +195,14 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     }
     public float getTotalSouls() {
         float total = 0;
-        for (Map.Entry<String, Float> i : souls.entrySet()) {
+        for (Map.Entry<ResourceLocation, Float> i : souls.entrySet()) {
             total += i.getValue();
         }
         return total;
     }
     public ISoulAltarRecipe recipe;
     public boolean enoughRunicEnergy;
-    public Map<String, Float> soulCost = new HashMap<>();
+    public Map<ResourceLocation, Float> soulCost = new HashMap<>();
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
             Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeInit.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
@@ -208,7 +211,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                 pBlockEntity.soulCost = recipe.get().getSoulCost();
                 pBlockEntity.item = recipe.get().getResultItem(pLevel.registryAccess());
                 boolean enoughEnergy = true;
-                for (Map.Entry<String, Float> i : recipe.get().getSoulCost().entrySet()) {
+                for (Map.Entry<ResourceLocation, Float> i : recipe.get().getSoulCost().entrySet()) {
                     if (pBlockEntity.getSouls().containsKey(i.getKey())) {
                         if (pBlockEntity.getSouls().get(i.getKey()) < i.getValue()) {
                             enoughEnergy = false;
@@ -236,11 +239,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         this.setChanged();
     }
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        if (!item.isEmpty()) {
-            event.getController().setAnimation(RawAnimation.begin().then("animation.runicworkbench.ready", Animation.LoopType.LOOP));
-        } else {
-            event.getController().setAnimation(RawAnimation.begin().then("animation.runicworkbench.idle", Animation.LoopType.LOOP));
-        }
+        event.getController().setAnimation(RawAnimation.begin().then("animation.soulaltar.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 
@@ -261,10 +260,10 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-        return new RunicWorkbenchMenu(pContainerId, pInventory, this);
+        return new SoulAltarMenu(pContainerId, pInventory, this);
     }
-    Map<String, Float> souls = new HashMap<>();
-    public Map<String, Float> getSouls() {
+    Map<ResourceLocation, Float> souls = new HashMap<>();
+    public Map<ResourceLocation, Float> getSouls() {
         return souls;
     }
 }

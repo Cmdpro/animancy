@@ -1,0 +1,26 @@
+{
+  "type": "spiritmancy:shapedsoulaltarrecipe",
+  "souls": [
+    {
+      "type": "blazing",
+      "amount": 15
+    }
+  ],
+  "pattern": [
+    " A ",
+    "AaA",
+    " A "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:blaze_powder"
+    },
+    "A": {
+      "item": "minecraft:stick"
+    }
+  },
+  "output": {
+    "item": "minecraft:blaze_rod",
+    "count": 4
+  }
+}

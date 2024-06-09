@@ -1,7 +1,6 @@
 package com.cmdpro.spiritmancy.particle;
 
 import com.cmdpro.spiritmancy.init.ParticleInit;
-import com.klikli_dev.modonomicon.util.Codecs;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
