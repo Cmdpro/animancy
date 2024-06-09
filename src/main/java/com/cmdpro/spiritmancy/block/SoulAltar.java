@@ -1,12 +1,11 @@
 package com.cmdpro.spiritmancy.block;
 
 import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
 import com.cmdpro.spiritmancy.init.ItemInit;
-import com.cmdpro.spiritmancy.moddata.PlayerModData;
-import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
+import com.cmdpro.spiritmancy.init.TagInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulAltar extends BaseEntityBlock {
@@ -29,7 +29,7 @@ public class SoulAltar extends BaseEntityBlock {
         super(properties);
     }
 
-    private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 16, 12, 16);
+    private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 16, 15, 16);
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -48,12 +48,31 @@ public class SoulAltar extends BaseEntityBlock {
         return new SoulAltarBlockEntity(pPos, pState);
     }
     @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (pState.getBlock() != pNewState.getBlock()) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof SoulAltarBlockEntity) {
+                ((SoulAltarBlockEntity) blockEntity).drops();
+            }
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }
+    @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
                                  Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pPlayer.getItemInHand(InteractionHand.MAIN_HAND).is(ItemInit.SOULLINKER.get()) || pPlayer.getItemInHand(InteractionHand.OFF_HAND).is(ItemInit.SOULLINKER.get())) {
-            return InteractionResult.FAIL;
+        if (!pLevel.isClientSide()) {
+            BlockEntity entity = pLevel.getBlockEntity(pPos);
+            if(entity instanceof SoulAltarBlockEntity ent) {
+                if (pPlayer.getItemInHand(pHand).is(TagInit.Items.SOULDAGGERS)) {
+                    return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+                }
+                NetworkHooks.openScreen(((ServerPlayer) pPlayer), (SoulAltarBlockEntity) entity, pPos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing!");
+            }
         }
-        return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
     @Nullable
     @Override

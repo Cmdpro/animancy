@@ -1,32 +1,11 @@
 package com.cmdpro.spiritmancy;
 
-import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
-import com.cmdpro.spiritmancy.block.DivinationTable;
-import com.cmdpro.spiritmancy.block.SoulAltar;
-import com.cmdpro.spiritmancy.block.SoulPoint;
-import com.cmdpro.spiritmancy.block.SpiritTank;
-import com.cmdpro.spiritmancy.block.entity.DivinationTableBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.init.*;
-import com.cmdpro.spiritmancy.integration.BookAltarRecipePage;
-import com.cmdpro.spiritmancy.integration.SpiritmancyModonomiconConstants;
-import com.cmdpro.spiritmancy.integration.bookconditions.BookAncientKnowledgeCondition;
-import com.cmdpro.spiritmancy.integration.bookconditions.BookKnowledgeCondition;
-import com.cmdpro.spiritmancy.moddata.ClientPlayerData;
 import com.cmdpro.spiritmancy.networking.ModMessages;
-import com.cmdpro.spiritmancy.networking.packet.PlayerUnlockEntryC2SPacket;
 import com.google.common.collect.ImmutableList;
-import com.klikli_dev.modonomicon.book.BookEntry;
-import com.klikli_dev.modonomicon.book.BookEntryParent;
-import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
-import com.klikli_dev.modonomicon.events.ModonomiconEvents;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -39,8 +18,6 @@ import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.feature.TreeFeature;
-import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -59,12 +36,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotTypeMessage;
-import top.theillusivec4.curios.api.SlotTypePreset;
 
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -102,16 +75,11 @@ public class Spiritmancy
         SoundInit.register(bus);
         CreativeModeTabInit.register(bus);
         ParticleInit.register(bus);
-        AttributeInit.ATTRIBUTES.register(bus);
-        SoulcasterEffectInit.SOULCASTER_EFFECTS.register(bus);
         GeckoLib.initialize();
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
         random = RandomSource.create();
-
-        LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "knowledge"), BookKnowledgeCondition::fromJson, BookKnowledgeCondition::fromNetwork);
-        LoaderRegistry.registerConditionLoader(new ResourceLocation(MOD_ID, "ancientknowledge"), BookAncientKnowledgeCondition::fromJson, BookAncientKnowledgeCondition::fromNetwork);
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -120,74 +88,17 @@ public class Spiritmancy
         if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
             event.accept(ItemInit.SOULMETALDAGGER);
             event.accept(ItemInit.SOULMETAL);
-            event.accept(ItemInit.SOULLINKER);
             event.accept(ItemInit.SOULCRYSTAL);
-            event.accept(ItemInit.SOULFOCUS);
             event.accept(ItemInit.CRYSTALSOULSMUSICDISC);
-            event.accept(ItemInit.ANCIENTPAGE);
             event.accept(ItemInit.THESOULSSCREAMMUSICDISC);
             event.accept(ItemInit.THESOULSREVENGEMUSICDISC);
-            event.accept(ItemInit.SOULMETALWAND);
-            event.accept(ItemInit.ICECRYSTAL);
-            event.accept(ItemInit.FLAMECRYSTAL);
-            event.accept(ItemInit.DEATHCRYSTAL);
-            event.accept(ItemInit.LIFECRYSTAL);
-            event.accept(ItemInit.ENDERCRYSTAL);
-            event.accept(ItemInit.SOULBARRIER);
-            event.accept(ItemInit.SOULORB);
-            event.accept(ItemInit.SOULTRANSFORMER);
-            event.accept(ItemInit.SOULBOOSTER);
             event.accept(ItemInit.PURGATORYINGOT);
-            event.accept(ItemInit.LAPISWAND);
-            event.accept(ItemInit.ECHOWAND);
-            event.accept(ItemInit.AMETHYSTWAND);
-            event.accept(ItemInit.PURGATORYWAND);
             event.accept(ItemInit.PURGATORYDAGGER);
             event.accept(ItemInit.PURGATORYSWORD);
-            event.accept(ItemInit.PURGATORYHELMET);
-            event.accept(ItemInit.PURGATORYCHESTPLATE);
-            event.accept(ItemInit.PURGATORYLEGGINGS);
-            event.accept(ItemInit.PURGATORYBOOTS);
-            event.accept(ItemInit.EMPTYSOULGEM);
-            event.accept(ItemInit.EASYSOULGEM);
-            event.accept(ItemInit.MEDIUMSOULGEM);
-            event.accept(ItemInit.HARDSOULGEM);
-            event.accept(ItemInit.INSANESOULGEM);
-            ItemStack stack = new ItemStack(ItemInit.STUDYRESULTS.get());
-            stack.getOrCreateTag().putInt("studytype", 0);
-            stack.getOrCreateTag().putInt("studyamount", 0);
-            event.accept(stack);
-            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
-            stack.getOrCreateTag().putInt("studytype", 1);
-            stack.getOrCreateTag().putInt("studyamount", 1);
-            event.accept(stack);
-            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
-            stack.getOrCreateTag().putInt("studytype", 1);
-            stack.getOrCreateTag().putInt("studyamount", 2);
-            event.accept(stack);
-            stack = new ItemStack(ItemInit.STUDYRESULTS.get());
-            stack.getOrCreateTag().putInt("studytype", 2);
-            stack.getOrCreateTag().putInt("studyamount", 1);
-            event.accept(stack);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
-            event.accept(ItemInit.SPIRITTANK_ITEM);
-            event.accept(ItemInit.SOULPOINT_ITEM);
-            event.accept(ItemInit.SOULALTAR_ITEM);
-            event.accept(BlockInit.SOULSHAPER);
-            event.accept(BlockInit.SOULCASTERSTABLE);
+            event.accept(ItemInit.SOULALTARITEM);
             event.accept(BlockInit.ECHOSOIL);
-            event.accept(ItemInit.DIVINATIONTABLE_ITEM);
-        }
-        setupSoulCrystalEntities();
-        if (event.getTabKey() == CreativeModeTabInit.FULLCRYSTALS.getKey()) {
-            for (EntityType<? extends LivingEntity> i : Spiritmancy.soulCrystalEntities) {
-                ItemStack stack = new ItemStack(ItemInit.FULLSOULCRYSTAL.get());
-                CompoundTag tag = stack.getOrCreateTag();
-                tag.put("entitydata", new CompoundTag());
-                tag.putString("entitytype", ForgeRegistries.ENTITY_TYPES.getKey(i).toString());
-                event.accept(stack);
-            }
         }
     }
     private void setup(final FMLCommonSetupEvent event)
@@ -197,23 +108,6 @@ public class Spiritmancy
         event.enqueueWork(ModCriteriaTriggers::register);
         LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:airorfire"), (getter, pos, state) -> state.isAir() || state.is(Blocks.SOUL_FIRE) || state.is(Blocks.FIRE));
         LoaderRegistry.registerPredicate(new ResourceLocation("spiritmancy:empty"), (getter, pos, state) -> !state.isSolid());
-        LoaderRegistry.registerPageLoader(SpiritmancyModonomiconConstants.Page.ALTAR_RECIPE, BookAltarRecipePage::fromJson, BookAltarRecipePage::fromNetwork);
-    }
-    private void complete(final FMLLoadCompleteEvent event)
-    {
-        setupSoulCrystalEntities();
-    }
-    public void setupSoulCrystalEntities() {
-        if (soulCrystalEntities.isEmpty()) {
-            soulCrystalEntities = ImmutableList.copyOf(
-                    ForgeRegistries.ENTITY_TYPES.getValues().stream()
-                            .filter(DefaultAttributes::hasSupplier)
-                            .map(entityType -> (EntityType<? extends LivingEntity>) entityType)
-                            .filter((i) -> !i.getTags().toList().contains(Tags.EntityTypes.BOSSES))
-                            .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.player"))
-                            .filter((i) -> !i.getDescriptionId().equals("entity.minecraft.warden"))
-                            .collect(Collectors.toList()));
-        }
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

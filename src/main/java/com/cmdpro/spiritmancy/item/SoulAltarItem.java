@@ -1,7 +1,6 @@
 package com.cmdpro.spiritmancy.item;
 
 import com.cmdpro.spiritmancy.renderers.SoulAltarItemRenderer;
-import com.cmdpro.spiritmancy.renderers.SoulPointItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;

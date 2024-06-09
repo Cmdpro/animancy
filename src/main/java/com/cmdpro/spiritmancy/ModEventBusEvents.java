@@ -1,15 +1,11 @@
 package com.cmdpro.spiritmancy;
 
-import com.cmdpro.spiritmancy.api.SoulcasterEffect;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.entity.*;
-import com.cmdpro.spiritmancy.init.AttributeInit;
 import com.cmdpro.spiritmancy.init.EntityInit;
-import com.cmdpro.spiritmancy.recipe.SoulShaperRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,16 +33,15 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void registerStuff(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.RECIPE_TYPES, helper -> {
-            helper.register(new ResourceLocation(Spiritmancy.MOD_ID, SoulShaperRecipe.Type.ID), SoulShaperRecipe.Type.INSTANCE);
+
         });
     }
     @SubscribeEvent
     public static void registerRegistries(NewRegistryEvent event) {
-        SpiritmancyUtil.SOULCASTER_EFFECTS_REGISTRY = event.create(new RegistryBuilder<SoulcasterEffect>()
-                .setName(new ResourceLocation(Spiritmancy.MOD_ID, "soulcaster_effects")));
+
     }
     @SubscribeEvent
     public static void attributeModifierEvent(EntityAttributeModificationEvent event) {
-        event.add(EntityType.PLAYER, AttributeInit.MAXSOULS.get());
+
     }
 }

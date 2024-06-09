@@ -1,39 +1,29 @@
 package com.cmdpro.spiritmancy.block.entity;
 
-import com.cmdpro.spiritmancy.Spiritmancy;
-import com.cmdpro.spiritmancy.api.ISoulContainer;
-import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
+import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
-import com.cmdpro.spiritmancy.init.ItemInit;
-import com.cmdpro.spiritmancy.init.ParticleInit;
-import com.cmdpro.spiritmancy.recipe.SoulAltarRecipe;
+import com.cmdpro.spiritmancy.init.RecipeInit;
+import com.cmdpro.spiritmancy.recipe.ISoulAltarRecipe;
+import com.cmdpro.spiritmancy.recipe.NonMenuCraftingContainer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
@@ -41,7 +31,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -52,17 +41,12 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
-import javax.crypto.interfaces.PBEKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer, GeoBlockEntity {
+public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
     private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
-    private float souls;
-    public int craftProgress;
 
-    private final ItemStackHandler focusItemHandler = new ItemStackHandler(10) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(9) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -70,208 +54,181 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if (slot == 0) {
-                return stack.is(ItemInit.SOULFOCUS.get());
-            }
             return super.isItemValid(slot, stack);
         }
     };
+    public void drops() {
+        SimpleContainer inventory = getInv();
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyFocusHandler.cast();
-        }
-        return super.getCapability(cap);
+        Containers.dropContents(this.level, this.worldPosition, inventory);
     }
+    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyFocusHandler = LazyOptional.of(() -> focusItemHandler);
-    }
-    @Override
-    public void invalidateCaps()  {
-        super.invalidateCaps();
-        lazyFocusHandler.invalidate();
-    }
-    private LazyOptional<IItemHandler> lazyFocusHandler = LazyOptional.empty();
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
-        linked = new ArrayList<>();
     }
-
+    @Nonnull
     @Override
-    public float getMaxSouls() {
-        return 20;
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return lazyItemHandler.cast();
+        }
+        return super.getCapability(cap);
     }
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket(){
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
-    private List<BlockPos> linked;
     @Override
     public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt){
         CompoundTag tag = pkt.getTag();
+        getSouls().clear();
+        for (Tag i : (ListTag)tag.get("runicEnergy")) {
+            getSouls().put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        }
+        soulCost.clear();
+        for (Tag i : (ListTag)tag.get("runicEnergyCost")) {
+            soulCost.put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        }
         item = ItemStack.of(tag.getCompound("item"));
     }
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
+        ListTag tag2 = new ListTag();
+        for (Map.Entry<String, Float> i : getSouls().entrySet()) {
+            CompoundTag tag3 = new CompoundTag();
+            tag3.putString("key", i.getKey());
+            tag3.putFloat("value", i.getValue());
+            tag2.add(tag3);
+        }
+        tag.put("runicEnergy", tag2);
+        ListTag tag4 = new ListTag();
+        for (Map.Entry<String, Float> i : soulCost.entrySet()) {
+            CompoundTag tag3 = new CompoundTag();
+            tag3.putString("key", i.getKey());
+            tag3.putFloat("value", i.getValue());
+            tag4.add(tag3);
+        }
+        tag.put("runicEnergyCost", tag4);
         tag.put("item", item.save(new CompoundTag()));
         return tag;
     }
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag tag) {
+        tag.put("inventory", itemHandler.serializeNBT());
+        ListTag tag2 = new ListTag();
+        for (Map.Entry<String, Float> i : getSouls().entrySet()) {
+            CompoundTag tag3 = new CompoundTag();
+            tag3.putString("key", i.getKey());
+            tag3.putFloat("value", i.getValue());
+            tag2.add(tag3);
+        }
+        tag.put("runicEnergy", tag2);
+        super.saveAdditional(tag);
+    }
+    @Override
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+        getSouls().clear();
+        for (Tag i : (ListTag)nbt.get("runicEnergy")) {
+            getSouls().put(((CompoundTag)i).getString("key"), ((CompoundTag)i).getFloat("value"));
+        }
+    }
+    public ItemStack item;
+    public SimpleContainer getInv() {
+        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        }
+        return inventory;
+    }
+    public CraftingContainer getCraftingInv() {
+        List<ItemStack> items = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            items.add(itemHandler.getStackInSlot(i));
+        }
+        CraftingContainer inventory = new NonMenuCraftingContainer(items, 3, 3);
+        return inventory;
+    }
     public static InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
-                                 Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof SoulAltarBlockEntity) {
-                SoulAltarBlockEntity altar = (SoulAltarBlockEntity) entity;
-                if (altar.explosionTimer <= 0) {
-                    if (pPlayer.isShiftKeyDown()) {
-                        altar.craftProgress = 0;
-                        altar.focusItemHandler.extractItem(0, 1, false);
-                        Vec3 pos = pPos.offset(0, 1, 0).getCenter();
-                        for (int i = 1; i < 10; i++) {
-                            ItemEntity item = new ItemEntity(pLevel, pos.x, pos.y, pos.z, altar.focusItemHandler.getStackInSlot(i));
-                            pLevel.addFreshEntity(item);
-                            altar.focusItemHandler.extractItem(i, 1, false);
+                                        Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+        if (blockEntity instanceof SoulAltarBlockEntity ent) {
+            if (ent.recipe != null) {
+                if (ent.enoughRunicEnergy) {
+                    if (SpiritmancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
+                        for (int i = 0; i < 9; i++) {
+                            ent.itemHandler.getStackInSlot(i).shrink(1);
                         }
-                        altar.item = ItemStack.EMPTY;
+                        ItemStack stack = ent.recipe.assemble(ent.getCraftingInv(), pLevel.registryAccess());
+                        ItemEntity entity = new ItemEntity(pLevel, (float) pPos.getX() + 0.5f, (float) pPos.getY() + 1f, (float) pPos.getZ() + 0.5f, stack);
+                        pLevel.addFreshEntity(entity);
+                        pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
                     } else {
-                        if (altar.craftProgress == 0) {
-                            ItemStack stack = pPlayer.getItemInHand(pHand).copy();
-                            if (stack.getCount() > 0 && stack.is(ItemInit.SOULFOCUS.get())) {
-                                stack.setCount(1);
-                                pPlayer.getItemInHand(pHand).shrink(1);
-                                altar.focusItemHandler.setStackInSlot(0, stack);
-                                altar.craftProgress++;
-                            }
-                        } else {
-                            if (altar.item.is(pPlayer.getItemInHand(pHand).getItem())) {
-                                ItemStack stack = pPlayer.getItemInHand(pHand).copy();
-                                stack.setCount(1);
-                                altar.focusItemHandler.setStackInSlot(altar.craftProgress, stack);
-                                pPlayer.getItemInHand(pHand).shrink(1);
-                                altar.craftProgress++;
-                                pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
-                                ((ServerLevel) pLevel).sendParticles(ParticleInit.SOUL.get(), (float) pPos.getX() + 0.5f, (float) pPos.getY() + 1.5f, (float) pPos.getZ() + 0.5f, 25, 0, 0, 0, 0.1);
-                            }
-                        }
+                        pPlayer.sendSystemMessage(Component.translatable("block.spiritmancy.soulaltar.dontknowhow"));
                     }
+                } else {
+                    pPlayer.sendSystemMessage(Component.translatable("block.spiritmancy.soulaltar.notenoughsouls"));
                 }
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.putFloat("souls", souls);
-        tag.putInt("progress", craftProgress);
-        if (!this.linked.isEmpty()) {
-            ListTag listtag = new ListTag();
-            for(BlockPos i : this.linked) {
-                CompoundTag tag2 = new CompoundTag();
-                tag2.putInt("x", i.getX());
-                tag2.putInt("y", i.getY());
-                tag2.putInt("z", i.getZ());
-                listtag.add(tag2);
-            }
-            tag.put("linked", listtag);
-        }
-        super.saveAdditional(tag);
+    public void onLoad() {
+        super.onLoad();
+        lazyItemHandler = LazyOptional.of(() -> itemHandler);
     }
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        souls = nbt.getFloat("souls");
-        craftProgress = nbt.getInt("progress");
-        linked.clear();
-        if (nbt.contains("linked")) {
-            ((ListTag) nbt.get("linked")).forEach((i) -> {
-                CompoundTag i2 = ((CompoundTag)i);
-                BlockPos pos = new BlockPos(i2.getInt("x"), i2.getInt("y"), i2.getInt("z"));
-                linked.add(pos);
-            });
-        }
+    public void invalidateCaps()  {
+        super.invalidateCaps();
+        lazyItemHandler.invalidate();
     }
-    @Override
-    public float getSouls() {
-        return souls;
-    }
-    @Override
-    public void setSouls(float amount) {
-        souls = amount;
-    }
+    public void detectSouls() {
 
-    @Override
-    public List<BlockPos> getLinked() {
-        return linked;
     }
-    public ItemStack item;
-    public SimpleContainer getInv() {
-        SimpleContainer inventory = new SimpleContainer(focusItemHandler.getSlots());
-        for (int i = 0; i < focusItemHandler.getSlots(); i++) {
-            inventory.setItem(i, focusItemHandler.getStackInSlot(i));
+    public float getTotalSouls() {
+        float total = 0;
+        for (Map.Entry<String, Float> i : souls.entrySet()) {
+            total += i.getValue();
         }
-        return inventory;
+        return total;
     }
-    float explosionTimer = 0;
+    public ISoulAltarRecipe recipe;
+    public boolean enoughRunicEnergy;
+    public Map<String, Float> soulCost = new HashMap<>();
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
-            ItemStack focusSlot = pBlockEntity.focusItemHandler.getStackInSlot(0);
-            Optional<SoulAltarRecipe> match = pLevel.getRecipeManager()
-                    .getRecipeFor(SoulAltarRecipe.Type.INSTANCE, pBlockEntity.getInv(), pLevel);
-            if (match.isPresent()) {
-                if (pBlockEntity.craftProgress > match.get().getIngredients().size()) {
-                    ItemStack stack = match.get().getResultItem(RegistryAccess.EMPTY);
-                    ItemEntity entity = new ItemEntity(pLevel, (float)pPos.getX()+0.5f, (float)pPos.getY()+1f, (float)pPos.getZ()+0.5f, stack);
-                    pLevel.addFreshEntity(entity);
-                    pBlockEntity.item = ItemStack.EMPTY;
-                    pBlockEntity.craftProgress = 0;
-                    pBlockEntity.focusItemHandler.extractItem(0, 1, false);
-                    for (int i = 1; i < 10; i++) {
-                        pBlockEntity.focusItemHandler.extractItem(i, 1, false);
-                    }
-                    pBlockEntity.explosionTimer = 0;
-                } else {
-                    pBlockEntity.item = match.get().getIngredients().get(pBlockEntity.craftProgress-1).getItems()[0];
-                    if (pBlockEntity.getSouls() > 0) {
-                        pBlockEntity.setSouls(pBlockEntity.getSouls() - ((float)SpiritmancyConfig.soulAltarSoulDrain));
-                    } else {
-                        pBlockEntity.explosionTimer++;
-                        ((ServerLevel)pLevel).sendParticles(ParticleInit.SOUL.get(), (float)pPos.getX()+0.5f, (float)pPos.getY()+0.5f, (float)pPos.getZ()+0.5f, 25, 0, 0, 0, 0.75f);
-                        if (pBlockEntity.explosionTimer >= 25) {
-                            pBlockEntity.explosionTimer = 0;
-                            pBlockEntity.craftProgress = 0;
-                            pBlockEntity.focusItemHandler.extractItem(0, 1, false);
-                            ((ServerLevel) pLevel).sendParticles(ParticleTypes.EXPLOSION_EMITTER, pPos.getX(), pPos.getY(), pPos.getZ(), 1, 0, 0, 0, 0);
-                            pLevel.playSound(null, pPos.getX(), pPos.getY(), pPos.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                            List<LivingEntity> entities = pLevel.getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, null, AABB.ofSize(pPos.getCenter(), 5f, 5f, 5f));
-                            for (LivingEntity p : entities) {
-                                p.hurt(pLevel.damageSources().source(Spiritmancy.soulExplosion), 10);
-                            }
-                            pBlockEntity.item = ItemStack.EMPTY;
-                            for (int i = 1; i < 10; i++) {
-                                pBlockEntity.focusItemHandler.extractItem(i, 1, false);
-                            }
+            Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeInit.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
+            if (recipe.isPresent()) {
+                pBlockEntity.recipe = recipe.get();
+                pBlockEntity.soulCost = recipe.get().getSoulCost();
+                pBlockEntity.item = recipe.get().getResultItem(pLevel.registryAccess());
+                boolean enoughEnergy = true;
+                for (Map.Entry<String, Float> i : recipe.get().getSoulCost().entrySet()) {
+                    if (pBlockEntity.getSouls().containsKey(i.getKey())) {
+                        if (pBlockEntity.getSouls().get(i.getKey()) < i.getValue()) {
+                            enoughEnergy = false;
+                            break;
                         }
+                    } else {
+                        enoughEnergy = false;
+                        break;
                     }
                 }
-            } else if (!focusSlot.is(ItemStack.EMPTY.getItem())) {
-                pBlockEntity.focusItemHandler.extractItem(0, 1, false);
-                for (int i = 1; i < 10; i++) {
-                    pBlockEntity.focusItemHandler.extractItem(i, 1, false);
+                pBlockEntity.enoughRunicEnergy = enoughEnergy;
+            } else {
+                pBlockEntity.recipe = null;
+                if (!pBlockEntity.soulCost.isEmpty()) {
+                    pBlockEntity.soulCost = new HashMap<>();
                 }
-                pBlockEntity.craftProgress = 0;
-                pLevel.playSound(null, pPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 2, 1);
+                pBlockEntity.item = ItemStack.EMPTY;
             }
             pBlockEntity.updateBlock();
-            pLevel.sendBlockUpdated(pPos, pState, pState, Block.UPDATE_ALL);
         }
-        pBlockEntity.soulContainerTick(pLevel, pPos, pState, pBlockEntity);
     }
     protected void updateBlock() {
         BlockState blockState = level.getBlockState(this.getBlockPos());
@@ -279,7 +236,11 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
         this.setChanged();
     }
     private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        event.getController().setAnimation(RawAnimation.begin().then("animation.soulaltar.idle", Animation.LoopType.LOOP));
+        if (!item.isEmpty()) {
+            event.getController().setAnimation(RawAnimation.begin().then("animation.runicworkbench.ready", Animation.LoopType.LOOP));
+        } else {
+            event.getController().setAnimation(RawAnimation.begin().then("animation.runicworkbench.idle", Animation.LoopType.LOOP));
+        }
         return PlayState.CONTINUE;
     }
 
@@ -287,9 +248,23 @@ public class SoulAltarBlockEntity extends BlockEntity implements ISoulContainer,
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
         data.add(new AnimationController(this, "controller", 0, this::predicate));
     }
-
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.factory;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.runology.runicworkbench");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
+        return new RunicWorkbenchMenu(pContainerId, pInventory, this);
+    }
+    Map<String, Float> souls = new HashMap<>();
+    public Map<String, Float> getSouls() {
+        return souls;
     }
 }

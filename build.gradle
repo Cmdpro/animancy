@@ -169,15 +169,6 @@ repositories {
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
     maven { url 'https://maven.blamejared.com' }
-    maven {
-        url "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
-        content {
-            includeGroup "com.klikli_dev"
-        }
-    }
-    maven {
-        url = "https://maven.theillusivec4.top/"
-    }
 }
 
 dependencies {
@@ -195,12 +186,10 @@ dependencies {
     //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     //runtimeOnly fg.deobf("curse.maven:attributefix-280510:4714729")
     //runtimeOnly fg.deobf("curse.maven:magicaladventure-910133:4754016")
-    compileOnly fg.deobf("com.klikli_dev:modonomicon-${mc_version}-common:${modonomicon_version}")
-    implementation fg.deobf("com.klikli_dev:modonomicon-${mc_version}-forge:${modonomicon_version}")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
-    implementation fg.deobf("curse.maven:primal-magick-545271:4806625")
+
     implementation fg.deobf("curse.maven:jade-324717:5072729")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency

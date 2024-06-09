@@ -1,43 +1,39 @@
 package com.cmdpro.spiritmancy.api;
 
-import com.cmdpro.spiritmancy.block.entity.DivinationTableBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SoulPointBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
 import com.cmdpro.spiritmancy.entity.SoulKeeper;
 import com.cmdpro.spiritmancy.init.EntityInit;
-import com.cmdpro.spiritmancy.init.SoulcasterEffectInit;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.TriPredicate;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class SpiritmancyUtil {
-    public static Supplier<IForgeRegistry<SoulcasterEffect>> SOULCASTER_EFFECTS_REGISTRY = null;
-    public static List<Item> SOULCASTER_CRYSTALS = new ArrayList<>();
-    public static List<Predicate<Player>> VIEW_SOUL_METER_PREDICATES = new ArrayList<>();
     public static SoulKeeper spawnSoulKeeper(Vec3 pos, Level level) {
         SoulKeeper boss = new SoulKeeper(EntityInit.SOULKEEPER.get(), level);
         boss.setPos(pos);
         boss.spawn();
         level.addFreshEntity(boss);
         return boss;
+    }
+    public static boolean playerHasAdvancement(Player player, ResourceLocation advancement) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            Advancement advancement2 = serverPlayer.getServer().getAdvancements().getAdvancement(advancement);
+            if (advancement2 != null) {
+                if (serverPlayer.getAdvancements().getOrStartProgress(advancement2).isDone()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

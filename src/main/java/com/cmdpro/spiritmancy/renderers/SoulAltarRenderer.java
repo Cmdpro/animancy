@@ -1,8 +1,7 @@
 package com.cmdpro.spiritmancy.renderers;
 
+import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.spiritmancy.block.entity.SpiritTankBlockEntity;
-import com.cmdpro.spiritmancy.init.ItemInit;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -12,9 +11,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 
@@ -38,5 +37,21 @@ public class SoulAltarRenderer extends GeoBlockRenderer<SoulAltarBlockEntity> {
         poseStack.scale(0.75F, 0.75F, 0.75F);
         Minecraft.getInstance().getItemRenderer().renderStatic(animatable.item, ItemDisplayContext.GUI, packedLight, packedOverlay, poseStack, bufferSource, animatable.getLevel(), 0);
         poseStack.popPose();
+    }
+    public static class SoulAltarModel extends GeoModel<SoulAltarBlockEntity> {
+        @Override
+        public ResourceLocation getModelResource(SoulAltarBlockEntity object) {
+            return new ResourceLocation(Spiritmancy.MOD_ID, "geo/soulaltar.geo.json");
+        }
+
+        @Override
+        public ResourceLocation getTextureResource(SoulAltarBlockEntity object) {
+            return new ResourceLocation(Spiritmancy.MOD_ID, "textures/block/soulaltar.png");
+        }
+
+        @Override
+        public ResourceLocation getAnimationResource(SoulAltarBlockEntity animatable) {
+            return new ResourceLocation(Spiritmancy.MOD_ID, "animations/soulaltar.animation.json");
+        }
     }
 }

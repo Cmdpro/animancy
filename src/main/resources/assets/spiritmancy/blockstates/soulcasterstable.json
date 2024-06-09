@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "spiritmancy:block/soulcasterstable" },
-    "facing=east": { "model": "spiritmancy:block/soulcasterstable", "y": 90 },
-    "facing=south": { "model": "spiritmancy:block/soulcasterstable", "y": 180 },
-    "facing=west": { "model": "spiritmancy:block/soulcasterstable", "y": 270 }
-  }
-}

@@ -21,32 +21,6 @@ public class SpiritmanyCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher){
         dispatcher.register(Commands.literal(Spiritmancy.MOD_ID)
                 .requires(source -> source.hasPermission(4))
-                .then(Commands.literal("setsouls")
-                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                .executes((command) -> {
-                                    return setsouls(command);
-                                })
-                        )
-                )
-                .then(Commands.literal("setknowledge")
-                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                .executes((command) -> {
-                                    return setknowledge(command);
-                                })
-                        )
-                )
-                .then(Commands.literal("setancientknowledge")
-                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                .executes((command) -> {
-                                    return setancientknowledge(command);
-                                })
-                        )
-                )
-                .then(Commands.literal("resetlearned")
-                        .executes((command) -> {
-                            return resetlearned(command);
-                        })
-                )
         );
     }
     private static int resetlearned(CommandContext<CommandSourceStack> command){

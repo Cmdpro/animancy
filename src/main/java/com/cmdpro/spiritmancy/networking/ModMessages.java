@@ -27,21 +27,6 @@ public class ModMessages {
 
         INSTANCE = net;
 
-        net.messageBuilder(PlayerDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(PlayerDataSyncS2CPacket::new)
-                .encoder(PlayerDataSyncS2CPacket::toBytes)
-                .consumerMainThread(PlayerDataSyncS2CPacket::handle)
-                .add();
-        net.messageBuilder(PlayerUnlockEntryC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(PlayerUnlockEntryC2SPacket::new)
-                .encoder(PlayerUnlockEntryC2SPacket::toBytes)
-                .consumerMainThread(PlayerUnlockEntryC2SPacket::handle)
-                .add();
-        net.messageBuilder(PlayerDoubleJumpC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(PlayerDoubleJumpC2SPacket::new)
-                .encoder(PlayerDoubleJumpC2SPacket::toBytes)
-                .consumerMainThread(PlayerDoubleJumpC2SPacket::handle)
-                .add();
 
     }
     public static <MSG> void sendToServer(MSG message) {

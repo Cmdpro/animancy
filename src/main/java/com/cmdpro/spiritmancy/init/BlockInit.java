@@ -19,20 +19,8 @@ public class BlockInit {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Spiritmancy.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = ItemInit.ITEMS;
-    public static final RegistryObject<Block> SPIRITTANK = registerBlock("spirittank",
-            () -> new SpiritTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
-    public static final RegistryObject<Block> DIVINATIONTABLE = registerBlock("divinationtable",
-            () -> new DivinationTable(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.WOOL).noOcclusion().strength(3.0f)));
-    public static final RegistryObject<Block> SOULPOINT = registerBlock("soulpoint",
-            () -> new SoulPoint(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
             () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
-    public static final RegistryObject<Block> SOULSHAPER = register("soulshaper",
-            () -> new SoulShaper(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(3.0f)),
-            object -> () -> new BlockItem(object.get(), new Item.Properties()));
-    public static final RegistryObject<Block> SOULCASTERSTABLE = register("soulcasterstable",
-            () -> new SoulcastersTable(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(3.0f).noOcclusion()),
-            object -> () -> new BlockItem(object.get(), new Item.Properties()));
     public static final RegistryObject<Block> ECHOSOIL = register("echosoil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL).mapColor(MapColor.COLOR_BLUE)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
