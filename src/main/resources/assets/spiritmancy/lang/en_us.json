@@ -19,6 +19,10 @@
   "item.spiritmancy.purgatorysword": "Purgatory Sword",
 
   "spiritmancy.soulicon.spiritmancy.blazing": "Blazing",
+  "spiritmancy.soulicon.spiritmancy.void": "Void",
+  "spiritmancy.soulicon.spiritmancy.animal": "Animal",
+  "spiritmancy.soulicon.spiritmancy.monster": "Monster",
+  "spiritmancy.soulicon.spiritmancy.humanoid": "Humanoid",
 
   "spiritmancy.soulritualfail": "There is already a Soul Keeper nearby!",
   "spiritmancy.soulritualfail2": "You do not know how to perform the Soul Ritual!",

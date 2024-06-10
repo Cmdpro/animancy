@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 
+import org.joml.Math;
 import vazkii.patchouli.client.book.gui.GuiBook;
 import vazkii.patchouli.client.book.page.abstr.PageDoubleRecipeRegistry;
 
@@ -67,19 +69,21 @@ public class PageSoulAltar extends PageDoubleRecipeRegistry<Recipe<?>> {
 
 		parent.renderItemStack(graphics, recipeX + 79, recipeY + 41, mouseX, mouseY, recipe.getToastSymbol());
 		if (recipe instanceof ISoulAltarRecipe recipe3) {
-			int x = recipeX+41-(int)((recipe3.getSoulCost().size()*18f)/2f);
-			int y = recipeY+79;
+			int x = recipeX+43-(int)((recipe3.getSoulCost().size()*18f)/2f);
+			int y = recipeY+64;
 			for (Map.Entry<ResourceLocation, Float> i : recipe3.getSoulCost().entrySet()) {
 				SoulType type = SoulTypeManager.types.get(i.getKey());
 				if (type != null) {
-					graphics.blit(type.icon, x, y, 0, 0, 16, 16);
-					graphics.drawCenteredString(Minecraft.getInstance().font, i.getValue().toString(), x+9, y+9, 0xFFFFFFFF);
+					graphics.blit(x, y, 0, 16, 16, Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(type.icon));
+					graphics.drawCenteredString(Minecraft.getInstance().font, Integer.toString((int) Math.ceil(i.getValue())), x+9, y+9, 0xFFFFFFFF);
+					if (parent.isMouseInRelativeRange(mouseX, mouseY, x-1, y-1, 16, 16)) {
+						parent.setTooltip(type.name);
+					}
 				}
 				x += 18;
 			}
 		}
 	}
-
 	@Override
 	protected int getRecipeHeight() {
 		return 96;

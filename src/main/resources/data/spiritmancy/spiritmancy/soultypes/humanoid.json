@@ -1,0 +1,9 @@
+{
+  "icon": "spiritmancy:soulicon/humanoid",
+  "color": {
+    "r": 104,
+    "g": 111,
+    "b": 153
+  },
+  "name": "spiritmancy.soulicon.spiritmancy.humanoid"
+}
