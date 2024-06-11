@@ -96,8 +96,14 @@ public abstract class SoulTankItem extends Item {
             if (!stack.getOrCreateTag().contains("fillType")) {
                 stack.getOrCreateTag().putString("fillType", type.toString());
             }
-            stack.getOrCreateTag().putFloat("fill", Math.clamp(0, Float.MAX_VALUE, SoulTankItem.getFillNumber(stack)-amount));
-            return Math.clamp(0, Float.MAX_VALUE, -(SoulTankItem.getFillNumber(stack)-amount));
+            float changed = SoulTankItem.getFillNumber(stack)-amount;
+            stack.getOrCreateTag().putFloat("fill", Math.clamp(0, Float.MAX_VALUE, changed));
+            if (changed <= 0) {
+                if (!stack.getOrCreateTag().contains("fillType")) {
+                    stack.getOrCreateTag().remove("fillType");
+                }
+            }
+            return Math.clamp(0, Float.MAX_VALUE, -changed);
         }
         return -1;
     }

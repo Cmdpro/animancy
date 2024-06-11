@@ -294,7 +294,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.runology.runicworkbench");
+        return Component.translatable("block.spiritmancy.soulaltar");
     }
 
     @Nullable

@@ -10,9 +10,12 @@ import com.cmdpro.spiritmancy.moddata.PlayerModDataProvider;
 import com.cmdpro.spiritmancy.networking.ModMessages;
 import com.cmdpro.spiritmancy.networking.packet.SoulTypeSyncS2CPacket;
 import com.cmdpro.spiritmancy.particle.Soul3ParticleOptions;
+import com.cmdpro.spiritmancy.soultypes.SoulEntityBind;
+import com.cmdpro.spiritmancy.soultypes.SoulEntityBindManager;
 import com.cmdpro.spiritmancy.soultypes.SoulTypeManager;
 import com.cmdpro.spiritmancy.soultypes.SoulTypeSerializer;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -34,6 +37,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Math;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -115,7 +119,7 @@ public class ModEvents {
             ) {
                 if (true) {//playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "spiritmancy:arcane/soulritual")) {
                     List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
-                    if (entitiesNearby.size() <= 0) {
+                    if (entitiesNearby.isEmpty()) {
                         SoulRitualController ritualController = new SoulRitualController(EntityInit.SOULRITUALCONTROLLER.get(), event.getEntity().level());
                         ritualController.setPos(event.getPos().getCenter());
                         event.getEntity().level().addFreshEntity(ritualController);
@@ -141,15 +145,23 @@ public class ModEvents {
         }
         if (event.getSource().getEntity() instanceof Player player) {
             if (player.getMainHandItem().is(TagInit.Items.SOULDAGGERS)) {
-                if (player.getInventory().hasAnyMatching((item) -> item.is(ItemInit.SOULTANK.get()))) {
-                    float amount = 10;
-                    ResourceLocation type = new ResourceLocation(Spiritmancy.MOD_ID, "blazing");
-                    for (ItemStack i : player.getInventory().items) {
-                        if (i.is(ItemInit.SOULTANK.get())) {
-                            if (SoulTankItem.addFill(i, type, amount)) {
-                                Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID().toString());
-                                ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
-                                break;
+                ResourceLocation entityId = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
+                if (entityId != null) {
+                    SoulEntityBind bind = SoulEntityBindManager.findBindForMob(entityId);
+                    if (bind != null) {
+                        for (Map.Entry<ResourceLocation, Float> o : bind.soulTypes.entrySet()) {
+                            if (player.getInventory().hasAnyMatching((item) -> item.is(ItemInit.SOULTANK.get()))) {
+                                float amount = o.getValue();
+                                ResourceLocation type = o.getKey();
+                                for (ItemStack i : player.getInventory().items) {
+                                    if (i.is(ItemInit.SOULTANK.get())) {
+                                        if (SoulTankItem.addFill(i, type, amount)) {
+                                            Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID().toString(), type.toString());
+                                            ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -160,5 +172,6 @@ public class ModEvents {
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         event.addListener(SoulTypeManager.getOrCreateInstance());
+        event.addListener(SoulEntityBindManager.getOrCreateInstance());
     }
 }

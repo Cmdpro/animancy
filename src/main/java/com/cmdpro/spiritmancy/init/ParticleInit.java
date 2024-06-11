@@ -4,6 +4,7 @@ import com.cmdpro.spiritmancy.Spiritmancy;
 import com.cmdpro.spiritmancy.particle.Soul2Particle;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
 import com.cmdpro.spiritmancy.particle.Soul3ParticleOptions;
+import com.cmdpro.spiritmancy.particle.Soul4ParticleOptions;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -31,6 +32,13 @@ public class ParticleInit {
                 @Override
                 public Codec<Soul3ParticleOptions> codec() {
                     return Soul3ParticleOptions.CODEC;
+                }
+            });
+    public static final RegistryObject<ParticleType> SOUL4 =
+            PARTICLE_TYPES.register("soul4", () -> new ParticleType<Soul4ParticleOptions>(false, Soul4ParticleOptions.DESERIALIZER) {
+                @Override
+                public Codec<Soul4ParticleOptions> codec() {
+                    return Soul4ParticleOptions.CODEC;
                 }
             });
 

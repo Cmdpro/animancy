@@ -5,6 +5,7 @@ import com.cmdpro.spiritmancy.init.*;
 import com.cmdpro.spiritmancy.integration.PageSoulAltar;
 import com.cmdpro.spiritmancy.particle.Soul2Particle;
 import com.cmdpro.spiritmancy.particle.Soul3Particle;
+import com.cmdpro.spiritmancy.particle.Soul4Particle;
 import com.cmdpro.spiritmancy.particle.SoulParticle;
 import com.cmdpro.spiritmancy.renderers.*;
 import com.cmdpro.spiritmancy.screen.SoulAltarScreen;
@@ -77,5 +78,7 @@ public class ClientModEvents {
                 Soul2Particle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL3.get(),
                 Soul3Particle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL4.get(),
+                Soul4Particle.Provider::new);
     }
 }

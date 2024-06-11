@@ -10,24 +10,32 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SoulTypeManager extends SimpleJsonResourceReloadListener {
+public class SoulEntityBindManager extends SimpleJsonResourceReloadListener {
     protected static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
-    public static SoulTypeManager instance;
-    protected SoulTypeManager() {
-        super(GSON, "spiritmancy/soultypes");
+    public static SoulEntityBindManager instance;
+    protected SoulEntityBindManager() {
+        super(GSON, "spiritmancy/soulentitybinds");
     }
-    public static SoulTypeManager getOrCreateInstance() {
+    public static SoulEntityBindManager getOrCreateInstance() {
         if (instance == null) {
-            instance = new SoulTypeManager();
+            instance = new SoulEntityBindManager();
         }
         return instance;
     }
-    public static Map<ResourceLocation, SoulType> types = new HashMap<>();
+    public static SoulEntityBind findBindForMob(ResourceLocation mob) {
+        for (SoulEntityBind i : binds.values()) {
+            if (i.entity.equals(mob)) {
+                return i;
+            }
+        }
+        return null;
+    }
+    public static Map<ResourceLocation, SoulEntityBind> binds = new HashMap<>();
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
-        types = new HashMap<>();
-        Spiritmancy.LOGGER.info("Adding Spiritmancy Soul Types");
+        binds = new HashMap<>();
+        Spiritmancy.LOGGER.info("Adding Spiritmancy Soul Entity Binds");
         for (Map.Entry<ResourceLocation, JsonElement> i : pObject.entrySet()) {
             ResourceLocation location = i.getKey();
             if (location.getPath().startsWith("_")) {
@@ -36,13 +44,13 @@ public class SoulTypeManager extends SimpleJsonResourceReloadListener {
 
             try {
                 JsonObject obj = i.getValue().getAsJsonObject();
-                SoulType type = serializer.read(i.getKey(), obj);
-                types.put(i.getKey(), type);
+                SoulEntityBind bind = serializer.read(i.getKey(), obj);
+                binds.put(i.getKey(), bind);
             } catch (IllegalArgumentException | JsonParseException e) {
-                Spiritmancy.LOGGER.error("Parsing error loading soul type {}", location, e);
+                Spiritmancy.LOGGER.error("Parsing error loading soul entity bind {}", location, e);
             }
         }
-        Spiritmancy.LOGGER.info("Loaded {} soul types", types.size());
+        Spiritmancy.LOGGER.info("Loaded {} soul entity binds", binds.size());
     }
-    public static SoulTypeSerializer serializer = new SoulTypeSerializer();
+    public static SoulEntityBindSerializer serializer = new SoulEntityBindSerializer();
 }
