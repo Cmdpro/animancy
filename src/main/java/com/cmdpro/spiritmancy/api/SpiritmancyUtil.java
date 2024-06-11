@@ -33,6 +33,7 @@ public class SpiritmancyUtil {
                     return true;
                 }
             }
+            return true;
         }
         return false;
     }

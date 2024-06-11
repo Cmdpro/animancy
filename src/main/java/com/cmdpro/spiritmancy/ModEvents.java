@@ -1,5 +1,6 @@
 package com.cmdpro.spiritmancy;
 
+import com.cmdpro.spiritmancy.api.SoulTankItem;
 import com.cmdpro.spiritmancy.config.SpiritmancyConfig;
 import com.cmdpro.spiritmancy.entity.SoulKeeper;
 import com.cmdpro.spiritmancy.entity.SoulRitualController;
@@ -134,6 +135,23 @@ public class ModEvents {
                 for (Player i : soulKeeper.level().players()) {
                     if (soulKeeper.ritualPos.distanceTo(i.position()) <= 10) {
                         ModCriteriaTriggers.KILLSOULKEEPER.trigger((ServerPlayer)i);
+                    }
+                }
+            }
+        }
+        if (event.getSource().getEntity() instanceof Player player) {
+            if (player.getMainHandItem().is(TagInit.Items.SOULDAGGERS)) {
+                if (player.getInventory().hasAnyMatching((item) -> item.is(ItemInit.SOULTANK.get()))) {
+                    float amount = 10;
+                    ResourceLocation type = new ResourceLocation(Spiritmancy.MOD_ID, "blazing");
+                    for (ItemStack i : player.getInventory().items) {
+                        if (i.is(ItemInit.SOULTANK.get())) {
+                            if (SoulTankItem.addFill(i, type, amount)) {
+                                Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID().toString());
+                                ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
+                                break;
+                            }
+                        }
                     }
                 }
             }

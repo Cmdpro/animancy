@@ -1,11 +1,13 @@
 package com.cmdpro.spiritmancy.block.entity;
 
+import com.cmdpro.spiritmancy.api.SoulTankItem;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
 import com.cmdpro.spiritmancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.NonMenuCraftingContainer;
 import com.cmdpro.spiritmancy.screen.SoulAltarMenu;
+import com.cmdpro.spiritmancy.soultypes.SoulType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -161,7 +163,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
         if (blockEntity instanceof SoulAltarBlockEntity ent) {
             if (ent.recipe != null) {
-                if (ent.enoughRunicEnergy) {
+                if (ent.enoughSouls) {
                     if (SpiritmancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
                         for (int i = 0; i < 9; i++) {
                             ent.itemHandler.getStackInSlot(i).shrink(1);
@@ -170,6 +172,30 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                         ItemEntity entity = new ItemEntity(pLevel, (float) pPos.getX() + 0.5f, (float) pPos.getY() + 1f, (float) pPos.getZ() + 0.5f, stack);
                         pLevel.addFreshEntity(entity);
                         pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
+                        BlockPos[] pillars = {
+                                ent.getBlockPos().offset(2, 0, 0),
+                                ent.getBlockPos().offset(-2, 0, 0),
+                                ent.getBlockPos().offset(0, 0, 2),
+                                ent.getBlockPos().offset(0, 0, -2)
+                        };
+                        Map<ResourceLocation, Float> remaining = new HashMap<>();
+                        for (Map.Entry<ResourceLocation, Float> i : ent.recipe.getSoulCost().entrySet()) {
+                            remaining.put(i.getKey(), i.getValue());
+                        }
+                        for (BlockPos o : pillars) {
+                            if (pLevel.getBlockEntity(o) instanceof GoldPillarBlockEntity ent2) {
+                                if (ent2.item != null && !ent2.item.isEmpty() && ent2.item.getItem() instanceof SoulTankItem) {
+                                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent2.item);
+                                    if (remaining.containsKey(type)) {
+                                        remaining.put(type, SoulTankItem.removeFill(ent2.item, type, remaining.get(type)));
+                                        if (remaining.get(type) <= 0) {
+                                            remaining.remove(type);
+                                        }
+                                        ent2.updateBlock();
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         pPlayer.sendSystemMessage(Component.translatable("block.spiritmancy.soulaltar.dontknowhow"));
                     }
@@ -191,7 +217,20 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         lazyItemHandler.invalidate();
     }
     public void detectSouls() {
-
+        souls.clear();
+        BlockPos[] pillars = {
+                getBlockPos().offset(2, 0, 0),
+                getBlockPos().offset(-2, 0, 0),
+                getBlockPos().offset(0, 0, 2),
+                getBlockPos().offset(0, 0, -2)
+        };
+        for (BlockPos i : pillars) {
+            if (level.getBlockEntity(i) instanceof GoldPillarBlockEntity ent) {
+                if (ent.item != null && !ent.item.isEmpty()) {
+                    souls.put(SoulTankItem.getFillTypeLocation(ent.item), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent.item), 0f)+SoulTankItem.getFillNumber(ent.item));
+                }
+            }
+        }
     }
     public float getTotalSouls() {
         float total = 0;
@@ -201,10 +240,11 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         return total;
     }
     public ISoulAltarRecipe recipe;
-    public boolean enoughRunicEnergy;
+    public boolean enoughSouls;
     public Map<ResourceLocation, Float> soulCost = new HashMap<>();
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
+            pBlockEntity.detectSouls();
             Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeInit.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
             if (recipe.isPresent()) {
                 pBlockEntity.recipe = recipe.get();
@@ -222,7 +262,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                         break;
                     }
                 }
-                pBlockEntity.enoughRunicEnergy = enoughEnergy;
+                pBlockEntity.enoughSouls = enoughEnergy;
             } else {
                 pBlockEntity.recipe = null;
                 if (!pBlockEntity.soulCost.isEmpty()) {

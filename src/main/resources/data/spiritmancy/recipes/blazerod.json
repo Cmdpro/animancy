@@ -2,20 +2,8 @@
   "type": "spiritmancy:shapedsoulaltarrecipe",
   "souls": [
     {
-      "type": "spiritmancy:void",
-      "amount": 15
-    },
-    {
-      "type": "spiritmancy:animal",
-      "amount": 30
-    },
-    {
-      "type": "spiritmancy:humanoid",
-      "amount": 45
-    },
-    {
-      "type": "spiritmancy:monster",
-      "amount": 60
+      "type": "spiritmancy:blazing",
+      "amount": 25
     }
   ],
   "pattern": [

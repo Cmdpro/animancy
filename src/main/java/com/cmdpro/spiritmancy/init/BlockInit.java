@@ -21,6 +21,9 @@ public class BlockInit {
     public static final DeferredRegister<Item> ITEMS = ItemInit.ITEMS;
     public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
             () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
+    public static final RegistryObject<Block> GOLDPILLAR = register("goldpillar",
+            () -> new GoldPillar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
     public static final RegistryObject<Block> ECHOSOIL = register("echosoil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL).mapColor(MapColor.COLOR_BLUE)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));

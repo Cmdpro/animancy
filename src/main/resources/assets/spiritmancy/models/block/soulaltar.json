@@ -6,7 +6,7 @@
     64
   ],
   "textures": {
-    "particle": "spiritmancy:block/soulaltar"
+    "particle": "spiritmancy:block/soulaltarparticle"
   },
   "display": {
     "thirdperson_righthand": {

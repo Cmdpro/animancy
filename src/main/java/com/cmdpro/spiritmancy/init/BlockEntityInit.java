@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.block.entity.GoldPillarBlockEntity;
 import com.cmdpro.spiritmancy.block.entity.SoulAltarBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,6 +17,10 @@ public class BlockEntityInit {
             BLOCK_ENTITIES.register("soulaltar", () ->
                     BlockEntityType.Builder.of(SoulAltarBlockEntity::new,
                             BlockInit.SOULALTAR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<GoldPillarBlockEntity>> GOLDPILLAR =
+            BLOCK_ENTITIES.register("goldpillar", () ->
+                    BlockEntityType.Builder.of(GoldPillarBlockEntity::new,
+                            BlockInit.GOLDPILLAR.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

@@ -1,0 +1,56 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spiritmancy:item/soultank/soultankempty"
+  },
+  "overrides": [
+    {
+      "model": "spiritmancy:item/soultank/soultank1",
+      "predicate": {
+        "spiritmancy:fill": 0.125
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank2",
+      "predicate": {
+        "spiritmancy:fill": 0.25
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank3",
+      "predicate": {
+        "spiritmancy:fill": 0.375
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank4",
+      "predicate": {
+        "spiritmancy:fill": 0.5
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank5",
+      "predicate": {
+        "spiritmancy:fill": 0.625
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank6",
+      "predicate": {
+        "spiritmancy:fill": 0.75
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank7",
+      "predicate": {
+        "spiritmancy:fill": 0.895
+      }
+    },
+    {
+      "model": "spiritmancy:item/soultank/soultank8",
+      "predicate": {
+        "spiritmancy:fill": 1
+      }
+    }
+  ]
+}

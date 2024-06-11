@@ -103,9 +103,11 @@ public class Spiritmancy
             event.accept(ItemInit.PURGATORYINGOT);
             event.accept(ItemInit.PURGATORYDAGGER);
             event.accept(ItemInit.PURGATORYSWORD);
+            event.accept(ItemInit.SOULTANK);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SOULALTARITEM);
+            event.accept(BlockInit.GOLDPILLAR);
             event.accept(BlockInit.ECHOSOIL);
         }
     }

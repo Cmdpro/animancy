@@ -1,6 +1,7 @@
 package com.cmdpro.spiritmancy.init;
 
 import com.cmdpro.spiritmancy.Spiritmancy;
+import com.cmdpro.spiritmancy.api.SoulTankItem;
 import com.cmdpro.spiritmancy.item.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +22,12 @@ public class ItemInit {
     public static final RegistryObject<Item> THESOULSSCREAMMUSICDISC = register("thesoulsscreammusicdisc", () -> new RecordItem(6, SoundInit.SOULKEEPERPHASE1, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 1860));
     public static final RegistryObject<Item> THESOULSREVENGEMUSICDISC = register("thesoulsrevengemusicdisc", () -> new RecordItem(6, SoundInit.SOULKEEPERPHASE2, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 1500));
     public static final RegistryObject<Item> PURGATORYINGOT  = register("purgatoryingot", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SOULTANK  = register("soultank", () -> new SoulTankItem(new Item.Properties()) {
+        @Override
+        public float getMaxSouls() {
+            return 50;
+        }
+    });
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

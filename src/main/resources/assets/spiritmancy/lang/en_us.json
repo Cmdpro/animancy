@@ -17,6 +17,9 @@
   "item.spiritmancy.purgatoryingot": "Purgatory Ingot",
   "item.spiritmancy.purgatorydagger": "Purgatory Dagger",
   "item.spiritmancy.purgatorysword": "Purgatory Sword",
+  "item.spiritmancy.soultank": "Soul Tank",
+  "item.spiritmancy.soultank.tooltip": "%1$s/%2$s Souls",
+  "item.spiritmancy.soultank.tooltip2": "%1$s",
 
   "spiritmancy.soulicon.spiritmancy.blazing": "Blazing",
   "spiritmancy.soulicon.spiritmancy.void": "Void",
