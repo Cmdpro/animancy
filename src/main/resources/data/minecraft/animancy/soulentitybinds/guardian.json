@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:guardian",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 2
+    }
+  ]
+}

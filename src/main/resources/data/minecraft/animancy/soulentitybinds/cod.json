@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:cod",
+  "soulTypes": [
+    {
+      "type": "animancy:animal",
+      "amount": 1
+    }
+  ]
+}

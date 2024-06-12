@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "spiritmancy:crystalsoulsmusicdisc",
-    "spiritmancy:thesoulsscreammusicdisc",
-    "spiritmancy:thesoulsrevengemusicdisc"
+    "animancy:crystalsoulsmusicdisc",
+    "animancy:thesoulsscreammusicdisc",
+    "animancy:thesoulsrevengemusicdisc"
   ]
 }

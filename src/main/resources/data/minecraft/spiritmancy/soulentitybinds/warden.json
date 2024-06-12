@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:warden",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:monster",
-      "amount": 20
-    }
-  ]
-}

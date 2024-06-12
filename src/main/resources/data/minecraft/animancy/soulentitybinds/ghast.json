@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:ghast",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 5
+    },
+    {
+      "type": "animancy:blazing",
+      "amount": 1
+    }
+  ]
+}

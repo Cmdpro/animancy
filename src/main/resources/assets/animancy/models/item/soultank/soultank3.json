@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "animancy:item/soultank/soultankempty",
+    "layer1": "animancy:item/soultank/soultankfilling3"
+  }
+}

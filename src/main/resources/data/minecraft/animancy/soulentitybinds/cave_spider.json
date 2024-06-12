@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:cave_spider",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 2
+    }
+  ]
+}

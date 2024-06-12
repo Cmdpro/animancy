@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " a ",
+    "AbA",
+    "bbb"
+  ],
+  "key": {
+    "a": {
+      "item": "animancy:soulcrystal"
+    },
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "b": {
+      "item": "animancy:soulmetal"
+    }
+  },
+  "result": {
+    "item": "animancy:soulaltar",
+    "count": 1
+  }
+}

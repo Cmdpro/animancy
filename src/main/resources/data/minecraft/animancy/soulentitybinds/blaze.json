@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:blaze",
+  "soulTypes": [
+    {
+      "type": "animancy:blazing",
+      "amount": 3
+    },
+    {
+      "type": "animancy:monster",
+      "amount": 1
+    }
+  ]
+}

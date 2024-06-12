@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:endermite",
+  "soulTypes": [
+    {
+      "type": "animancy:void",
+      "amount": 1
+    }
+  ]
+}

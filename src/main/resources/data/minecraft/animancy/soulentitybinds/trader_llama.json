@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:trader_llama",
+  "soulTypes": [
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    }
+  ]
+}

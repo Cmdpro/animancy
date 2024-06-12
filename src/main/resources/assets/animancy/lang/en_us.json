@@ -1,0 +1,45 @@
+{
+  "item.animancy.soulmetaldagger": "Soulmetal Dagger",
+  "item.animancy.soulmetal": "Soulmetal",
+  "item.animancy.soulcrystal": "Soul Crystal",
+  "creativemodetab.animancyblocks": "Animancy Blocks",
+  "creativemodetab.animancyitems": "Animancy Items",
+  "block.animancy.soulaltar": "Soul Altar",
+  "death.attack.soulexplosion": "%1$s was exploded by souls.",
+  "death.attack.soulexplosion.player": "%1$s was exploded by souls.",
+  "item.animancy.crystalsoulsmusicdisc": "Music Disc",
+  "item.animancy.crystalsoulsmusicdisc.desc": "DavidRarria09 - Crystal Souls",
+  "item.animancy.thesoulsscreammusicdisc": "Music Disc",
+  "item.animancy.thesoulsscreammusicdisc.desc": "DavidRarria09 - The Souls Scream",
+  "item.animancy.thesoulsrevengemusicdisc": "Music Disc",
+  "item.animancy.thesoulsrevengemusicdisc.desc": "DavidRarria09 - The Souls Revenge",
+  "block.animancy.echosoil": "Echo Soil",
+  "item.animancy.purgatoryingot": "Purgatory Ingot",
+  "item.animancy.purgatorydagger": "Purgatory Dagger",
+  "item.animancy.purgatorysword": "Purgatory Sword",
+  "item.animancy.soultank": "Soul Tank",
+  "item.animancy.soultank.tooltip": "%1$s/%2$s Souls",
+  "item.animancy.soultank.tooltip2": "%1$s",
+  "block.animancy.goldpillar": "Gold Pillar",
+
+  "animancy.soulicon.animancy.blazing": "Blazing",
+  "animancy.soulicon.animancy.void": "Void",
+  "animancy.soulicon.animancy.animal": "Animal",
+  "animancy.soulicon.animancy.monster": "Monster",
+  "animancy.soulicon.animancy.humanoid": "Humanoid",
+
+  "animancy.soulritualfail": "There is already a Soul Keeper nearby!",
+  "animancy.soulritualfail2": "You do not know how to perform the Soul Ritual!",
+
+  "entity.animancy.soulkeeper": "Soul Keeper",
+  "entity.animancy.soulkeeper.phase1.text1": "<Soul Keeper> So you finally got experienced enough to summon me...",
+  "entity.animancy.soulkeeper.phase1.text2": "<Soul Keeper> I have been watching you...",
+  "entity.animancy.soulkeeper.phase1.text3": "<Soul Keeper> If you win, you will become stronger than me, I cant let that happen...",
+  "entity.animancy.soulkeeper.phase1.text4": "<Soul Keeper> So PREPARE TO DIE!",
+
+  "advancements.animancy.animancy.title": "Animancy",
+  "advancements.animancy.animancy.description": "The advancements for animancy",
+
+  "item.animancy.animancyguide.name": "Spiritus Libri",
+  "item.animancy.animancyguide.landing": "Discovering the magic behind souls!"
+}

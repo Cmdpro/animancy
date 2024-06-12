@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:evoker",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

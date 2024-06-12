@@ -1,0 +1,56 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "animancy:item/soultank/soultankempty"
+  },
+  "overrides": [
+    {
+      "model": "animancy:item/soultank/soultank1",
+      "predicate": {
+        "animancy:fill": 0.125
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank2",
+      "predicate": {
+        "animancy:fill": 0.25
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank3",
+      "predicate": {
+        "animancy:fill": 0.375
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank4",
+      "predicate": {
+        "animancy:fill": 0.5
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank5",
+      "predicate": {
+        "animancy:fill": 0.625
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank6",
+      "predicate": {
+        "animancy:fill": 0.75
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank7",
+      "predicate": {
+        "animancy:fill": 0.895
+      }
+    },
+    {
+      "model": "animancy:item/soultank/soultank8",
+      "predicate": {
+        "animancy:fill": 1
+      }
+    }
+  ]
+}

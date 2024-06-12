@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:ender_dragon",
+  "soulTypes": [
+    {
+      "type": "animancy:void",
+      "amount": 30
+    },
+    {
+      "type": "animancy:monster",
+      "amount": 15
+    }
+  ]
+}

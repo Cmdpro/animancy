@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:ravager",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 10
+    }
+  ]
+}

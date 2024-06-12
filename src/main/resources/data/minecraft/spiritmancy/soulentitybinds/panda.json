@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:panda",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 2
-    }
-  ]
-}

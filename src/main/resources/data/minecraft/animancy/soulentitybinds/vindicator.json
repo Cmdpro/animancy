@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:vindicator",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

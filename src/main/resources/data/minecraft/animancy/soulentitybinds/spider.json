@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:spider",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 3
+    },
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    }
+  ]
+}

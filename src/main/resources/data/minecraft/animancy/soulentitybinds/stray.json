@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:stray",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 3
+    }
+  ]
+}

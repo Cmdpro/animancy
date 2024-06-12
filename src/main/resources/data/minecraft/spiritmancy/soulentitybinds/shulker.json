@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:shulker",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:void",
-      "amount": 3
-    }
-  ]
-}

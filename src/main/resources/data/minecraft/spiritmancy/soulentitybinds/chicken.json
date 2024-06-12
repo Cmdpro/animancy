@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:chicken",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 1
-    }
-  ]
-}

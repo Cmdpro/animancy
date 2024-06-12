@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:allay",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:humanoid",
-      "amount": 1
-    }
-  ]
-}

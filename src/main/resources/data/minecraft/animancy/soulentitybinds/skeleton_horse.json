@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:skeleton_horse",
+  "soulTypes": [
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    },
+    {
+      "type": "animancy:monster",
+      "amount": 2
+    }
+  ]
+}

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "spiritmancy:block/goldpillar",
-		"particle": "spiritmancy:block/goldpillar"
+		"0": "animancy:block/goldpillar",
+		"particle": "animancy:block/goldpillar"
 	},
 	"elements": [
 		{

@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:glow_squid",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 1
-    }
-  ]
-}

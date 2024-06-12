@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:tadpole",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 1
-    }
-  ]
-}

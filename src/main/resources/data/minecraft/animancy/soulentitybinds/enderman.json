@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:enderman",
+  "soulTypes": [
+    {
+      "type": "animancy:void",
+      "amount": 3
+    },
+    {
+      "type": "animancy:humanoid",
+      "amount": 1
+    }
+  ]
+}

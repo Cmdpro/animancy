@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:axolotl",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 1
-    }
-  ]
-}

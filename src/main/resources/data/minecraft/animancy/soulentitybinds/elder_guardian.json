@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:elder_guardian",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 15
+    }
+  ]
+}

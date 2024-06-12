@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:phantom",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 2
+    }
+  ]
+}

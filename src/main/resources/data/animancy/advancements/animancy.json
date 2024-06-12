@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "animancy:soulmetaldagger"
+    },
+    "title": {
+      "translate": "advancements.animancy.animancy.title"
+    },
+    "description": {
+      "translate": "advancements.animancy.animancy.description"
+    },
+    "background": "minecraft:textures/block/soul_sand.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modonomicon:modonomicon"
+            ],
+            "nbt": "{\"modonomicon:book_id\": \"animancy:animancyguide\"}"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:witch",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

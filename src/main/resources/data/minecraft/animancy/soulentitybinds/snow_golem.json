@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:snow_golem",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 2
+    },
+    {
+      "type": "animancy:monster",
+      "amount": 1
+    }
+  ]
+}

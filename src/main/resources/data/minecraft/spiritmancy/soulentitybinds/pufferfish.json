@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:pufferfish",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:animal",
-      "amount": 1
-    }
-  ]
-}

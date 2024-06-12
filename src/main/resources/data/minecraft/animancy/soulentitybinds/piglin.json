@@ -1,0 +1,17 @@
+{
+  "entity": "minecraft:piglin",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 3
+    },
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    },
+    {
+      "type": "animancy:blazing",
+      "amount": 1
+    }
+  ]
+}

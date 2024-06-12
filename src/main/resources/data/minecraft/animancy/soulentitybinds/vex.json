@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:vex",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 1
+    }
+  ]
+}

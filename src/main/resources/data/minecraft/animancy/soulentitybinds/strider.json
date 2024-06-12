@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:strider",
+  "soulTypes": [
+    {
+      "type": "animancy:monster",
+      "amount": 2
+    },
+    {
+      "type": "animancy:blazing",
+      "amount": 2
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+package com.cmdpro.animancy.criteriatriggers;
+
+
+import com.cmdpro.animancy.Animancy;
+import com.google.gson.JsonObject;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.GsonHelper;
+
+public class KillSoulKeeperTrigger extends SimpleCriterionTrigger<KillSoulKeeperTrigger.TriggerInstance> {
+
+    public static final ResourceLocation ID = new ResourceLocation(Animancy.MOD_ID, "killsoulkeeper");
+
+    public ResourceLocation getId() {
+        return ID;
+    }
+
+    public KillSoulKeeperTrigger.TriggerInstance createInstance(JsonObject pJson, ContextAwarePredicate pEntityPredicate, DeserializationContext pConditionsParser) {
+        return new KillSoulKeeperTrigger.TriggerInstance(pEntityPredicate);
+    }
+
+    public void trigger(ServerPlayer pPlayer) {
+        trigger(pPlayer, instance -> instance.test());
+    }
+
+    public static class TriggerInstance extends AbstractCriterionTriggerInstance {
+        public TriggerInstance(ContextAwarePredicate pPlayer) {
+            super(KillSoulKeeperTrigger.ID, pPlayer);
+        }
+        public boolean test() {
+            return true;
+        }
+    }
+}

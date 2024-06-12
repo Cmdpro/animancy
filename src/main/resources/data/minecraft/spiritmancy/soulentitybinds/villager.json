@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:villager",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:humanoid",
-      "amount": 3
-    }
-  ]
-}

@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:villager",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

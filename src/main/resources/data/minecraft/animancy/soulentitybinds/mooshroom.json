@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:mooshroom",
+  "soulTypes": [
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    }
+  ]
+}

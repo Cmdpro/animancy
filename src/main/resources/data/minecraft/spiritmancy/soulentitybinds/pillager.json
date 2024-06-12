@@ -1,9 +1,0 @@
-{
-  "entity": "minecraft:pillager",
-  "soulTypes": [
-    {
-      "type": "spiritmancy:humanoid",
-      "amount": 3
-    }
-  ]
-}

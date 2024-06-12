@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:allay",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 1
+    }
+  ]
+}
