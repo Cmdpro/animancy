@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:vindicator",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

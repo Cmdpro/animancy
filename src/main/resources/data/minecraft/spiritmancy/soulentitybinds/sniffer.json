@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:sniffer",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 3
+    }
+  ]
+}

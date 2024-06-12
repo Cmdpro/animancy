@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:ender_dragon",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:void",
+      "amount": 30
+    },
+    {
+      "type": "spiritmancy:monster",
+      "amount": 15
+    }
+  ]
+}

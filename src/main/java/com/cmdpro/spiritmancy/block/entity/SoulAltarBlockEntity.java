@@ -3,7 +3,9 @@ package com.cmdpro.spiritmancy.block.entity;
 import com.cmdpro.spiritmancy.api.SoulTankItem;
 import com.cmdpro.spiritmancy.api.SpiritmancyUtil;
 import com.cmdpro.spiritmancy.init.BlockEntityInit;
+import com.cmdpro.spiritmancy.init.ParticleInit;
 import com.cmdpro.spiritmancy.init.RecipeInit;
+import com.cmdpro.spiritmancy.particle.Soul4ParticleOptions;
 import com.cmdpro.spiritmancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.spiritmancy.recipe.NonMenuCraftingContainer;
 import com.cmdpro.spiritmancy.screen.SoulAltarMenu;
@@ -16,6 +18,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
@@ -72,6 +75,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         super(BlockEntityInit.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
         souls = new HashMap<>();
+        craftingTicks = -1;
     }
     @Nonnull
     @Override
@@ -97,27 +101,33 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             soulCost.put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
         item = ItemStack.of(tag.getCompound("item"));
+        craftingTicks = tag.getInt("craftingTicks");
     }
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
         ListTag tag2 = new ListTag();
         for (Map.Entry<ResourceLocation, Float> i : getSouls().entrySet()) {
-            CompoundTag tag3 = new CompoundTag();
-            tag3.putString("key", i.getKey().toString());
-            tag3.putFloat("value", i.getValue());
-            tag2.add(tag3);
+            if (i.getKey() != null) {
+                CompoundTag tag3 = new CompoundTag();
+                tag3.putString("key", i.getKey().toString());
+                tag3.putFloat("value", i.getValue());
+                tag2.add(tag3);
+            }
         }
         tag.put("souls", tag2);
         ListTag tag4 = new ListTag();
         for (Map.Entry<ResourceLocation, Float> i : soulCost.entrySet()) {
-            CompoundTag tag3 = new CompoundTag();
-            tag3.putString("key", i.getKey().toString());
-            tag3.putFloat("value", i.getValue());
-            tag4.add(tag3);
+            if (i.getKey() != null) {
+                CompoundTag tag3 = new CompoundTag();
+                tag3.putString("key", i.getKey().toString());
+                tag3.putFloat("value", i.getValue());
+                tag4.add(tag3);
+            }
         }
         tag.put("soulCost", tag4);
         tag.put("item", item.save(new CompoundTag()));
+        tag.putInt("craftingTicks", craftingTicks);
         return tag;
     }
     @Override
@@ -142,6 +152,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             getSouls().put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
     }
+    public int craftingTicks;
     public ItemStack item;
     public SimpleContainer getInv() {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
@@ -165,37 +176,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             if (ent.recipe != null) {
                 if (ent.enoughSouls) {
                     if (SpiritmancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
-                        for (int i = 0; i < 9; i++) {
-                            ent.itemHandler.getStackInSlot(i).shrink(1);
-                        }
-                        ItemStack stack = ent.recipe.assemble(ent.getCraftingInv(), pLevel.registryAccess());
-                        ItemEntity entity = new ItemEntity(pLevel, (float) pPos.getX() + 0.5f, (float) pPos.getY() + 1f, (float) pPos.getZ() + 0.5f, stack);
-                        pLevel.addFreshEntity(entity);
-                        pLevel.playSound(null, pPos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
-                        BlockPos[] pillars = {
-                                ent.getBlockPos().offset(2, 0, 0),
-                                ent.getBlockPos().offset(-2, 0, 0),
-                                ent.getBlockPos().offset(0, 0, 2),
-                                ent.getBlockPos().offset(0, 0, -2)
-                        };
-                        Map<ResourceLocation, Float> remaining = new HashMap<>();
-                        for (Map.Entry<ResourceLocation, Float> i : ent.recipe.getSoulCost().entrySet()) {
-                            remaining.put(i.getKey(), i.getValue());
-                        }
-                        for (BlockPos o : pillars) {
-                            if (pLevel.getBlockEntity(o) instanceof GoldPillarBlockEntity ent2) {
-                                if (ent2.item != null && !ent2.item.isEmpty() && ent2.item.getItem() instanceof SoulTankItem) {
-                                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent2.item);
-                                    if (remaining.containsKey(type)) {
-                                        remaining.put(type, SoulTankItem.removeFill(ent2.item, type, remaining.get(type)));
-                                        if (remaining.get(type) <= 0) {
-                                            remaining.remove(type);
-                                        }
-                                        ent2.updateBlock();
-                                    }
-                                }
-                            }
-                        }
+                        ent.craftingTicks = 0;
                     } else {
                         pPlayer.sendSystemMessage(Component.translatable("block.spiritmancy.soulaltar.dontknowhow"));
                     }
@@ -250,27 +231,102 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                 pBlockEntity.recipe = recipe.get();
                 pBlockEntity.soulCost = recipe.get().getSoulCost();
                 pBlockEntity.item = recipe.get().getResultItem(pLevel.registryAccess());
-                boolean enoughEnergy = true;
+                boolean enoughSouls = true;
                 for (Map.Entry<ResourceLocation, Float> i : recipe.get().getSoulCost().entrySet()) {
                     if (pBlockEntity.getSouls().containsKey(i.getKey())) {
                         if (pBlockEntity.getSouls().get(i.getKey()) < i.getValue()) {
-                            enoughEnergy = false;
+                            enoughSouls = false;
                             break;
                         }
                     } else {
-                        enoughEnergy = false;
+                        enoughSouls = false;
                         break;
                     }
                 }
-                pBlockEntity.enoughSouls = enoughEnergy;
+                pBlockEntity.enoughSouls = enoughSouls;
+                if (!enoughSouls) {
+                    pBlockEntity.craftingTicks = -1;
+                }
+                if (pBlockEntity.craftingTicks >= 0) {
+                    pBlockEntity.craftingTicks++;
+                    pBlockEntity.craftingEffects();
+                    if (pBlockEntity.craftingTicks >= 200) {
+                        pBlockEntity.actuallyCraft();
+                    }
+                }
             } else {
                 pBlockEntity.recipe = null;
                 if (!pBlockEntity.soulCost.isEmpty()) {
                     pBlockEntity.soulCost = new HashMap<>();
                 }
                 pBlockEntity.item = ItemStack.EMPTY;
+                pBlockEntity.craftingTicks = -1;
             }
             pBlockEntity.updateBlock();
+        }
+    }
+    public void craftingEffects() {
+        Map<ResourceLocation, Float> remaining = new HashMap<>();
+        for (Map.Entry<ResourceLocation, Float> i : recipe.getSoulCost().entrySet()) {
+            remaining.put(i.getKey(), i.getValue());
+        }
+        for (int i = 0; i < 4; i++) {
+            double x = getBlockPos().getCenter().x + (Math.cos(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/200f))*2));
+            double y = getBlockPos().getCenter().y + 1;
+            double z = getBlockPos().getCenter().z + (Math.sin(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/200f))*2));
+            BlockPos[] pillars = {
+                    getBlockPos().offset(2, 0, 0),
+                    getBlockPos().offset(0, 0, 2),
+                    getBlockPos().offset(-2, 0, 0),
+                    getBlockPos().offset(0, 0, -2)
+            };
+            if (level.getBlockEntity(pillars[i]) instanceof GoldPillarBlockEntity ent) {
+                if (ent.item != null && !ent.item.isEmpty() && ent.item.getItem() instanceof SoulTankItem) {
+                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent.item);
+                    if (remaining.containsKey(type)) {
+                        remaining.put(type, SoulTankItem.removeFill(ent.item, type, remaining.get(type), false));
+                        if (remaining.get(type) <= 0) {
+                            remaining.remove(type);
+                        }
+                        Soul4ParticleOptions options = new Soul4ParticleOptions(type.toString());
+                        ((ServerLevel)level).sendParticles(options, x, y, z, 3, 0.05, 0.05, 0.05, 0);
+                    }
+                }
+            }
+        }
+    }
+    public void actuallyCraft() {
+        craftingTicks = -1;
+        for (int i = 0; i < 9; i++) {
+            itemHandler.getStackInSlot(i).shrink(1);
+        }
+        ItemStack stack = recipe.assemble(getCraftingInv(), level.registryAccess());
+        ItemEntity entity = new ItemEntity(level, (float) getBlockPos().getX() + 0.5f, (float) getBlockPos().getY() + 1f, (float) getBlockPos().getZ() + 0.5f, stack);
+        level.addFreshEntity(entity);
+        level.playSound(null, getBlockPos(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 2, 1);
+        BlockPos[] pillars = {
+                getBlockPos().offset(2, 0, 0),
+                getBlockPos().offset(-2, 0, 0),
+                getBlockPos().offset(0, 0, 2),
+                getBlockPos().offset(0, 0, -2)
+        };
+        Map<ResourceLocation, Float> remaining = new HashMap<>();
+        for (Map.Entry<ResourceLocation, Float> i : recipe.getSoulCost().entrySet()) {
+            remaining.put(i.getKey(), i.getValue());
+        }
+        for (BlockPos o : pillars) {
+            if (level.getBlockEntity(o) instanceof GoldPillarBlockEntity ent2) {
+                if (ent2.item != null && !ent2.item.isEmpty() && ent2.item.getItem() instanceof SoulTankItem) {
+                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent2.item);
+                    if (remaining.containsKey(type)) {
+                        remaining.put(type, SoulTankItem.removeFill(ent2.item, type, remaining.get(type)));
+                        if (remaining.get(type) <= 0) {
+                            remaining.remove(type);
+                        }
+                        ent2.updateBlock();
+                    }
+                }
+            }
         }
     }
     protected void updateBlock() {

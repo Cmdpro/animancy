@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:turtle",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 2
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:mule",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 2
+    }
+  ]
+}

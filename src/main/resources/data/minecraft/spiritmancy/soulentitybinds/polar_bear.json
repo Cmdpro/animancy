@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:polar_bear",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 3
+    }
+  ]
+}

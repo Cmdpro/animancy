@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:llama",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 2
+    }
+  ]
+}

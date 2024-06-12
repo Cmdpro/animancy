@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:ocelot",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 1
+    }
+  ]
+}

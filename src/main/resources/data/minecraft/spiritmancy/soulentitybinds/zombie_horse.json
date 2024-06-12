@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:zombie_horse",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 2
+    },
+    {
+      "type": "spiritmancy:monster",
+      "amount": 2
+    }
+  ]
+}

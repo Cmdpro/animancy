@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:silverfish",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 1
+    }
+  ]
+}

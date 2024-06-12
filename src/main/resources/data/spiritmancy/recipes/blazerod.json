@@ -3,7 +3,19 @@
   "souls": [
     {
       "type": "spiritmancy:blazing",
-      "amount": 25
+      "amount": 10
+    },
+    {
+      "type": "spiritmancy:void",
+      "amount": 10
+    },
+    {
+      "type": "spiritmancy:monster",
+      "amount": 10
+    },
+    {
+      "type": "spiritmancy:animal",
+      "amount": 10
     }
   ],
   "pattern": [

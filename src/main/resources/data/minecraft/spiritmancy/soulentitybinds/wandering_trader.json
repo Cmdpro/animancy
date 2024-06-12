@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:wandering_trader",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:humanoid",
+      "amount": 3
+    }
+  ]
+}

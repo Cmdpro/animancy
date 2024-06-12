@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:wither",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:blazing",
+      "amount": 30
+    },
+    {
+      "type": "spiritmancy:monster",
+      "amount": 15
+    }
+  ]
+}

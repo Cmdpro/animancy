@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:iron_golem",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:humanoid",
+      "amount": 2
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:magma_cube",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:flaming",
+      "amount": 2
+    },
+    {
+      "type": "spiritmancy:monster",
+      "amount": 2
+    }
+  ]
+}

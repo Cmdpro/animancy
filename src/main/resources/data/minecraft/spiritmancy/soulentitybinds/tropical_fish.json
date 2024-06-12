@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:tropical_fish",
+  "soulTypes": [
+    {
+      "type": "spiritmancy:animal",
+      "amount": 1
+    }
+  ]
+}
