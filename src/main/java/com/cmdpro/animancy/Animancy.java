@@ -42,7 +42,6 @@ public class Animancy
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     public static RandomSource random;
-    public static ImmutableList<EntityType<? extends LivingEntity>> soulCrystalEntities = ImmutableList.of();
     public Animancy()
     {
         // Register the setup method for modloading
