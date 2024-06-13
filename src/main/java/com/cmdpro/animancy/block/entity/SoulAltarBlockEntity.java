@@ -176,7 +176,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             if (ent.recipe != null) {
                 if (ent.enoughSouls) {
                     if (AnimancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
-                        ent.craftingTicks = 0;
+                        if (ent.craftingTicks <= -1) {
+                            ent.craftingTicks = 0;
+                        }
                     } else {
                         pPlayer.sendSystemMessage(Component.translatable("block.animancy.soulaltar.dontknowhow"));
                     }
