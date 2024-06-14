@@ -1,0 +1,13 @@
+{
+  "entity": "animancy:soulkeeper",
+  "soulTypes": [
+    {
+      "type": "animancy:humanoid",
+      "amount": 30
+    },
+    {
+      "type": "animancy:purified",
+      "amount": 30
+    }
+  ]
+}
