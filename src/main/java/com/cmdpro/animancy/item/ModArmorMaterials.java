@@ -8,14 +8,15 @@ import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    PURGATORY("purgatory", 33, new int[]{5, 8, 10, 5}, 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 3.0F, 0.0F, () -> {
-        return Ingredient.of(ItemInit.PURGATORYINGOT.get());
+    STRIDER("strider", 5, new int[]{1, 3, 2, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+        return Ingredient.of(Items.LEATHER);
     });
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};

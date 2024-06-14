@@ -28,6 +28,7 @@ public class ItemInit {
             return 50;
         }
     });
+    public static final RegistryObject<Item> STRIDERBOOTS = register("striderboots", () -> new ArmorItem(ModArmorMaterials.STRIDER, ArmorItem.Type.BOOTS, new Item.Properties()));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

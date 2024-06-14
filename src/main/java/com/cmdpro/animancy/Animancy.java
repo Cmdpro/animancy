@@ -93,6 +93,7 @@ public class Animancy
             event.accept(ItemInit.PURGATORYDAGGER);
             event.accept(ItemInit.PURGATORYSWORD);
             event.accept(ItemInit.SOULTANK);
+            event.accept(ItemInit.STRIDERBOOTS);
         }
         if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
             event.accept(ItemInit.SOULALTARITEM);
