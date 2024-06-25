@@ -1,9 +1,9 @@
 {
   "icon": "animancy:soulicon/monster",
   "color": {
-    "r": 90,
-    "g": 197,
-    "b": 79
+    "r": 172,
+    "g": 22,
+    "b": 45
   },
   "name": "animancy.soulicon.animancy.monster"
 }

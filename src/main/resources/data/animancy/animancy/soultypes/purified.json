@@ -1,9 +1,9 @@
 {
   "icon": "animancy:soulicon/purified",
   "color": {
-    "r": 115,
-    "g": 185,
-    "b": 255
+    "r": 31,
+    "g": 171,
+    "b": 224
   },
   "name": "animancy.soulicon.animancy.purified"
 }
