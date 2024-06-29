@@ -1,7 +1,7 @@
 package com.cmdpro.animancy;
 
 import com.cmdpro.animancy.api.SoulTankItem;
-import com.cmdpro.animancy.init.*;
+import com.cmdpro.animancy.registry.*;
 import com.cmdpro.animancy.integration.PageSoulAltar;
 import com.cmdpro.animancy.particle.Soul2Particle;
 import com.cmdpro.animancy.particle.Soul3Particle;
@@ -10,14 +10,12 @@ import com.cmdpro.animancy.particle.SoulParticle;
 import com.cmdpro.animancy.renderers.*;
 import com.cmdpro.animancy.screen.SoulAltarScreen;
 import com.cmdpro.animancy.soultypes.SoulType;
-import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -32,12 +30,12 @@ import vazkii.patchouli.client.book.ClientBookRegistry;
 public class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BlockEntityInit.SOULALTAR.get(), SoulAltarRenderer::new);
-        event.registerBlockEntityRenderer(BlockEntityInit.GOLDPILLAR.get(), GoldPillarRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.SOULALTAR.get(), SoulAltarRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.GOLDPILLAR.get(), GoldPillarRenderer::new);
     }
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(soulTankColor, ItemInit.SOULTANK.get());
+        event.register(soulTankColor, ItemRegistry.SOULTANK.get());
     }
     public static ItemColor soulTankColor = new ItemColor() {
         @Override
@@ -53,11 +51,11 @@ public class ClientModEvents {
     };
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
-        EntityRenderers.register(EntityInit.SOULKEEPER.get(), SoulKeeperRenderer::new);
-        EntityRenderers.register(EntityInit.SOULRITUALCONTROLLER.get(), SoulRitualControllerRenderer::new);
+        EntityRenderers.register(EntityRegistry.SOULKEEPER.get(), SoulKeeperRenderer::new);
+        EntityRenderers.register(EntityRegistry.SOULRITUALCONTROLLER.get(), SoulRitualControllerRenderer::new);
 
         event.enqueueWork(() -> {
-            ItemProperties.register(ItemInit.SOULTANK.get(), new ResourceLocation(Animancy.MOD_ID, "fill"), (stack, level, entity, seed) -> {
+            ItemProperties.register(ItemRegistry.SOULTANK.get(), new ResourceLocation(Animancy.MOD_ID, "fill"), (stack, level, entity, seed) -> {
                 float fill = SoulTankItem.getFill(stack);
                 if (fill <= 0.125f && fill > 0) {
                     return 0.125f;
@@ -66,19 +64,19 @@ public class ClientModEvents {
             });
         });
 
-        MenuScreens.register(MenuInit.SOULALTARMENU.get(), SoulAltarScreen::new);
+        MenuScreens.register(MenuRegistry.SOULALTARMENU.get(), SoulAltarScreen::new);
 
         ClientBookRegistry.INSTANCE.pageTypes.put(new ResourceLocation(Animancy.MOD_ID, "soulaltar"), PageSoulAltar.class);
     }
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL.get(),
+        Minecraft.getInstance().particleEngine.register(ParticleRegistry.SOUL.get(),
                 SoulParticle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL2.get(),
+        Minecraft.getInstance().particleEngine.register(ParticleRegistry.SOUL2.get(),
                 Soul2Particle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL3.get(),
+        Minecraft.getInstance().particleEngine.register(ParticleRegistry.SOUL3.get(),
                 Soul3Particle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.SOUL4.get(),
+        Minecraft.getInstance().particleEngine.register(ParticleRegistry.SOUL4.get(),
                 Soul4Particle.Provider::new);
     }
 }

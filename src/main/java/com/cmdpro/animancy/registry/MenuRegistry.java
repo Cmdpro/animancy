@@ -1,4 +1,4 @@
-package com.cmdpro.animancy.init;
+package com.cmdpro.animancy.registry;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.screen.SoulAltarMenu;
@@ -11,7 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class MenuInit {
+public class MenuRegistry {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Animancy.MOD_ID);
 
     public static final RegistryObject<MenuType<SoulAltarMenu>> SOULALTARMENU = registerMenuType(SoulAltarMenu::new, "soulaltarmenu");

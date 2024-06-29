@@ -1,18 +1,15 @@
 package com.cmdpro.animancy;
 
 import com.cmdpro.animancy.config.AnimancyConfig;
-import com.cmdpro.animancy.init.*;
+import com.cmdpro.animancy.registry.*;
 import com.cmdpro.animancy.integration.PatchouliMultiblocks;
 import com.cmdpro.animancy.networking.ModMessages;
-import com.google.common.collect.ImmutableList;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -58,15 +55,15 @@ public class Animancy
 
         modLoadingContext.registerConfig(ModConfig.Type.COMMON, AnimancyConfig.COMMON_SPEC, "animancy.toml");
 
-        ItemInit.ITEMS.register(bus);
-        BlockInit.BLOCKS.register(bus);
-        BlockEntityInit.BLOCK_ENTITIES.register(bus);
-        EntityInit.ENTITY_TYPES.register(bus);
-        MenuInit.register(bus);
-        RecipeInit.register(bus);
-        SoundInit.register(bus);
-        CreativeModeTabInit.register(bus);
-        ParticleInit.register(bus);
+        ItemRegistry.ITEMS.register(bus);
+        BlockRegistry.BLOCKS.register(bus);
+        BlockEntityRegistry.BLOCK_ENTITIES.register(bus);
+        EntityRegistry.ENTITY_TYPES.register(bus);
+        MenuRegistry.register(bus);
+        RecipeRegistry.register(bus);
+        SoundRegistry.register(bus);
+        CreativeModeTabRegistry.register(bus);
+        ParticleRegistry.register(bus);
         GeckoLib.initialize();
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -82,30 +79,30 @@ public class Animancy
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
 
         }
-        if (event.getTabKey() == CreativeModeTabInit.ITEMS.getKey()) {
-            event.accept(ItemInit.SOULMETALDAGGER);
-            event.accept(ItemInit.SOULMETAL);
-            event.accept(ItemInit.SOULCRYSTAL);
-            event.accept(ItemInit.CRYSTALSOULSMUSICDISC);
-            event.accept(ItemInit.THESOULSSCREAMMUSICDISC);
-            event.accept(ItemInit.THESOULSREVENGEMUSICDISC);
-            event.accept(ItemInit.PURGATORYINGOT);
-            event.accept(ItemInit.PURGATORYDAGGER);
-            event.accept(ItemInit.PURGATORYSWORD);
-            event.accept(ItemInit.SOULTANK);
-            event.accept(ItemInit.STRIDERBOOTS);
+        if (event.getTabKey() == CreativeModeTabRegistry.ITEMS.getKey()) {
+            event.accept(ItemRegistry.SOULMETALDAGGER);
+            event.accept(ItemRegistry.SOULMETAL);
+            event.accept(ItemRegistry.SOULCRYSTAL);
+            event.accept(ItemRegistry.CRYSTALSOULSMUSICDISC);
+            event.accept(ItemRegistry.THESOULSSCREAMMUSICDISC);
+            event.accept(ItemRegistry.THESOULSREVENGEMUSICDISC);
+            event.accept(ItemRegistry.PURGATORYINGOT);
+            event.accept(ItemRegistry.PURGATORYDAGGER);
+            event.accept(ItemRegistry.PURGATORYSWORD);
+            event.accept(ItemRegistry.SOULTANK);
+            event.accept(ItemRegistry.STRIDERBOOTS);
         }
-        if (event.getTabKey() == CreativeModeTabInit.BLOCKS.getKey()) {
-            event.accept(ItemInit.SOULALTARITEM);
-            event.accept(BlockInit.GOLDPILLAR);
-            event.accept(BlockInit.ECHOSOIL);
+        if (event.getTabKey() == CreativeModeTabRegistry.BLOCKS.getKey()) {
+            event.accept(ItemRegistry.SOULALTARITEM);
+            event.accept(BlockRegistry.GOLDPILLAR);
+            event.accept(BlockRegistry.ECHOSOIL);
         }
     }
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
         ModMessages.register();
-        event.enqueueWork(ModCriteriaTriggers::register);
+        event.enqueueWork(CriteriaTriggerRegistry::register);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

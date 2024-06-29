@@ -1,7 +1,7 @@
 package com.cmdpro.animancy.api;
 
 import com.cmdpro.animancy.entity.SoulKeeper;
-import com.cmdpro.animancy.init.EntityInit;
+import com.cmdpro.animancy.registry.EntityRegistry;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class AnimancyUtil {
     public static SoulKeeper spawnSoulKeeper(Vec3 pos, Level level) {
-        SoulKeeper boss = new SoulKeeper(EntityInit.SOULKEEPER.get(), level);
+        SoulKeeper boss = new SoulKeeper(EntityRegistry.SOULKEEPER.get(), level);
         boss.setPos(pos);
         boss.spawn();
         level.addFreshEntity(boss);

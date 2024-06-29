@@ -1,4 +1,4 @@
-package com.cmdpro.animancy.init;
+package com.cmdpro.animancy.registry;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.block.*;
@@ -6,7 +6,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -15,10 +14,10 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class BlockInit {
+public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Animancy.MOD_ID);
-    public static final DeferredRegister<Item> ITEMS = ItemInit.ITEMS;
+    public static final DeferredRegister<Item> ITEMS = ItemRegistry.ITEMS;
     public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
             () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
     public static final RegistryObject<Block> GOLDPILLAR = register("goldpillar",

@@ -1,8 +1,8 @@
 package com.cmdpro.animancy.screen;
 
 import com.cmdpro.animancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.animancy.init.BlockInit;
-import com.cmdpro.animancy.init.MenuInit;
+import com.cmdpro.animancy.registry.BlockRegistry;
+import com.cmdpro.animancy.registry.MenuRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class SoulAltarMenu extends AbstractContainerMenu {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
     }
     public SoulAltarMenu(int pContainerId, Inventory inv, BlockEntity entity) {
-        super(MenuInit.SOULALTARMENU.get(), pContainerId);
+        super(MenuRegistry.SOULALTARMENU.get(), pContainerId);
         checkContainerSize(inv, 3);
         blockEntity = ((SoulAltarBlockEntity) entity);
         this.level = inv.player.level();
@@ -91,7 +91,7 @@ public class SoulAltarMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, BlockInit.SOULALTAR.get());
+                pPlayer, BlockRegistry.SOULALTAR.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

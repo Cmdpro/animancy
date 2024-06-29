@@ -1,6 +1,6 @@
 package com.cmdpro.animancy.particle;
 
-import com.cmdpro.animancy.init.ParticleInit;
+import com.cmdpro.animancy.registry.ParticleRegistry;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
@@ -12,7 +12,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Locale;
-import java.util.UUID;
 
 public class Soul4ParticleOptions implements ParticleOptions {
     public ResourceLocation soulType;
@@ -21,7 +20,7 @@ public class Soul4ParticleOptions implements ParticleOptions {
     }
     @Override
     public ParticleType<?> getType() {
-        return ParticleInit.SOUL4.get();
+        return ParticleRegistry.SOUL4.get();
     }
 
     @Override

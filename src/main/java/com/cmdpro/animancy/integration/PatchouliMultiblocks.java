@@ -1,8 +1,7 @@
 package com.cmdpro.animancy.integration;
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.init.BlockInit;
-import com.cmdpro.animancy.init.TagInit;
+import com.cmdpro.animancy.registry.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -232,7 +231,7 @@ public class PatchouliMultiblocks {
                 'S', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
                 'E', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
                 'W', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-                '0', PatchouliAPI.get().looseBlockMatcher(BlockInit.ECHOSOIL.get()),
+                '0', PatchouliAPI.get().looseBlockMatcher(BlockRegistry.ECHOSOIL.get()),
                 'e', PatchouliAPI.get().looseBlockMatcher(Blocks.SOUL_FIRE),
                 'b', PatchouliAPI.get().stateMatcher(Blocks.CANDLE.defaultBlockState().setValue(CandleBlock.LIT, true)),
                 ' ', PatchouliAPI.get().predicateMatcher(Blocks.AIR, (state) -> {
@@ -248,7 +247,7 @@ public class PatchouliMultiblocks {
                 'S', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH)),
                 'E', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.EAST)),
                 'W', PatchouliAPI.get().stateMatcher(Blocks.DEEPSLATE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.WEST)),
-                '0', PatchouliAPI.get().looseBlockMatcher(BlockInit.ECHOSOIL.get()),
+                '0', PatchouliAPI.get().looseBlockMatcher(BlockRegistry.ECHOSOIL.get()),
                 'e', PatchouliAPI.get().predicateMatcher(Blocks.SOUL_FIRE, (state) -> {
                     return state.is(Blocks.SOUL_FIRE) || state.isAir();
                 }),

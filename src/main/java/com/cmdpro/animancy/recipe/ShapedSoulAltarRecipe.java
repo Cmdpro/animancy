@@ -2,7 +2,7 @@ package com.cmdpro.animancy.recipe;
 
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.init.RecipeInit;
+import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -128,7 +128,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
 
     @Override
     public RecipeType<?> getType() {
-        return RecipeInit.SOULALTAR.get();
+        return RecipeRegistry.SOULALTAR.get();
     }
 
 

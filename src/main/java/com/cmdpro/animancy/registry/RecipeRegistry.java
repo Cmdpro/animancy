@@ -1,4 +1,4 @@
-package com.cmdpro.animancy.init;
+package com.cmdpro.animancy.registry;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
@@ -12,7 +12,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class RecipeInit {
+public class RecipeRegistry {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Animancy.MOD_ID);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Animancy.MOD_ID);
 

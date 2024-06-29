@@ -2,7 +2,7 @@ package com.cmdpro.animancy.recipe;
 
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.init.RecipeInit;
+import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -96,7 +96,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
 
     @Override
     public RecipeType<?> getType() {
-        return RecipeInit.SOULALTAR.get();
+        return RecipeRegistry.SOULALTAR.get();
     }
 
 

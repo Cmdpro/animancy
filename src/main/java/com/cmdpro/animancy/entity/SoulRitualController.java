@@ -2,8 +2,7 @@ package com.cmdpro.animancy.entity;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.api.AnimancyUtil;
-import com.cmdpro.animancy.init.ParticleInit;
-import net.minecraft.core.BlockPos;
+import com.cmdpro.animancy.registry.ParticleRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -84,7 +83,7 @@ public class SoulRitualController extends Entity {
                 for (int i = 0; i < 5; i++) {
                     Vec3 offset = new Vec3(RandomUtils.nextDouble(0, 1) - 0.5d, 0, RandomUtils.nextDouble(0, 1) - 0.5d);
                     Vec3 pos = blockPosition().getCenter().subtract(0, 0.5f, 0).add(offset);
-                    level().addParticle(ParticleInit.SOUL.get(), pos.x+offset.x, pos.y, pos.z+offset.y, -offset.x / 4f, 1, -offset.z / 4f);
+                    level().addParticle(ParticleRegistry.SOUL.get(), pos.x+offset.x, pos.y, pos.z+offset.y, -offset.x / 4f, 1, -offset.z / 4f);
                 }
             }
         }

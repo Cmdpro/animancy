@@ -1,13 +1,10 @@
 package com.cmdpro.animancy.block.entity;
 
-import com.cmdpro.animancy.init.BlockEntityInit;
+import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -15,11 +12,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 public class GoldPillarBlockEntity extends BlockEntity {
     public GoldPillarBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.GOLDPILLAR.get(), pos, state);
+        super(BlockEntityRegistry.GOLDPILLAR.get(), pos, state);
         item = ItemStack.EMPTY;
     }
     public void updateBlock() {

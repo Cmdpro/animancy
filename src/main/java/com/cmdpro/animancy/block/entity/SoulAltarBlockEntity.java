@@ -2,14 +2,12 @@ package com.cmdpro.animancy.block.entity;
 
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.api.AnimancyUtil;
-import com.cmdpro.animancy.init.BlockEntityInit;
-import com.cmdpro.animancy.init.ParticleInit;
-import com.cmdpro.animancy.init.RecipeInit;
+import com.cmdpro.animancy.registry.BlockEntityRegistry;
+import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.animancy.recipe.NonMenuCraftingContainer;
 import com.cmdpro.animancy.screen.SoulAltarMenu;
-import com.cmdpro.animancy.soultypes.SoulType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -32,7 +30,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -72,7 +69,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityInit.SOULALTAR.get(), pos, state);
+        super(BlockEntityRegistry.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
         souls = new HashMap<>();
         craftingTicks = -1;
@@ -228,7 +225,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
             pBlockEntity.detectSouls();
-            Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeInit.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
+            Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeRegistry.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
             if (recipe.isPresent()) {
                 pBlockEntity.recipe = recipe.get();
                 pBlockEntity.soulCost = recipe.get().getSoulCost();

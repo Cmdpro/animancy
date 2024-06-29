@@ -1,9 +1,8 @@
 package com.cmdpro.animancy.integration;
 
-import com.cmdpro.animancy.init.RecipeInit;
+import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.animancy.recipe.ShapedSoulAltarRecipe;
-import com.cmdpro.animancy.renderers.SoulAltarRenderer;
 import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -17,8 +16,6 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 
 import org.joml.Math;
@@ -30,7 +27,7 @@ import java.util.Map;
 public class PageSoulAltar extends PageDoubleRecipeRegistry<Recipe<?>> {
 
 	public PageSoulAltar() {
-		super(RecipeInit.SOULALTAR.get());
+		super(RecipeRegistry.SOULALTAR.get());
 	}
 
 	@Override

@@ -1,9 +1,8 @@
 package com.cmdpro.animancy.block;
 
 import com.cmdpro.animancy.block.entity.SoulAltarBlockEntity;
-import com.cmdpro.animancy.init.BlockEntityInit;
-import com.cmdpro.animancy.init.ItemInit;
-import com.cmdpro.animancy.init.TagInit;
+import com.cmdpro.animancy.registry.BlockEntityRegistry;
+import com.cmdpro.animancy.registry.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -63,7 +62,7 @@ public class SoulAltar extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof SoulAltarBlockEntity ent) {
-                if (pPlayer.getItemInHand(pHand).is(TagInit.Items.SOULDAGGERS)) {
+                if (pPlayer.getItemInHand(pHand).is(TagRegistry.Items.SOULDAGGERS)) {
                     return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
                 }
                 NetworkHooks.openScreen(((ServerPlayer) pPlayer), (SoulAltarBlockEntity) entity, pPos);
@@ -77,7 +76,7 @@ public class SoulAltar extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, BlockEntityInit.SOULALTAR.get(),
+        return createTickerHelper(pBlockEntityType, BlockEntityRegistry.SOULALTAR.get(),
                 SoulAltarBlockEntity::tick);
     }
 }

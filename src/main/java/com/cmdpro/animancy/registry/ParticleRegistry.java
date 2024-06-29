@@ -1,25 +1,17 @@
-package com.cmdpro.animancy.init;
+package com.cmdpro.animancy.registry;
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.particle.Soul2Particle;
-import com.cmdpro.animancy.particle.Soul3Particle;
 import com.cmdpro.animancy.particle.Soul3ParticleOptions;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
 import com.mojang.serialization.Codec;
-import net.minecraft.core.Registry;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.function.Function;
-
-public class ParticleInit {
+public class ParticleRegistry {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Animancy.MOD_ID);
 

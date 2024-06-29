@@ -1,11 +1,10 @@
 package com.cmdpro.animancy.integration.jei;
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.init.ItemInit;
+import com.cmdpro.animancy.registry.ItemRegistry;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
-import com.mojang.blaze3d.platform.TextureUtil;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -17,21 +16,12 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.PaintingTextureManager;
-import net.minecraft.client.resources.model.AtlasSet;
-import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.textures.TextureAtlasSpriteLoaderManager;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.items.SlotItemHandler;
 import org.joml.Math;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +38,7 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<ISoulAltarRecipe
     public SoulAltarRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(TEXTURE, 0, 0, 116, 74);
         this.craftingGridHelper = guiHelper.createCraftingGridHelper();
-        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemInit.SOULALTARITEM.get()));
+        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemRegistry.SOULALTARITEM.get()));
     }
 
     @Override

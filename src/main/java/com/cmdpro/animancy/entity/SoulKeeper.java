@@ -1,11 +1,8 @@
 package com.cmdpro.animancy.entity;
 
 import com.cmdpro.animancy.Animancy;
-import com.cmdpro.animancy.init.ItemInit;
-import com.cmdpro.animancy.init.ModCriteriaTriggers;
-import com.cmdpro.animancy.init.ParticleInit;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.multiplayer.ClientLevel;
+import com.cmdpro.animancy.registry.CriteriaTriggerRegistry;
+import com.cmdpro.animancy.registry.ParticleRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -13,7 +10,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.commands.SummonCommand;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,10 +19,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -48,10 +42,8 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
 import org.apache.commons.lang3.RandomUtils;
 import org.joml.Vector3f;
-import org.lwjgl.system.MathUtil;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -193,7 +185,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
                         if (ritualPos.distanceTo(i.position()) > 10) {
                             continue;
                         }
-                        ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 50, 0, 0, 0, 0.75f);
+                        ((ServerLevel)level()).sendParticles(ParticleRegistry.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 50, 0, 0, 0, 0.75f);
                         succeed = true;
                     }
                     if (succeed == false) {
@@ -235,7 +227,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 }
             }
             if (atk == 1 && atkTimer == 0) {
-                ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), position().x, position().y+1f, position().z, 200, 0, 0, 0, 0.75f);
+                ((ServerLevel)level()).sendParticles(ParticleRegistry.SOUL.get(), position().x, position().y+1f, position().z, 200, 0, 0, 0, 0.75f);
                 level().playSound(null, position().x, position().y, position().z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0f, 1.0f);
                 List<LivingEntity> entities = level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, this, AABB.ofSize(position(), 5f, 5f, 5f));
                 for (LivingEntity p : entities) {
@@ -259,7 +251,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
                     for (LivingEntity p : entities) {
                         p.hurt(level().damageSources().mobAttack(this), 20);
                     }
-                    ((ServerLevel)level()).sendParticles(ParticleInit.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 200, 0, 0, 0, 0.75f);
+                    ((ServerLevel)level()).sendParticles(ParticleRegistry.SOUL.get(), i.position().x, i.position().y+1f, i.position().z, 200, 0, 0, 0, 0.75f);
                     level().playSound(null, i.position().x, i.position().y, i.position().z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0f, 1.0f);
                 }
             }
@@ -285,13 +277,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 for (int i = 0; i < 5; i++) {
                     Vec3 offset = new Vec3(RandomUtils.nextDouble(0, 4) - 2d, RandomUtils.nextDouble(0, 4) - 2d, RandomUtils.nextDouble(0, 4) - 2d);
                     Vec3 pos = position().add(0, 1, 0).add(offset);
-                    level().addParticle(ParticleInit.SOUL.get(), pos.x, pos.y, pos.z, -offset.x / 4f, -offset.y / 4f, -offset.z / 4f);
+                    level().addParticle(ParticleRegistry.SOUL.get(), pos.x, pos.y, pos.z, -offset.x / 4f, -offset.y / 4f, -offset.z / 4f);
                 }
             }
             for (int i = 0; i < 360; i++) {
                 Vec3 pos = new Vec3(ritualPos.x, ritualPos.y, ritualPos.z);
                 pos = pos.add(Math.cos(i)*10, -0.5, Math.sin(i)*10);
-                level().addParticle(ParticleInit.SOUL.get(), pos.x+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), pos.y-0.1, pos.z+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), RandomUtils.nextFloat(0f, 0.4f)-0.2f, 0.5f, RandomUtils.nextFloat(0f, 0.4f)-0.2f);
+                level().addParticle(ParticleRegistry.SOUL.get(), pos.x+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), pos.y-0.1, pos.z+(RandomUtils.nextFloat(0f, 0.2f)-0.1f), RandomUtils.nextFloat(0f, 0.4f)-0.2f, 0.5f, RandomUtils.nextFloat(0f, 0.4f)-0.2f);
             }
         } else {
             entityData.set(RITUAL_POS, new Vector3f((float)ritualPos.x, (float)ritualPos.y, (float)ritualPos.z));
@@ -383,7 +375,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
         if (!level().isClientSide) {
             for (Player i : level().players()) {
                 if (ritualPos.distanceTo(i.position()) <= 10) {
-                    ModCriteriaTriggers.SPAWNSOULKEEPER.trigger((ServerPlayer) i);
+                    CriteriaTriggerRegistry.SPAWNSOULKEEPER.trigger((ServerPlayer) i);
                 }
             }
         }

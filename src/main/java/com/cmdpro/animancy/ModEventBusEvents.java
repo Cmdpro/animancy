@@ -1,11 +1,8 @@
 package com.cmdpro.animancy;
 
-import com.cmdpro.animancy.api.AnimancyUtil;
 import com.cmdpro.animancy.config.AnimancyConfig;
 import com.cmdpro.animancy.entity.*;
-import com.cmdpro.animancy.init.EntityInit;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
+import com.cmdpro.animancy.registry.EntityRegistry;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,13 +12,12 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 @Mod.EventBusSubscriber(modid = Animancy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
     @SubscribeEvent
     public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
-        event.put(EntityInit.SOULKEEPER.get(), SoulKeeper.setAttributes());
+        event.put(EntityRegistry.SOULKEEPER.get(), SoulKeeper.setAttributes());
     }
     @SubscribeEvent
     public static void onModConfigEvent(ModConfigEvent event) {
