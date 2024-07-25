@@ -13,12 +13,12 @@ public class CreativeModeTabRegistry {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,
             Animancy.MOD_ID);
 
-    public static RegistryObject<CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register("animancyitems", () ->
+    public static RegistryObject<CreativeModeTab> ITEMS = CREATIVE_MODE_TABS.register("animancy_items", () ->
             CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegistry.SOULMETAL.get()))
-                    .title(Component.translatable("creativemodetab.animancyitems")).build());
-    public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("animancyblocks", () ->
+                    .title(Component.translatable("creativemodetab.animancy_items")).build());
+    public static RegistryObject<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register("animancy_blocks", () ->
             CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegistry.SOULALTARITEM.get()))
-                    .title(Component.translatable("creativemodetab.animancyblocks")).build());
+                    .title(Component.translatable("creativemodetab.animancy_blocks")).build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

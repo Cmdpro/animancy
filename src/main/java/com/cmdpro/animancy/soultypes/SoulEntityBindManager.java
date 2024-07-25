@@ -15,7 +15,7 @@ public class SoulEntityBindManager extends SimpleJsonResourceReloadListener {
 
     public static SoulEntityBindManager instance;
     protected SoulEntityBindManager() {
-        super(GSON, "animancy/soulentitybinds");
+        super(GSON, "animancy/soul_entity_binds");
     }
     public static SoulEntityBindManager getOrCreateInstance() {
         if (instance == null) {

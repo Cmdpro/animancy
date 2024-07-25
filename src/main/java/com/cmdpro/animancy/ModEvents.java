@@ -27,6 +27,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.*;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,7 +51,12 @@ public class ModEvents {
             }
         }
     }
-
+    @SubscribeEvent
+    public static void onAdvancementEarn(AdvancementEvent.AdvancementEarnEvent event) {
+        if (event.getAdvancement().getId().equals(new ResourceLocation(Animancy.MOD_ID, "animancy"))) {
+            event.getEntity().sendSystemMessage(Component.translatable("advancements.animancy.animancy.on_grant").withStyle(ChatFormatting.DARK_PURPLE));
+        }
+    }
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
         if (event.getPlayer() == null) {
@@ -110,17 +116,17 @@ public class ModEvents {
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_180) ||
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.COUNTERCLOCKWISE_90)
             ) {
-                if (true) {//playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "animancy:arcane/soulritual")) {
+                if (false) {//playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "animancy:arcane/soulritual")) {
                     List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
                     if (entitiesNearby.isEmpty()) {
                         SoulRitualController ritualController = new SoulRitualController(EntityRegistry.SOULRITUALCONTROLLER.get(), event.getEntity().level());
                         ritualController.setPos(event.getPos().getCenter());
                         event.getEntity().level().addFreshEntity(ritualController);
                     } else {
-                        event.getEntity().sendSystemMessage(Component.translatable("animancy.soulritualfail").withStyle(ChatFormatting.RED));
+                        event.getEntity().sendSystemMessage(Component.translatable("animancy.soul_ritual_fail").withStyle(ChatFormatting.RED));
                     }
                 } else {
-                    event.getEntity().sendSystemMessage(Component.translatable("animancy.soulritualfail2").withStyle(ChatFormatting.RED));
+                    event.getEntity().sendSystemMessage(Component.translatable("animancy.soul_ritual_fail2").withStyle(ChatFormatting.RED));
                 }
             }
         }

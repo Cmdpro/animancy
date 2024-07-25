@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Mod.EventBusSubscriber(modid = Animancy.MOD_ID)
 public class Animancy
 {
-    public static ResourceKey<DamageType> soulExplosion = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Animancy.MOD_ID, "soulexplosion"));
+    public static ResourceKey<DamageType> soulExplosion = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Animancy.MOD_ID, "soul_explosion"));
 
     public static final String MOD_ID = "animancy";
     // Directly reference a slf4j logger

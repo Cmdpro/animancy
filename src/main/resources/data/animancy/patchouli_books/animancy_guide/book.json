@@ -1,0 +1,9 @@
+{
+  "name": "item.animancy.animancy_guide.name",
+  "landing_text": "item.animancy.animancy_guide.landing",
+  "model": "animancy:animancy_guide_icon",
+  "version": "1",
+  "creative_tab": "animancy:animancy_items",
+  "use_resource_pack": true,
+  "text_overflow_mode": "resize"
+}

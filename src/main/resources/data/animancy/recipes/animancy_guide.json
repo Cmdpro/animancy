@@ -1,0 +1,20 @@
+{
+  "type": "patchouli:shaped_book_recipe",
+  "pattern": [
+    "bAb",
+    "AaA",
+    "bAb"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:book"
+    },
+    "A": {
+      "item": "minecraft:soul_sand"
+    },
+    "b": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "book": "animancy:animancy_guide"
+}

@@ -41,17 +41,17 @@ public class SoulAltarRenderer extends GeoBlockRenderer<SoulAltarBlockEntity> {
     public static class SoulAltarModel extends GeoModel<SoulAltarBlockEntity> {
         @Override
         public ResourceLocation getModelResource(SoulAltarBlockEntity object) {
-            return new ResourceLocation(Animancy.MOD_ID, "geo/soulaltar.geo.json");
+            return new ResourceLocation(Animancy.MOD_ID, "geo/soul_altar.geo.json");
         }
 
         @Override
         public ResourceLocation getTextureResource(SoulAltarBlockEntity object) {
-            return new ResourceLocation(Animancy.MOD_ID, "textures/block/soulaltar.png");
+            return new ResourceLocation(Animancy.MOD_ID, "textures/block/soul_altar.png");
         }
 
         @Override
         public ResourceLocation getAnimationResource(SoulAltarBlockEntity animatable) {
-            return new ResourceLocation(Animancy.MOD_ID, "animations/soulaltar.animation.json");
+            return new ResourceLocation(Animancy.MOD_ID, "animations/soul_altar.animation.json");
         }
     }
 }

@@ -15,7 +15,7 @@ public class TagRegistry {
         }
     }
     public static class Items {
-        public static final TagKey<Item> SOULDAGGERS = tag("souldaggers");
+        public static final TagKey<Item> SOULDAGGERS = tag("soul_daggers");
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(new ResourceLocation(Animancy.MOD_ID, name));
         }

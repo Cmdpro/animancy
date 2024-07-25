@@ -62,7 +62,7 @@ public class SoulAltar extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof SoulAltarBlockEntity ent) {
-                if (pPlayer.getItemInHand(pHand).is(TagRegistry.Items.SOULDAGGERS)) {
+                if (pPlayer.isShiftKeyDown()) {
                     return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
                 }
                 NetworkHooks.openScreen(((ServerPlayer) pPlayer), (SoulAltarBlockEntity) entity, pPos);

@@ -1,0 +1,15 @@
+{
+  "name": "Strider Boots",
+  "icon": "animancy:strider_boots",
+  "category": "animancy:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Copper and Soulmetal are capable of creating a special dagger which allows me to harvest souls from those I kill with it"
+    },
+    {
+      "type": "animancy:soul_altar",
+      "recipe": "animancy:strider_boots"
+    }
+  ]
+}

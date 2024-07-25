@@ -1,0 +1,16 @@
+{
+  "name": "Soulmetal Dagger",
+  "icon": "animancy:soulmetal_dagger",
+  "category": "animancy:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Copper and Soulmetal are capable of creating a special dagger which allows me to harvest souls from those I kill with it. The souls harvested with a dagger will be put into the first soul tank it can find capable of storing the souls."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "animancy:soulmetal_dagger",
+      "recipe2": "animancy:soul_tank"
+    }
+  ]
+}

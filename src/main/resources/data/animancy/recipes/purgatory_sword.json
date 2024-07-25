@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "A",
+    "a"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:stick"
+    },
+    "A": {
+      "item": "animancy:purgatory_ingot"
+    }
+  },
+  "result": {
+    "item": "animancy:purgatory_sword",
+    "count": 1
+  }
+}

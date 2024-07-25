@@ -2,8 +2,8 @@
     "sources": [
         {
             "type": "directory",
-            "source": "soulicon",
-            "prefix": "soulicon/"
+            "source": "soul_icon",
+            "prefix": "soul_icon/"
         }
     ]
 }

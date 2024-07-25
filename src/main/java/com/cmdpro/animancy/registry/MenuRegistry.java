@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class MenuRegistry {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Animancy.MOD_ID);
 
-    public static final RegistryObject<MenuType<SoulAltarMenu>> SOULALTARMENU = registerMenuType(SoulAltarMenu::new, "soulaltarmenu");
+    public static final RegistryObject<MenuType<SoulAltarMenu>> SOULALTARMENU = registerMenuType(SoulAltarMenu::new, "soul_altar_menu");
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

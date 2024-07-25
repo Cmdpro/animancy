@@ -15,7 +15,7 @@ public class SoulTypeManager extends SimpleJsonResourceReloadListener {
 
     public static SoulTypeManager instance;
     protected SoulTypeManager() {
-        super(GSON, "animancy/soultypes");
+        super(GSON, "animancy/soul_types");
     }
     public static SoulTypeManager getOrCreateInstance() {
         if (instance == null) {

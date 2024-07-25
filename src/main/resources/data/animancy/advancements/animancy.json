@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "animancy:soulmetaldagger"
+      "item": "animancy:animancy_guide_icon"
     },
     "title": {
       "translate": "advancements.animancy.animancy.title"
@@ -18,15 +18,20 @@
     "requirement": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
+        "player": [],
         "items": [
           {
             "items": [
-              "modonomicon:modonomicon"
-            ],
-            "nbt": "{\"modonomicon:book_id\": \"animancy:animancyguide\"}"
+              "minecraft:soul_sand"
+            ]
           }
         ]
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "animancy:grant_book"
+    ]
   }
 }

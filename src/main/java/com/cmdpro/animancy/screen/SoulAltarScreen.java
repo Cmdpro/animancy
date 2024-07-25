@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class SoulAltarScreen extends AbstractContainerScreen<SoulAltarMenu> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Animancy.MOD_ID, "textures/gui/soulaltar.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Animancy.MOD_ID, "textures/gui/soul_altar.png");
     public SoulAltarScreen(SoulAltarMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }

@@ -66,7 +66,7 @@ public class ClientModEvents {
 
         MenuScreens.register(MenuRegistry.SOULALTARMENU.get(), SoulAltarScreen::new);
 
-        ClientBookRegistry.INSTANCE.pageTypes.put(new ResourceLocation(Animancy.MOD_ID, "soulaltar"), PageSoulAltar.class);
+        ClientBookRegistry.INSTANCE.pageTypes.put(new ResourceLocation(Animancy.MOD_ID, "soul_altar"), PageSoulAltar.class);
     }
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {

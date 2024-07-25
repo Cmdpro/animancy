@@ -12,9 +12,10 @@ public class SoundRegistry {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Animancy.MOD_ID);
 
-    public static RegistryObject<SoundEvent> SOULKEEPERPHASE1 = registerSoundEvent("soulkeeperphase1");
-    public static RegistryObject<SoundEvent> SOULKEEPERPHASE2 = registerSoundEvent("soulkeeperphase2");
-    public static RegistryObject<SoundEvent> CRYSTALSOULS = registerSoundEvent("crystalsouls");
+    public static RegistryObject<SoundEvent> SOULKEEPERPHASE1 = registerSoundEvent("soul_keeper_phase1");
+    public static RegistryObject<SoundEvent> SOULKEEPERPHASE2 = registerSoundEvent("soul_keeper_phase2");
+    public static RegistryObject<SoundEvent> CRYSTALSOULS = registerSoundEvent("crystal_souls");
+    public static RegistryObject<SoundEvent> SOUL_ALTAR_CRAFTING = registerSoundEvent("soul_altar_crafting");
 
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {

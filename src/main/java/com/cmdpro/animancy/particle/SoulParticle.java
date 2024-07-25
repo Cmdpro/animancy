@@ -72,7 +72,7 @@ public class SoulParticle extends TextureSheetParticle {
 
         @Override
         public String toString() {
-            return "animancy:soulrender";
+            return "animancy:soul_render";
         }
     };
     @OnlyIn(Dist.CLIENT)

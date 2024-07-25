@@ -1,20 +1,25 @@
 {
-  "soulkeeperphase1": {
+  "soul_keeper_phase1": {
     "sounds": [
-      "animancy:soulkeeperphase1"
+      "animancy:soul_keeper_phase1"
     ],
     "stream": true
   },
-  "soulkeeperphase2": {
+  "soul_keeper_phase2": {
     "sounds": [
-      "animancy:soulkeeperphase2"
+      "animancy:soul_keeper_phase2"
     ],
     "stream": true
   },
-  "crystalsouls": {
+  "crystal_souls": {
     "sounds": [
-      "animancy:crystalsouls"
+      "animancy:crystal_souls"
     ],
     "stream": true
+  },
+  "soul_altar_crafting": {
+    "sounds": [
+      "animancy:soul_altar_crafting"
+    ]
   }
 }

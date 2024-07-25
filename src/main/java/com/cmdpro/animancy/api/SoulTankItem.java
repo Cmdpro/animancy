@@ -25,10 +25,10 @@ public abstract class SoulTankItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        pTooltipComponents.add(Component.translatable("item.animancy.soultank.tooltip", getFillNumber(pStack), getMaxSouls()));
+        pTooltipComponents.add(Component.translatable("item.animancy.soul_tank.tooltip", getFillNumber(pStack), getMaxSouls()));
         SoulType type = getFillType(pStack);
         if (type != null) {
-            pTooltipComponents.add(Component.translatable("item.animancy.soultank.tooltip2", type.name).withStyle(Style.EMPTY.withColor(type.color.getRGB())));
+            pTooltipComponents.add(Component.translatable("item.animancy.soul_tank.tooltip2", type.name).withStyle(Style.EMPTY.withColor(type.color.getRGB())));
         }
     }
 

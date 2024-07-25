@@ -18,12 +18,12 @@ public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Animancy.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = ItemRegistry.ITEMS;
-    public static final RegistryObject<Block> SOULALTAR = registerBlock("soulaltar",
+    public static final RegistryObject<Block> SOULALTAR = registerBlock("soul_altar",
             () -> new SoulAltar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
-    public static final RegistryObject<Block> GOLDPILLAR = register("goldpillar",
+    public static final RegistryObject<Block> GOLDPILLAR = register("gold_pillar",
             () -> new GoldPillar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
-    public static final RegistryObject<Block> ECHOSOIL = register("echosoil",
+    public static final RegistryObject<Block> ECHOSOIL = register("echo_soil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL).mapColor(MapColor.COLOR_BLUE)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
     private static <T extends Block> RegistryObject<T> registerBlock(final String name,

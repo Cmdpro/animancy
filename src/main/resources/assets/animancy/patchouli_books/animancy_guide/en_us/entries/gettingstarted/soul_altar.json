@@ -1,0 +1,34 @@
+{
+  "name": "Soul Altar",
+  "icon": "animancy:soul_altar",
+  "category": "animancy:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A Soul Altar will be my first block allowing me to use souls as a resource. To activate it I simply need to use it while sneaking."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "animancy:soul_altar",
+      "recipe2": "animancy:gold_pillar"
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "animancy:soul_altar",
+          "G": "animancy:gold_pillar"
+        },
+        "pattern": [
+          [
+            "  G  ",
+            "     ",
+            "G 0 G",
+            "     ",
+            "  G  "
+          ]
+        ]
+      }
+    }
+  ]
+}

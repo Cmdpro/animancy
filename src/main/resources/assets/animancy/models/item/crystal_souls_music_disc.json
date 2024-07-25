@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "animancy:item/crystal_souls_music_disc"
+  }
+}

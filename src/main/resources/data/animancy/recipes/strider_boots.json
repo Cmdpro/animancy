@@ -1,0 +1,22 @@
+{
+  "type": "animancy:shaped_soul_altar_recipe",
+  "souls": [
+    {
+      "type": "animancy:blazing",
+      "amount": 25
+    }
+  ],
+  "pattern": [
+    "a a",
+    "a a"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "animancy:strider_boots",
+    "count": 1
+  }
+}

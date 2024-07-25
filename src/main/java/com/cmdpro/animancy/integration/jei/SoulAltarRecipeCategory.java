@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 public class SoulAltarRecipeCategory implements IRecipeCategory<ISoulAltarRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(Animancy.MOD_ID, "soulaltar");
+    public static final ResourceLocation UID = new ResourceLocation(Animancy.MOD_ID, "soul_altar");
     public final static ResourceLocation TEXTURE =
-            new ResourceLocation(Animancy.MOD_ID, "textures/gui/jeicrafting.png");
+            new ResourceLocation(Animancy.MOD_ID, "textures/gui/jei_crafting.png");
     private final IDrawable background;
     private final IDrawable icon;
     private final ICraftingGridHelper craftingGridHelper;

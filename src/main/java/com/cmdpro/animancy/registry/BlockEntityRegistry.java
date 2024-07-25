@@ -14,11 +14,11 @@ public class BlockEntityRegistry {
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Animancy.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<SoulAltarBlockEntity>> SOULALTAR =
-            BLOCK_ENTITIES.register("soulaltar", () ->
+            BLOCK_ENTITIES.register("soul_altar", () ->
                     BlockEntityType.Builder.of(SoulAltarBlockEntity::new,
                             BlockRegistry.SOULALTAR.get()).build(null));
     public static final RegistryObject<BlockEntityType<GoldPillarBlockEntity>> GOLDPILLAR =
-            BLOCK_ENTITIES.register("goldpillar", () ->
+            BLOCK_ENTITIES.register("gold_pillar", () ->
                     BlockEntityType.Builder.of(GoldPillarBlockEntity::new,
                             BlockRegistry.GOLDPILLAR.get()).build(null));
 
