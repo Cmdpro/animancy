@@ -5,9 +5,6 @@
     64,
     64
   ],
-  "textures": {
-    "particle": "animancy:block/soulaltarparticle"
-  },
   "display": {
     "thirdperson_righthand": {
       "rotation": [

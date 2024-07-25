@@ -1,9 +1,9 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.soulaltar.idle": {
+		"animation.soul_altar.idle": {
 			"loop": true,
-			"animation_length": 0.04167,
+			"animation_length": 0.0417,
 			"bones": {
 				"soulaltar": {
 					"position": {
@@ -12,7 +12,7 @@
 				}
 			}
 		},
-		"animation.soulaltar.item": {
+		"animation.soul_altar.item": {
 			"loop": true,
 			"bones": {
 				"soulaltar": {
