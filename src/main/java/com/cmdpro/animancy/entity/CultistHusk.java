@@ -45,14 +45,6 @@ public class CultistHusk extends Monster implements GeoEntity {
         event.getController().setAnimation(RawAnimation.begin().then("animation.cultist_husk.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
-    private <E extends GeoAnimatable> PlayState attackPredicate(AnimationState event) {
-        if (this.swinging && event.getController().getAnimationState().equals(AnimationController.State.STOPPED)) {
-            event.getController().forceAnimationReset();
-            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.cultist_husk.attack"));
-            this.swinging = false;
-        }
-        return PlayState.CONTINUE;
-    }
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -62,8 +54,7 @@ public class CultistHusk extends Monster implements GeoEntity {
     }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-        data.add(new AnimationController(this, "controller", 0, this::predicate));
-        data.add(new AnimationController(this, "attackController", 0, this::attackPredicate));
+        data.add(new AnimationController(this, "controller", 20, this::predicate));
     }
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

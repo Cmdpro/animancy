@@ -86,9 +86,9 @@ public class Animancy
             event.accept(ItemRegistry.CRYSTALSOULSMUSICDISC);
             event.accept(ItemRegistry.THESOULSSCREAMMUSICDISC);
             event.accept(ItemRegistry.THESOULSREVENGEMUSICDISC);
-            event.accept(ItemRegistry.PURGATORYINGOT);
-            event.accept(ItemRegistry.PURGATORYDAGGER);
-            event.accept(ItemRegistry.PURGATORYSWORD);
+            event.accept(ItemRegistry.ANIMAGITE_INGOT);
+            event.accept(ItemRegistry.ANIMAGITE_DAGGER);
+            event.accept(ItemRegistry.ANIMAGITE_SWORD);
             event.accept(ItemRegistry.SOULTANK);
             event.accept(ItemRegistry.STRIDERBOOTS);
         }

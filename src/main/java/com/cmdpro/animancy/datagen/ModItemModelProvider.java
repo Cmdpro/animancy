@@ -45,16 +45,16 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ItemRegistry.ANIMANCYGUIDEICON);
         simpleItem(ItemRegistry.CRYSTALSOULSMUSICDISC);
-        simpleItem(ItemRegistry.PURGATORYINGOT);
+        simpleItem(ItemRegistry.ANIMAGITE_INGOT);
         simpleItem(ItemRegistry.SOULCRYSTAL);
         simpleItem(ItemRegistry.SOULMETAL);
         simpleItem(ItemRegistry.STRIDERBOOTS);
         simpleItem(ItemRegistry.THESOULSREVENGEMUSICDISC);
         simpleItem(ItemRegistry.THESOULSSCREAMMUSICDISC);
 
-        handheldItem(ItemRegistry.PURGATORYDAGGER);
+        handheldItem(ItemRegistry.ANIMAGITE_DAGGER);
         handheldItem(ItemRegistry.SOULMETALDAGGER);
-        handheldItem(ItemRegistry.PURGATORYSWORD);
+        handheldItem(ItemRegistry.ANIMAGITE_SWORD);
 
         soulTank(ItemRegistry.SOULTANK);
     }

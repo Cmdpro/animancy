@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "animancy:item/purgatory_ingot"
+    "layer0": "animancy:item/animagite_ingot"
   }
 }

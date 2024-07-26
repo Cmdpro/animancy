@@ -25,7 +25,7 @@ public class ModItemTagGenerator extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         this.tag(TagRegistry.Items.SOULDAGGERS)
                 .add(ItemRegistry.SOULMETALDAGGER.get())
-                .add(ItemRegistry.PURGATORYDAGGER.get());
+                .add(ItemRegistry.ANIMAGITE_DAGGER.get());
         this.tag(ItemTags.MUSIC_DISCS)
                 .add(ItemRegistry.CRYSTALSOULSMUSICDISC.get())
                 .add(ItemRegistry.THESOULSSCREAMMUSICDISC.get())

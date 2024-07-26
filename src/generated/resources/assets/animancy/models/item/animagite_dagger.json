@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "animancy:item/purgatory_dagger"
+    "layer0": "animancy:item/animagite_dagger"
   }
 }

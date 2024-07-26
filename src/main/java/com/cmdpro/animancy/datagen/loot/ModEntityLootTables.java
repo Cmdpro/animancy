@@ -35,9 +35,10 @@ public class ModEntityLootTables extends EntityLootSubProvider {
                 )
         ).withPool(
                 LootPool.lootPool().add(
-                        LootItem.lootTableItem(ItemRegistry.PURGATORYINGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(15, 25)))
+                        LootItem.lootTableItem(ItemRegistry.ANIMAGITE_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(15, 25)))
                 )
         ));
+        add(EntityRegistry.CULTIST_HUSK.get(), LootTable.lootTable());
     }
 
     @Override
