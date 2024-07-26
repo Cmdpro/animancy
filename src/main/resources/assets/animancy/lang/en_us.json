@@ -36,11 +36,12 @@
   "animancy.soul_ritual_fail2": "You do not know how to perform the Soul Ritual!",
 
   "entity.animancy.soul_keeper": "Soul Keeper",
+  "entity.animancy.cultist_husk": "Cultist Husk",
 
   "advancements.animancy.animancy.title": "Animancy",
   "advancements.animancy.animancy.description": "The advancements for animancy",
   "advancements.animancy.animancy.on_grant": "This material... It contains a strange power... Maybe I can make use of it?",
 
   "item.animancy.animancy_guide.name": "Spiritus Libri",
-  "item.animancy.animancy_guide.landing": "Discovering the magic behind souls!"
+  "item.animancy.animancy_guide.landing": "Manipulating souls for your own gain."
 }

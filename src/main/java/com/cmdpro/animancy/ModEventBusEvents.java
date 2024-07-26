@@ -18,6 +18,7 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(EntityRegistry.SOULKEEPER.get(), SoulKeeper.setAttributes());
+        event.put(EntityRegistry.CULTIST_HUSK.get(), CultistHusk.setAttributes());
     }
     @SubscribeEvent
     public static void onModConfigEvent(ModConfigEvent event) {

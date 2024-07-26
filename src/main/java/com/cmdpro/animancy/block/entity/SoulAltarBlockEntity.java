@@ -2,6 +2,8 @@ package com.cmdpro.animancy.block.entity;
 
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.api.AnimancyUtil;
+import com.cmdpro.animancy.networking.ModMessages;
+import com.cmdpro.animancy.networking.packet.StartSoulAltarSoundS2CPacket;
 import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
@@ -20,6 +22,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -169,6 +172,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                     if (AnimancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
                         if (ent.craftingTicks <= -1) {
                             ent.craftingTicks = 0;
+                            ModMessages.sendToDimension(new StartSoulAltarSoundS2CPacket(pPos), pLevel.dimension());
                         }
                     } else {
                         pPlayer.sendSystemMessage(Component.translatable("block.animancy.soul_altar.dont_know_how"));
@@ -254,18 +258,26 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                     pBlockEntity.soulCost = new HashMap<>();
                 }
                 pBlockEntity.item = ItemStack.EMPTY;
-                pBlockEntity.craftingTicks = -1;
+                if (pBlockEntity.craftingTicks >= 0) {
+                    pBlockEntity.craftingTicks = -1;
+                }
             }
             pBlockEntity.updateBlock();
         } else {
-            if (pBlockEntity.craftingTicks >= 0) {
-                ClientSounds.play(pBlockEntity.sound);
-            } else {
+            if (pBlockEntity.craftingTicks == -1) {
                 ClientSounds.stop(pBlockEntity.sound);
+            } else if (pBlockEntity.craftingTicks >= 0) {
+                ClientSounds.play(pBlockEntity.sound);
             }
         }
     }
     public static class ClientSounds {
+        public static void restart(SoundInstance instance) {
+            if (Minecraft.getInstance().getSoundManager().isActive(instance)) {
+                Minecraft.getInstance().getSoundManager().stop(instance);
+            }
+            Minecraft.getInstance().getSoundManager().play(instance);
+        }
         public static void play(SoundInstance instance) {
             if (!Minecraft.getInstance().getSoundManager().isActive(instance)) {
                 Minecraft.getInstance().getSoundManager().play(instance);
@@ -308,7 +320,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         }
     }
     public void actuallyCraft() {
-        craftingTicks = -1;
+        craftingTicks = -2;
         for (int i = 0; i < 9; i++) {
             itemHandler.getStackInSlot(i).shrink(1);
         }
