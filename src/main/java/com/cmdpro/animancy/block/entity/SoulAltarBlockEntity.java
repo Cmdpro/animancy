@@ -242,14 +242,14 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                     }
                 }
                 pBlockEntity.enoughSouls = enoughSouls;
-                if (!enoughSouls) {
-                    pBlockEntity.craftingTicks = -1;
-                }
                 if (pBlockEntity.craftingTicks >= 0) {
                     pBlockEntity.craftingTicks++;
                     pBlockEntity.craftingEffects();
                     if (pBlockEntity.craftingTicks >= 200) {
                         pBlockEntity.actuallyCraft();
+                    }
+                    if (!enoughSouls) {
+                        pBlockEntity.craftingTicks = -1;
                     }
                 }
             } else {
