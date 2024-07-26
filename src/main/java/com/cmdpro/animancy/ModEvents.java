@@ -116,7 +116,7 @@ public class ModEvents {
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_180) ||
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.COUNTERCLOCKWISE_90)
             ) {
-                if (true) {//playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "animancy:arcane/soulritual")) {
+                if (false) {//playerHasNeededEntry((ServerPlayer)event.getEntity(), true, "animancy:arcane/soulritual")) {
                     List<SoulKeeper> entitiesNearby = event.getEntity().level().getEntitiesOfClass(SoulKeeper.class, AABB.ofSize(event.getPos().getCenter(), 50, 50, 50));
                     if (entitiesNearby.isEmpty()) {
                         SoulRitualController ritualController = new SoulRitualController(EntityRegistry.SOULRITUALCONTROLLER.get(), event.getEntity().level());
