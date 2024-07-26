@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "animancy:item/soul_tank/soul_tank_empty",
-    "layer1": "animancy:item/soul_tank/soul_tank_filling7"
-  }
-}

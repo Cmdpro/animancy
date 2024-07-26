@@ -1,0 +1,59 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.25,
+              "condition": "minecraft:random_chance"
+            }
+          ],
+          "name": "animancy:the_souls_scream_music_disc"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.25,
+              "condition": "minecraft:random_chance"
+            }
+          ],
+          "name": "animancy:the_souls_revenge_music_disc"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 25.0,
+                "min": 15.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "animancy:purgatory_ingot"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "animancy:entities/soul_keeper"
+}

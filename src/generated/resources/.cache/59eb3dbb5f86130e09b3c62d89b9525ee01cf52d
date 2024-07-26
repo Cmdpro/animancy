@@ -1,0 +1,5 @@
+// 1.20.1	2024-07-25T22:07:03.1541629	Loot Tables
+932c471dc3cdaddd1870e96b9190b241bd70b929 data/animancy/loot_tables/blocks/echo_soil.json
+0000d820a91ac21e7d8474fc04e3a8e877cc5f2b data/animancy/loot_tables/blocks/gold_pillar.json
+ab00336f230b52349113f75a7f4172bbe1368a36 data/animancy/loot_tables/blocks/soul_altar.json
+9d3492d9d736e9be0e0e5c31d1d543a6f32bbd85 data/animancy/loot_tables/entities/soul_keeper.json
