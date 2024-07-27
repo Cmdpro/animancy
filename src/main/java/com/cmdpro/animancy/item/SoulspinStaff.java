@@ -1,8 +1,10 @@
 package com.cmdpro.animancy.item;
 
 import com.cmdpro.animancy.api.SoulTankItem;
+import com.cmdpro.animancy.entity.SoulProjectile;
 import com.cmdpro.animancy.particle.Soul3ParticleOptions;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
+import com.cmdpro.animancy.registry.EntityRegistry;
 import com.cmdpro.animancy.registry.ItemRegistry;
 import com.cmdpro.animancy.soultypes.SoulType;
 import net.minecraft.core.Direction;
@@ -46,17 +48,15 @@ public class SoulspinStaff extends Item {
                 int soulCount = Math.clamp(0, 5, timeUsed / 10);
                 List<ResourceLocation> types = new ArrayList<>();
                 List<ItemStack> slots = player.getInventory().items.stream().map(ItemStack::copy).toList();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < soulCount; i++) {
                     for (ItemStack o : slots) {
                         if (o.is(ItemRegistry.SOULTANK.get())) {
                             float number = SoulTankItem.getFillNumber(o);
                             if (number >= 1) {
                                 ResourceLocation type = SoulTankItem.getFillTypeLocation(o);
                                 types.add(type);
-                                if (types.size() >= soulCount) {
-                                    SoulTankItem.setFill(o, type, number - 1);
-                                    break;
-                                }
+                                SoulTankItem.setFill(o, type, number - 1);
+                                break;
                             }
                         }
                     }
@@ -67,7 +67,7 @@ public class SoulspinStaff extends Item {
                         float yRot = Math.toRadians(-player.getYRot());
                         Vec3 lookAngle = player.getLookAngle();
                         Vec3 perpendicular = new Vec3(-Mth.cos(yRot), 0, Mth.sin(yRot));
-                        Vec3 pos = player.getEyePosition().add(perpendicular.scale(Mth.cos(rot)).add(lookAngle.cross(perpendicular).scale(Mth.sin(rot))).scale(0.5)).add(lookAngle);
+                        Vec3 pos = player.getEyePosition().add(perpendicular.scale(Mth.cos(rot)).add(lookAngle.cross(perpendicular).scale(Mth.sin(rot))).scale(0.6)).add(lookAngle);
                         ResourceLocation type = types.get(i);
                         serverLevel.sendParticles(new Soul4ParticleOptions(type.toString()), pos.x, pos.y, pos.z, 3, 0.05, 0.05, 0.05, 0);
                     }
@@ -75,6 +75,47 @@ public class SoulspinStaff extends Item {
             }
         }
     }
+
+    @Override
+    public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+        super.onStopUsing(stack, entity, count);
+        if (!entity.level().isClientSide()) {
+            if (entity instanceof Player player) {
+                ServerLevel serverLevel = (ServerLevel) entity.level();
+                int soulCount = Math.clamp(0, 5, (getUseDuration(stack)-count) / 10);
+                List<ResourceLocation> types = new ArrayList<>();
+                List<ItemStack> slots = player.getInventory().items;
+                for (int i = 0; i < soulCount; i++) {
+                    for (ItemStack o : slots) {
+                        if (o.is(ItemRegistry.SOULTANK.get())) {
+                            float number = SoulTankItem.getFillNumber(o);
+                            if (number >= 1) {
+                                ResourceLocation type = SoulTankItem.getFillTypeLocation(o);
+                                types.add(type);
+                                SoulTankItem.setFill(o, type, number - 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < soulCount; i++) {
+                    if (types.size() > i) {
+                        float rot = Math.toRadians(((serverLevel.getGameTime()*5L)%360)+((360f/5f)*i));
+                        float yRot = Math.toRadians(-player.getYRot());
+                        Vec3 lookAngle = player.getLookAngle();
+                        Vec3 perpendicular = new Vec3(-Mth.cos(yRot), 0, Mth.sin(yRot));
+                        Vec3 pos = player.getEyePosition().add(perpendicular.scale(Mth.cos(rot)).add(lookAngle.cross(perpendicular).scale(Mth.sin(rot))).scale(0.6)).add(lookAngle);
+                        ResourceLocation type = types.get(i);
+                        SoulProjectile projectile = new SoulProjectile(EntityRegistry.SOUL_PROJECTILE.get(), pos.x, pos.y, pos.z, entity, serverLevel);
+                        projectile.type = type;
+                        projectile.strength = soulCount*2;
+                        serverLevel.addFreshEntity(projectile);
+                    }
+                }
+            }
+        }
+    }
+
     public Vec3 calculateViewVector(float pXRot, float pYRot) {
         float f = pXRot * ((float) java.lang.Math.PI / 180F);
         float f1 = -pYRot * ((float) java.lang.Math.PI / 180F);

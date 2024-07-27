@@ -52,8 +52,9 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void doSetup(FMLClientSetupEvent event) {
         EntityRenderers.register(EntityRegistry.SOULKEEPER.get(), SoulKeeperRenderer::new);
-        EntityRenderers.register(EntityRegistry.SOULRITUALCONTROLLER.get(), SoulRitualControllerRenderer::new);
+        EntityRenderers.register(EntityRegistry.SOULRITUALCONTROLLER.get(), EmptyEntityRenderer::new);
         EntityRenderers.register(EntityRegistry.CULTIST_HUSK.get(), CultistHuskRenderer::new);
+        EntityRenderers.register(EntityRegistry.SOUL_PROJECTILE.get(), EmptyEntityRenderer::new);
 
         event.enqueueWork(() -> {
             ItemProperties.register(ItemRegistry.SOULTANK.get(), new ResourceLocation(Animancy.MOD_ID, "fill"), (stack, level, entity, seed) -> {

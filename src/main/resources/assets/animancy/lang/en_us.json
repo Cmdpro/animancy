@@ -7,8 +7,6 @@
   "block.animancy.soul_altar": "Soul Altar",
   "block.animancy.soul_altar.not_enough_souls": "The Soul Altar does not have enough souls!",
   "block.animancy.soul_altar.dont_know_how": "You do not know how to make this recipe!",
-  "death.attack.soul_explosion": "%1$s was exploded by souls.",
-  "death.attack.soul_explosion.player": "%1$s was exploded by souls.",
   "item.animancy.crystal_souls_music_disc": "Music Disc",
   "item.animancy.crystal_souls_music_disc.desc": "DavidRarria09 - Crystal Souls",
   "item.animancy.the_souls_scream_music_disc": "Music Disc",
@@ -24,6 +22,7 @@
   "item.animancy.soul_tank.tooltip2": "%1$s",
   "block.animancy.gold_pillar": "Gold Pillar",
   "item.animancy.strider_boots": "Strider Boots",
+  "item.animancy.soulspin_staff": "Soulspin Staff",
 
   "animancy.soulicon.animancy.blazing": "Blazing",
   "animancy.soulicon.animancy.void": "Void",
@@ -43,5 +42,12 @@
   "advancements.animancy.animancy.on_grant": "This material... It contains a strange power... Maybe I can make use of it?",
 
   "item.animancy.animancy_guide.name": "Spiritus Libri",
-  "item.animancy.animancy_guide.landing": "Manipulating souls for your own gain."
+  "item.animancy.animancy_guide.landing": "Manipulating souls for your own gain.",
+
+  "death.attack.soul_explosion": "%1$s was exploded by souls.",
+  "death.attack.soul_explosion.player": "%1$s was exploded by souls.",
+  "death.attack.soul_explosion.item": "%1$s was exploded by souls.",
+  "death.attack.magicprojectile": "%1$s was killed by %2$s using magic",
+  "death.attack.magicprojectile.player": "%1$s was killed by %2$s using magic",
+  "death.attack.magicprojectile.item": "%1$s was killed by %2$s using the magic of %3$s"
 }

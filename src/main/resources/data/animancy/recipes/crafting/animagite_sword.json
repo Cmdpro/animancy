@@ -10,11 +10,11 @@
       "item": "minecraft:stick"
     },
     "A": {
-      "item": "animancy:purgatory_ingot"
+      "item": "animancy:animagite_ingot"
     }
   },
   "result": {
-    "item": "animancy:purgatory_sword",
+    "item": "animancy:animagite_sword",
     "count": 1
   }
 }
