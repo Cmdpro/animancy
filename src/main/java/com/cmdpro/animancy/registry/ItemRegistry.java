@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Animancy.MOD_ID);
+    public static final RegistryObject<Item> SOULSPIN_STAFF = register("soulspin_staff", () -> new SoulspinStaff(new Item.Properties()));
     public static final RegistryObject<Item> SOULMETALDAGGER = register("soulmetal_dagger", () -> new SwordItem(ModTiers.SOULMETAL, 1, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, 1, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, 4, -2.4F, new Item.Properties()));
