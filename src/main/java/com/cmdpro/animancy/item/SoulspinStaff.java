@@ -63,20 +63,21 @@ public class SoulspinStaff extends Item {
                 }
                 for (int i = 0; i < soulCount; i++) {
                     if (types.size() > i) {
-                        float rot = serverLevel.getGameTime()+((360f/5f)*i)*3f;
-                        //TODO : fix
-                        Vec3 lookAngle = player.getLookAngle().xRot(Math.toRadians(90)).zRot(Math.toRadians(rot));
+                        float rot = Math.toRadians(((serverLevel.getGameTime()*5L)%360)+((360f/5f)*i));
+                        float yRot = Math.toRadians(-player.getYRot());
+                        Vec3 lookAngle = player.getLookAngle();
+                        Vec3 perpendicular = new Vec3(-Mth.cos(yRot), 0, Mth.sin(yRot));
+                        Vec3 pos = player.getEyePosition().add(perpendicular.scale(Mth.cos(rot)).add(lookAngle.cross(perpendicular).scale(Mth.sin(rot))).scale(0.5)).add(lookAngle);
                         ResourceLocation type = types.get(i);
-                        Vec3 pos = player.getEyePosition().add(lookAngle.multiply(0.5, 0.5, 0.5)).add(player.getLookAngle());
                         serverLevel.sendParticles(new Soul4ParticleOptions(type.toString()), pos.x, pos.y, pos.z, 3, 0.05, 0.05, 0.05, 0);
                     }
                 }
             }
         }
     }
-    public Vec3 calculateViewVector(float p_20172_, float p_20173_) {
-        float f = p_20172_ * ((float) java.lang.Math.PI / 180F);
-        float f1 = -p_20173_ * ((float) java.lang.Math.PI / 180F);
+    public Vec3 calculateViewVector(float pXRot, float pYRot) {
+        float f = pXRot * ((float) java.lang.Math.PI / 180F);
+        float f1 = -pYRot * ((float) java.lang.Math.PI / 180F);
         float f2 = Mth.cos(f1);
         float f3 = Mth.sin(f1);
         float f4 = Mth.cos(f);
