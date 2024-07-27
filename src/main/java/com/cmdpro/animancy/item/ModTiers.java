@@ -10,6 +10,6 @@ public class ModTiers {
             4f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
             () -> Ingredient.of(ItemRegistry.SOULMETAL.get()));
     public static final ForgeTier ANIMAGITE = new ForgeTier(4, 2400, 8f,
-            7f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
+            6f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
             () -> Ingredient.of(ItemRegistry.ANIMAGITE_INGOT.get()));
 }

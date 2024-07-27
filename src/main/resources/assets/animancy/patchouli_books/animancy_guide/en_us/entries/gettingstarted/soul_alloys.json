@@ -9,8 +9,8 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "animancy:soulmetal",
-      "recipe2": "animancy:soul_crystal"
+      "recipe": "animancy:crafting/soulmetal",
+      "recipe2": "animancy:crafting/soul_crystal"
     }
   ]
 }

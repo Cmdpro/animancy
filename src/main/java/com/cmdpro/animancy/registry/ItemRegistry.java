@@ -14,7 +14,7 @@ public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Animancy.MOD_ID);
     public static final RegistryObject<Item> SOULMETALDAGGER = register("soulmetal_dagger", () -> new SwordItem(ModTiers.SOULMETAL, 1, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, 1, -2.4F, new Item.Properties()));
-    public static final RegistryObject<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, 5, -2.4F, new Item.Properties()));
+    public static final RegistryObject<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, 4, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SOULALTARITEM = register("soul_altar", () -> new SoulAltarItem(BlockRegistry.SOULALTAR.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULCRYSTAL = register("soul_crystal", () -> new Item(new Item.Properties()));

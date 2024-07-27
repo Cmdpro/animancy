@@ -5,11 +5,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Copper and Soulmetal are capable of creating a special dagger which allows me to harvest souls from those I kill with it"
+      "text": "By using leather in a method similar to how I would make leather boots but using blazing souls, I can create boots capable of allowing me to walk on lava!"
     },
     {
       "type": "animancy:soul_altar",
-      "recipe": "animancy:strider_boots"
+      "recipe": "animancy:soul_altar/strider_boots"
     }
   ]
 }

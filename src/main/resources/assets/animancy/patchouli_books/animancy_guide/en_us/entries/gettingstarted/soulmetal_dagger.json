@@ -9,8 +9,8 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "animancy:soulmetal_dagger",
-      "recipe2": "animancy:soul_tank"
+      "recipe": "animancy:crafting/soulmetal_dagger",
+      "recipe2": "animancy:crafting/soul_tank"
     }
   ]
 }

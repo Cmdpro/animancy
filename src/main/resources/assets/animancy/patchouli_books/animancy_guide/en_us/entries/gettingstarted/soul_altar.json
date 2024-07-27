@@ -9,8 +9,8 @@
     },
     {
       "type": "patchouli:crafting",
-      "recipe": "animancy:soul_altar",
-      "recipe2": "animancy:gold_pillar"
+      "recipe": "animancy:crafting/soul_altar",
+      "recipe2": "animancy:crafting/gold_pillar"
     },
     {
       "type": "patchouli:multiblock",
