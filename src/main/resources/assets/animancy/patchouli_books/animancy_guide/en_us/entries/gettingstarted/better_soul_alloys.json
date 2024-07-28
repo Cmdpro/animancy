@@ -1,0 +1,24 @@
+{
+  "name": "Soul Infusion",
+  "icon": "animancy:soulmetal",
+  "category": "animancy:getting_started",
+  "advancement": "animancy:soul_altar",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Now that I have a soul altar, I can infuse souls into items using less soul sand! This even allows me to infuse wood with souls!"
+    },
+    {
+      "type": "animancy:soul_altar",
+      "recipe": "animancy:soul_altar/soulmetal"
+    },
+    {
+      "type": "animancy:soul_altar",
+      "recipe": "animancy:soul_altar/soul_crystal"
+    },
+    {
+      "type": "animancy:soul_altar",
+      "recipe": "animancy:soul_altar/soul_stick"
+    }
+  ]
+}

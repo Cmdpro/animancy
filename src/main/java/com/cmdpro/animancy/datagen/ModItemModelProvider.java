@@ -56,6 +56,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemRegistry.SOULMETALDAGGER);
         handheldItem(ItemRegistry.ANIMAGITE_SWORD);
         handheldItem(ItemRegistry.SOULSPIN_STAFF);
+        handheldItem(ItemRegistry.SOUL_STICK);
 
         soulTank(ItemRegistry.SOULTANK);
     }

@@ -17,6 +17,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, 1, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, 4, -2.4F, new Item.Properties()));
     public static final RegistryObject<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_STICK = register("soul_stick", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SOULALTARITEM = register("soul_altar", () -> new SoulAltarItem(BlockRegistry.SOULALTAR.get(), new Item.Properties()));
     public static final RegistryObject<Item> SOULCRYSTAL = register("soul_crystal", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CRYSTALSOULSMUSICDISC = register("crystal_souls_music_disc", () -> new RecordItem(6, SoundRegistry.CRYSTALSOULS, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2220));

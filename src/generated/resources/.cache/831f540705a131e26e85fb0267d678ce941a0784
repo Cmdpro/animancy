@@ -1,4 +1,4 @@
-// 1.20.1	2024-07-27T10:56:24.8796762	Item Models: animancy
+// 1.20.1	2024-07-27T22:46:01.9159802	Item Models: animancy
 676a59f27b3e8e9d78c3db1af5e98837f1b1c378 assets/animancy/models/item/animagite_dagger.json
 51a088b2e846e3c751e9d9255d87b5e78567c904 assets/animancy/models/item/animagite_ingot.json
 a425857414b76c76223525f123cc6da8827a8f5a assets/animancy/models/item/animagite_sword.json
@@ -10,6 +10,7 @@ ef2a8bc24a2a20666e67a7bab9d69b71b86fe68f assets/animancy/models/item/soulmetal.j
 c7f1fbf233e70034b874e3dbf5325296572bdeec assets/animancy/models/item/soulspin_staff.json
 77d49ba5a01d9c6b7c80637e738f0003c5d15652 assets/animancy/models/item/soul_altar.json
 86a434c9dd100ff08e0296a0720bab324e03f066 assets/animancy/models/item/soul_crystal.json
+808f55fae940a5ba56a82bdae4648352d916dee3 assets/animancy/models/item/soul_stick.json
 052fb5703440a52cc8cf0abcab24019213a41c37 assets/animancy/models/item/soul_tank.json
 16efb89739d661de4baec7b3ae7b52f92bb0f474 assets/animancy/models/item/soul_tank1.json
 210fc7b5c9d58806f6187d03a643fa05587146af assets/animancy/models/item/soul_tank2.json

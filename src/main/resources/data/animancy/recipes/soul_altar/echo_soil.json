@@ -1,5 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "animancy:shapeless_soul_altar_recipe",
+  "souls": [
+    {
+      "type": "animancy:purified",
+      "amount": 25
+    }
+  ],
   "ingredients": [
     {
       "item": "minecraft:soul_soil"

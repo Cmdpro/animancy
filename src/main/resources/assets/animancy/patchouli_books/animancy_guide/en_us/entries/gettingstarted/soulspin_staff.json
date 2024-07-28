@@ -1,0 +1,16 @@
+{
+  "name": "Soulspin Staff",
+  "icon": "animancy:soulspin_staff",
+  "category": "animancy:getting_started",
+  "advancement": "animancy:soul_altar",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Using Soul-Infused Sticks and a Soul Crystal, I am capable of making a staff capable of utilizing the souls as a weapon!"
+    },
+    {
+      "type": "animancy:soul_altar",
+      "recipe": "animancy:soul_altar/soulspin_staff"
+    }
+  ]
+}

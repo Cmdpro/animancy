@@ -1,0 +1,26 @@
+{
+  "type": "animancy:shaped_soul_altar_recipe",
+  "souls": [
+    {
+      "type": "animancy:purified",
+      "amount": 25
+    }
+  ],
+  "pattern": [
+    " aA",
+    " aa",
+    "a  "
+  ],
+  "key": {
+    "a": {
+      "item": "animancy:soul_stick"
+    },
+    "A": {
+      "item": "animancy:soul_crystal"
+    }
+  },
+  "result": {
+    "item": "animancy:soulspin_staff",
+    "count": 1
+  }
+}

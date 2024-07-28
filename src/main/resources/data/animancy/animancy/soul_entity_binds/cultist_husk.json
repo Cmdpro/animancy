@@ -1,0 +1,13 @@
+{
+  "entity": "animancy:cultist_husk",
+  "soulTypes": [
+    {
+      "type": "animancy:purified",
+      "amount": 3
+    },
+    {
+      "type": "animancy:humanoid",
+      "amount": 2
+    }
+  ]
+}

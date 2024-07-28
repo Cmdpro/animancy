@@ -1,5 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:shaped_soul_altar_recipe",
+  "souls": [
+    {
+      "type": "animancy:purified",
+      "amount": 25
+    }
+  ],
   "pattern": [
     "A",
     "A",

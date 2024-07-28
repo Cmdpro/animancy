@@ -92,6 +92,8 @@ public class Animancy
             event.accept(ItemRegistry.ANIMAGITE_SWORD);
             event.accept(ItemRegistry.SOULTANK);
             event.accept(ItemRegistry.STRIDERBOOTS);
+            event.accept(ItemRegistry.SOUL_STICK);
+            event.accept(ItemRegistry.SOULSPIN_STAFF);
         }
         if (event.getTabKey() == CreativeModeTabRegistry.BLOCKS.getKey()) {
             event.accept(ItemRegistry.SOULALTARITEM);

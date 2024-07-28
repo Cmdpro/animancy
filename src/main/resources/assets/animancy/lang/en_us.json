@@ -23,6 +23,7 @@
   "block.animancy.gold_pillar": "Gold Pillar",
   "item.animancy.strider_boots": "Strider Boots",
   "item.animancy.soulspin_staff": "Soulspin Staff",
+  "item.animancy.soul_stick": "Soul-Infused Stick",
 
   "animancy.soulicon.animancy.blazing": "Blazing",
   "animancy.soulicon.animancy.void": "Void",
@@ -40,6 +41,8 @@
   "advancements.animancy.animancy.title": "Animancy",
   "advancements.animancy.animancy.description": "The advancements for animancy",
   "advancements.animancy.animancy.on_grant": "This material... It contains a strange power... Maybe I can make use of it?",
+  "advancements.animancy.soul_altar.title": "Soul Altar",
+  "advancements.animancy.soul_altar.description": "Obtain a Soul Altar",
 
   "item.animancy.animancy_guide.name": "Spiritus Libri",
   "item.animancy.animancy_guide.landing": "Manipulating souls for your own gain.",

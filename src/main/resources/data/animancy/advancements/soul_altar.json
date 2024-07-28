@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "animancy:soul_altar"
+    },
+    "title": {
+      "translate": "advancements.animancy.soul_altar.title"
+    },
+    "description": {
+      "translate": "advancements.animancy.soul_altar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "animancy:animancy",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "player": [],
+        "items": [
+          {
+            "items": [
+              "animancy:soul_altar"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

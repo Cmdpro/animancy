@@ -1,0 +1,30 @@
+{
+  "type": "animancy:shapeless_soul_altar_recipe",
+  "souls": [
+    {
+      "type": "animancy:purified",
+      "amount": 2
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    }
+  ],
+  "result": {
+    "item": "animancy:soul_stick",
+    "count": 1
+  }
+}
