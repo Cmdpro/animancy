@@ -2,6 +2,7 @@
   "name": "Strider Boots",
   "icon": "animancy:strider_boots",
   "category": "animancy:getting_started",
+  "advancement": "animancy:soul_altar",
   "pages": [
     {
       "type": "patchouli:text",

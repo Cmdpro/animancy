@@ -1,9 +1,9 @@
 {
   "icon": "animancy:soul_icon/monster",
   "color": {
-    "r": 172,
-    "g": 22,
-    "b": 45
+    "r": 255,
+    "g": 82,
+    "b": 119
   },
   "name": "animancy.soulicon.animancy.monster"
 }

@@ -21,9 +21,7 @@ public class AnimancyUtil {
         if (player instanceof ServerPlayer serverPlayer) {
             Advancement advancement2 = serverPlayer.getServer().getAdvancements().getAdvancement(advancement);
             if (advancement2 != null) {
-                if (serverPlayer.getAdvancements().getOrStartProgress(advancement2).isDone()) {
-                    return true;
-                }
+                return serverPlayer.getAdvancements().getOrStartProgress(advancement2).isDone();
             }
             return true;
         }

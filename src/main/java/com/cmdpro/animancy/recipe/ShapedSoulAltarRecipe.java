@@ -300,7 +300,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     public static class Serializer implements RecipeSerializer<ShapedSoulAltarRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID =
-                new ResourceLocation(Animancy.MOD_ID,"shapedsoulaltarrecipe");
+                new ResourceLocation(Animancy.MOD_ID,"shaped_soul_altar_recipe");
 
         @Override
         public ShapedSoulAltarRecipe fromJson(ResourceLocation id, JsonObject json) {

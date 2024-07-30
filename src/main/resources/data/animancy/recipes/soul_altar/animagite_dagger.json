@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:shaped_soul_altar_recipe",
+  "type": "animancy:shaped_soul_altar_recipe",
   "souls": [
     {
       "type": "animancy:purified",

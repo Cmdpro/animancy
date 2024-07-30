@@ -113,7 +113,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
     public static class Serializer implements RecipeSerializer<ShapelessSoulAltarRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID =
-                new ResourceLocation(Animancy.MOD_ID,"soulaltarrecipe");
+                new ResourceLocation(Animancy.MOD_ID,"shapeless_soul_altar_recipe");
 
         @Override
         public ShapelessSoulAltarRecipe fromJson(ResourceLocation id, JsonObject json) {

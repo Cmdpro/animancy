@@ -1,5 +1,6 @@
 {
   "type": "animancy:shaped_soul_altar_recipe",
+  "advancement": "animancy:soul_altar",
   "souls": [
     {
       "type": "animancy:blazing",
