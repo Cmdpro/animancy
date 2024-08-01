@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "animancy:item/spirit_bow/spirit_bow4"
+  }
+}

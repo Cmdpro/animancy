@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "animancy:item/spirit_bow1",
+      "predicate": {
+        "animancy:pulling": 1.0
+      }
+    },
+    {
+      "model": "animancy:item/spirit_bow2",
+      "predicate": {
+        "animancy:pull": 0.65,
+        "animancy:pulling": 1.0
+      }
+    },
+    {
+      "model": "animancy:item/spirit_bow3",
+      "predicate": {
+        "animancy:pull": 0.9,
+        "animancy:pulling": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "animancy:item/spirit_bow/spirit_bow1"
+  }
+}

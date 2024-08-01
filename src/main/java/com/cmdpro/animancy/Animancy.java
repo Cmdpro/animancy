@@ -94,11 +94,14 @@ public class Animancy
             event.accept(ItemRegistry.STRIDERBOOTS);
             event.accept(ItemRegistry.SOUL_STICK);
             event.accept(ItemRegistry.SOULSPIN_STAFF);
+            event.accept(ItemRegistry.SPIRIT_BOW);
         }
         if (event.getTabKey() == CreativeModeTabRegistry.BLOCKS.getKey()) {
             event.accept(ItemRegistry.SOULALTARITEM);
             event.accept(BlockRegistry.GOLDPILLAR);
             event.accept(BlockRegistry.ECHOSOIL);
+            event.accept(BlockRegistry.SOULMETAL_BLOCK);
+            event.accept(BlockRegistry.ANIMAGITE_BLOCK);
         }
     }
     private void setup(final FMLCommonSetupEvent event)

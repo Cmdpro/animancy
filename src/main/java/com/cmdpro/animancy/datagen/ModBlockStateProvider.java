@@ -22,6 +22,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         blockWithItem(BlockRegistry.ECHOSOIL);
+        blockWithItem(BlockRegistry.SOULMETAL_BLOCK);
+        blockWithItem(BlockRegistry.ANIMAGITE_BLOCK);
     }
 
     private void blockWithItem(Supplier<Block> blockRegistryObject) {

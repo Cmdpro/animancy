@@ -1,6 +1,7 @@
 package com.cmdpro.animancy;
 
 import com.cmdpro.animancy.api.SoulTankItem;
+import com.cmdpro.animancy.entity.SpiritArrow;
 import com.cmdpro.animancy.registry.*;
 import com.cmdpro.animancy.integration.PageSoulAltar;
 import com.cmdpro.animancy.particle.Soul2Particle;
@@ -13,10 +14,14 @@ import com.cmdpro.animancy.soultypes.SoulType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -55,6 +60,12 @@ public class ClientModEvents {
         EntityRenderers.register(EntityRegistry.SOULRITUALCONTROLLER.get(), EmptyEntityRenderer::new);
         EntityRenderers.register(EntityRegistry.CULTIST_HUSK.get(), CultistHuskRenderer::new);
         EntityRenderers.register(EntityRegistry.SOUL_PROJECTILE.get(), EmptyEntityRenderer::new);
+        EntityRenderers.register(EntityRegistry.SPIRIT_ARROW.get(), (a) -> new ArrowRenderer<>(a) {
+            @Override
+            public ResourceLocation getTextureLocation(SpiritArrow pEntity) {
+                return new ResourceLocation(Animancy.MOD_ID, "textures/entity/spirit_arrow.png");
+            }
+        });
 
         event.enqueueWork(() -> {
             ItemProperties.register(ItemRegistry.SOULTANK.get(), new ResourceLocation(Animancy.MOD_ID, "fill"), (stack, level, entity, seed) -> {
@@ -63,6 +74,16 @@ public class ClientModEvents {
                     return 0.125f;
                 }
                 return fill;
+            });
+            ItemProperties.register(ItemRegistry.SPIRIT_BOW.get(), new ResourceLocation(Animancy.MOD_ID, "pull"), (p_174635_, p_174636_, p_174637_, p_174638_) -> {
+                if (p_174637_ == null) {
+                    return 0.0F;
+                } else {
+                    return p_174637_.getUseItem() != p_174635_ ? 0.0F : (float)(p_174635_.getUseDuration() - p_174637_.getUseItemRemainingTicks()) / 20.0F;
+                }
+            });
+            ItemProperties.register(ItemRegistry.SPIRIT_BOW.get(), new ResourceLocation(Animancy.MOD_ID, "pulling"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
+                return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
             });
         });
 

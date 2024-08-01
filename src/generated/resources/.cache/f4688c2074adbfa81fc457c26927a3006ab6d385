@@ -1,4 +1,10 @@
-// 1.20.1	2024-07-25T21:53:34.8274053	Block States: animancy
+// 1.20.1	2024-07-31T21:25:41.0176509	Block States: animancy
+4e6eb05fc8ec52d5310ba28d0a606ae8820dbe85 assets/animancy/blockstates/animagite_block.json
 32d141403f89b607b61646180084e54168c3c1c8 assets/animancy/blockstates/echo_soil.json
+2ec7705b53b44e3467dc6021b5fcd65c499c01e2 assets/animancy/blockstates/soulmetal_block.json
+f683088ed2555dbfceca63bb836b51b0aea4d588 assets/animancy/models/block/animagite_block.json
 f3dcf0de8fe967ff84d50cc5945b27390ce7ace8 assets/animancy/models/block/echo_soil.json
+795bf227ae44bff3f33590c6c9e7364ff5f88674 assets/animancy/models/block/soulmetal_block.json
+ce116f013ab921fd677778759a386caf0ca47ff5 assets/animancy/models/item/animagite_block.json
 9e618902438e551e44b2943760022f9ba3412cfe assets/animancy/models/item/echo_soil.json
+4fad7f742f7330e4f96e30c5fdde63131f42d2d4 assets/animancy/models/item/soulmetal_block.json

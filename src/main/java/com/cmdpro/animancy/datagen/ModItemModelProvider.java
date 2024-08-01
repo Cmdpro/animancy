@@ -59,6 +59,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ItemRegistry.SOUL_STICK);
 
         soulTank(ItemRegistry.SOULTANK);
+        spiritBow(ItemRegistry.SPIRIT_BOW);
     }
     private ItemModelBuilder soulTank(RegistryObject<Item> item) {
         withExistingParent("soul_tank1", new ResourceLocation("item/generated")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/soul_tank/soul_tank_empty")).texture("layer1", new ResourceLocation(Animancy.MOD_ID,"item/soul_tank/soul_tank_filling1"));
@@ -88,6 +89,22 @@ public class ModItemModelProvider extends ItemModelProvider {
                 model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "soul_tank7"))).end()
                 .override().predicate(new ResourceLocation(Animancy.MOD_ID, "fill"), 1).
                 model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "soul_tank8"))).end();
+    }
+    private ItemModelBuilder spiritBow(RegistryObject<Item> item) {
+        withExistingParent("spirit_bow1", new ResourceLocation("item/bow")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow2"));
+        withExistingParent("spirit_bow2", new ResourceLocation("item/bow")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow3"));
+        withExistingParent("spirit_bow3", new ResourceLocation("item/bow")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow4"));
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                        new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow1"))
+                .override().predicate(new ResourceLocation(Animancy.MOD_ID, "pulling"), 1)
+                .model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "spirit_bow1"))).end()
+                .override().predicate(new ResourceLocation(Animancy.MOD_ID, "pulling"), 1)
+                .predicate(new ResourceLocation(Animancy.MOD_ID, "pull"), 0.65f)
+                .model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "spirit_bow2"))).end()
+                .override().predicate(new ResourceLocation(Animancy.MOD_ID, "pulling"), 1)
+                .predicate(new ResourceLocation(Animancy.MOD_ID, "pull"), 0.9f)
+                .model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "spirit_bow3"))).end();
     }
     private ItemModelBuilder simpleItem(Supplier<Item> item) {
         return withExistingParent(BuiltInRegistries.ITEM.getKey(item.get()).getPath(),

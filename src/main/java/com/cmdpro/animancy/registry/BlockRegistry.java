@@ -26,6 +26,12 @@ public class BlockRegistry {
     public static final RegistryObject<Block> ECHOSOIL = register("echo_soil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL).mapColor(MapColor.COLOR_BLUE)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
+    public static final RegistryObject<Block> SOULMETAL_BLOCK = register("soulmetal_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).mapColor(MapColor.COLOR_BLUE)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
+    public static final RegistryObject<Block> ANIMAGITE_BLOCK = register("animagite_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).mapColor(MapColor.COLOR_LIGHT_BLUE)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
     private static <T extends Block> RegistryObject<T> registerBlock(final String name,
                                                                      final Supplier<? extends T> block) {
         return BLOCKS.register(name, block);

@@ -1,4 +1,4 @@
-// 1.20.1	2024-07-27T22:46:01.9159802	Item Models: animancy
+// 1.20.1	2024-07-31T22:10:20.5050303	Item Models: animancy
 676a59f27b3e8e9d78c3db1af5e98837f1b1c378 assets/animancy/models/item/animagite_dagger.json
 51a088b2e846e3c751e9d9255d87b5e78567c904 assets/animancy/models/item/animagite_ingot.json
 a425857414b76c76223525f123cc6da8827a8f5a assets/animancy/models/item/animagite_sword.json
@@ -20,6 +20,10 @@ f4edd88ce92a9b1bd317f07a8e4fff94dc1ea5ff assets/animancy/models/item/soul_tank5.
 c121a07770c4121c6920c46aa7a6c9be8879ff5c assets/animancy/models/item/soul_tank6.json
 a382dce9d617377ae2cbed9cfdabfc50de704b4a assets/animancy/models/item/soul_tank7.json
 6876d76dfe7d1a5a8fffed6fe6e7cf064ec882fa assets/animancy/models/item/soul_tank8.json
+2695d028f94a740082e45b2748f463d3671fda4f assets/animancy/models/item/spirit_bow.json
+4ef5997120a0bf2370008b1cc66d04df7526e695 assets/animancy/models/item/spirit_bow1.json
+14db2e00aa419383c09d843ac5bebfa530f62dff assets/animancy/models/item/spirit_bow2.json
+436fd573063dc36a15053d0d55c4946299b23e19 assets/animancy/models/item/spirit_bow3.json
 6eb1ddd724666ec8b5a0e7dce3e6c42b9259c646 assets/animancy/models/item/strider_boots.json
 01f2c6ddf16c1a5a6ba6633b0f96862582f39085 assets/animancy/models/item/the_souls_revenge_music_disc.json
 c73ee7055f67e9aaafaae2432682e3dacff6d7a4 assets/animancy/models/item/the_souls_scream_music_disc.json
