@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -37,6 +38,11 @@ public class SpiritArrow extends AbstractArrow {
                 i.hurt(i.damageSources().source(Animancy.soulExplosion), 4);
             }
         }
+    }
+
+    @Override
+    protected boolean tryPickup(Player pPlayer) {
+        return true;
     }
 
     @Override

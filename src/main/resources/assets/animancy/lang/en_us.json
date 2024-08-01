@@ -24,6 +24,9 @@
   "item.animancy.strider_boots": "Strider Boots",
   "item.animancy.soulspin_staff": "Soulspin Staff",
   "item.animancy.soul_stick": "Soul-Infused Stick",
+  "item.animancy.spirit_bow": "Spirit Bow",
+  "block.animancy.soulmetal_block": "Block of Soulmetal",
+  "block.animancy.animagite_block": "Block of Animagite",
 
   "animancy.soulicon.animancy.blazing": "Blazing",
   "animancy.soulicon.animancy.void": "Void",
@@ -37,6 +40,7 @@
 
   "entity.animancy.soul_keeper": "Soul Keeper",
   "entity.animancy.cultist_husk": "Cultist Husk",
+  "entity.animancy.spirit_arrow": "Spirit Arrow",
 
   "advancements.animancy.animancy.title": "Animancy",
   "advancements.animancy.animancy.description": "The advancements for animancy",
