@@ -18,14 +18,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.*;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -50,6 +53,15 @@ public class ModEvents {
                 event.addCapability(new ResourceLocation(Animancy.MOD_ID, "properties"), new PlayerModDataProvider());
             }
         }
+    }
+    @SubscribeEvent
+    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
+
+        event.register(EntityRegistry.CULTIST_HUSK.get(),
+                SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
     @SubscribeEvent
     public static void onAdvancementEarn(AdvancementEvent.AdvancementEarnEvent event) {

@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:item/bow",
   "overrides": [
     {
       "model": "animancy:item/spirit_bow1",

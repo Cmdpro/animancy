@@ -95,7 +95,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("spirit_bow2", new ResourceLocation("item/bow")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow3"));
         withExistingParent("spirit_bow3", new ResourceLocation("item/bow")).texture("layer0", new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow4"));
         return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation("item/bow")).texture("layer0",
                         new ResourceLocation(Animancy.MOD_ID,"item/spirit_bow/spirit_bow1"))
                 .override().predicate(new ResourceLocation(Animancy.MOD_ID, "pulling"), 1)
                 .model(getExistingFile(new ResourceLocation(Animancy.MOD_ID, "spirit_bow1"))).end()

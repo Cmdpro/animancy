@@ -37,6 +37,7 @@ public class SpiritArrow extends AbstractArrow {
             for (LivingEntity i : level().getEntitiesOfClass(LivingEntity.class, AABB.ofSize(pResult.getLocation(), 6, 6, 6))) {
                 i.hurt(i.damageSources().source(Animancy.soulExplosion), 4);
             }
+            remove(RemovalReason.KILLED);
         }
     }
 
