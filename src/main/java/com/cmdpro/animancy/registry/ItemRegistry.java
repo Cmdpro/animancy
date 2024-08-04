@@ -31,7 +31,8 @@ public class ItemRegistry {
         }
     });
     public static final RegistryObject<Item> STRIDERBOOTS = register("strider_boots", () -> new ArmorItem(ModArmorMaterials.STRIDER, ArmorItem.Type.BOOTS, new Item.Properties()));
-    public static final RegistryObject<Item> SPIRIT_BOW  = register("spirit_bow", () -> new SpiritBow(new Item.Properties()));
+    public static final RegistryObject<Item> SPIRIT_BOW = register("spirit_bow", () -> new SpiritBow(new Item.Properties()));
+    public static final RegistryObject<Item> SOULBOUND_BELL = register("soulbound_bell", () -> new SoulboundBell(new Item.Properties()));
 	
     private static <T extends Item> RegistryObject<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);
