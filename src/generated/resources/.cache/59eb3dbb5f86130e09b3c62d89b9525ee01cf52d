@@ -1,8 +1,9 @@
-// 1.20.1	2024-07-31T21:25:41.0166506	Loot Tables
+// 1.20.1	2024-08-04T22:08:48.8308592	Loot Tables
 862542e64c972311c96a394bc9ab699bac3beba7 data/animancy/loot_tables/blocks/animagite_block.json
 932c471dc3cdaddd1870e96b9190b241bd70b929 data/animancy/loot_tables/blocks/echo_soil.json
 0000d820a91ac21e7d8474fc04e3a8e877cc5f2b data/animancy/loot_tables/blocks/gold_pillar.json
 c992e50f98e8eb97453b7ecd25e6eb0dc99c6007 data/animancy/loot_tables/blocks/soulmetal_block.json
 ab00336f230b52349113f75a7f4172bbe1368a36 data/animancy/loot_tables/blocks/soul_altar.json
+03a772fb0c82c877269ef2c1f6cb27ada1327d31 data/animancy/loot_tables/blocks/spiritual_anchor.json
 e6d40fcb8635a4a3d04616a7fd60238f9083fb37 data/animancy/loot_tables/entities/cultist_husk.json
 6fc162b430369a7c3f6e981562f53f8199937f8a data/animancy/loot_tables/entities/soul_keeper.json

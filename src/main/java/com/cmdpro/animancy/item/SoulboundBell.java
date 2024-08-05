@@ -1,10 +1,17 @@
 package com.cmdpro.animancy.item;
 
+import com.cmdpro.animancy.Animancy;
+import com.cmdpro.animancy.api.SoulTankItem;
+import com.cmdpro.animancy.moddata.PlayerModDataProvider;
+import com.cmdpro.animancy.registry.BlockRegistry;
+import com.cmdpro.animancy.registry.ItemRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.commands.arguments.blocks.BlockInput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -17,10 +24,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.apache.commons.lang3.RandomUtils;
 import org.joml.Math;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SoulboundBell extends Item {
@@ -60,6 +69,13 @@ public class SoulboundBell extends Item {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         pPlayer.startUsingItem(pUsedHand);
+        if (!pLevel.isClientSide) {
+            pPlayer.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data) -> {
+                if (data.soulboundDimension != null && data.soulboundPosition != null) {
+                    pPlayer.sendSystemMessage(Component.translatable("item.animancy.soulbound_bell.sending_to", data.soulboundPosition.getX(), data.soulboundPosition.getY(), data.soulboundPosition.getZ()));
+                }
+            });
+        }
         return InteractionResultHolder.consume(stack);
     }
     @Override
@@ -78,8 +94,50 @@ public class SoulboundBell extends Item {
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (!pLevel.isClientSide) {
             if (pLivingEntity instanceof Player player) {
-                Component msg = Component.literal("Test");
-                player.sendSystemMessage(msg);
+                int souls = 0;
+                for (ItemStack o : player.getInventory().items) {
+                    if (o.is(ItemRegistry.SOULTANK.get())) {
+                        float number = SoulTankItem.getFillNumber(o);
+                        ResourceLocation type = SoulTankItem.getFillTypeLocation(o);
+                        if (type.equals(new ResourceLocation(Animancy.MOD_ID, "purified"))) {
+                            souls += number;
+                        }
+                    }
+                }
+                if (souls >= 5) {
+                    player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent((data) -> {
+                        if (data.soulboundDimension != null && data.soulboundPosition != null) {
+                            if (pLevel.dimension().equals(data.soulboundDimension)) {
+                                if (pLevel.getBlockState(data.soulboundPosition.below()).is(BlockRegistry.SPIRITUAL_ANCHOR.get())) {
+                                    int remaining = 5;
+                                    for (ItemStack o : player.getInventory().items) {
+                                        if (o.is(ItemRegistry.SOULTANK.get())) {
+                                            float number = SoulTankItem.getFillNumber(o);
+                                            ResourceLocation type = SoulTankItem.getFillTypeLocation(o);
+                                            if (type.equals(new ResourceLocation(Animancy.MOD_ID, "purified"))) {
+                                                SoulTankItem.setFill(o, type, number - Math.min(number, remaining));
+                                                remaining -= number;
+                                                if (remaining <= 0) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Vec3 pos = data.soulboundPosition.getCenter();
+                                    player.teleportTo(pos.x, pos.y, pos.z);
+                                } else {
+                                    player.sendSystemMessage(Component.translatable("item.animancy.soulbound_bell.fail_broken"));
+                                }
+                            } else {
+                                player.sendSystemMessage(Component.translatable("item.animancy.soulbound_bell.fail_dimension"));
+                            }
+                        } else {
+                            player.sendSystemMessage(Component.translatable("item.animancy.soulbound_bell.fail_not_bound"));
+                        }
+                    });
+                } else {
+                    player.sendSystemMessage(Component.translatable("item.animancy.soulbound_bell.fail_not_enough_souls"));
+                }
                 player.getCooldowns().addCooldown(this, 20);
             }
         }

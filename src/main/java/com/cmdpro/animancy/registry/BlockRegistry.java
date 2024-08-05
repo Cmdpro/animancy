@@ -23,6 +23,9 @@ public class BlockRegistry {
     public static final RegistryObject<Block> GOLDPILLAR = register("gold_pillar",
             () -> new GoldPillar(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));
+    public static final RegistryObject<Block> SPIRITUAL_ANCHOR = register("spiritual_anchor",
+            () -> new SpiritualAnchor(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).mapColor(MapColor.COLOR_BLUE)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
     public static final RegistryObject<Block> ECHOSOIL = register("echo_soil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SOIL).mapColor(MapColor.COLOR_BLUE)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));

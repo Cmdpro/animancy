@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "animancy:block/spiritual_anchor_bottom",
+    "east": "animancy:block/spiritual_anchor_side",
+    "north": "animancy:block/spiritual_anchor_side",
+    "particle": "animancy:block/spiritual_anchor_side",
+    "south": "animancy:block/spiritual_anchor_side",
+    "up": "animancy:block/spiritual_anchor_top",
+    "west": "animancy:block/spiritual_anchor_side"
+  }
+}

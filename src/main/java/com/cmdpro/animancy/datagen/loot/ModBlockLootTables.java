@@ -27,6 +27,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(BlockRegistry.GOLDPILLAR.get());
         dropSelf(BlockRegistry.SOULMETAL_BLOCK.get());
         dropSelf(BlockRegistry.ANIMAGITE_BLOCK.get());
+        dropSelf(BlockRegistry.SPIRITUAL_ANCHOR.get());
     }
     @Override
     protected Iterable<Block> getKnownBlocks() {

@@ -102,6 +102,7 @@ public class Animancy
             event.accept(BlockRegistry.ECHOSOIL);
             event.accept(BlockRegistry.SOULMETAL_BLOCK);
             event.accept(BlockRegistry.ANIMAGITE_BLOCK);
+            event.accept(BlockRegistry.SPIRITUAL_ANCHOR);
         }
     }
     private void setup(final FMLCommonSetupEvent event)
