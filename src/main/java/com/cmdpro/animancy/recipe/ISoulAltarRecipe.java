@@ -2,10 +2,13 @@ package com.cmdpro.animancy.recipe;
 
 import com.cmdpro.animancy.registry.BlockRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
+
+import java.util.Map;
 
 public interface ISoulAltarRecipe extends CraftingRecipe, IHasRequiredAdvancement, IHasSoulCost {
     @Override
@@ -27,4 +30,5 @@ public interface ISoulAltarRecipe extends CraftingRecipe, IHasRequiredAdvancemen
     default CraftingBookCategory category() {
         return CraftingBookCategory.MISC;
     }
+    public int getTier();
 }

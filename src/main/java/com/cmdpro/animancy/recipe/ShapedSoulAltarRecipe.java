@@ -46,8 +46,9 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     final ItemStack result;
     private final ResourceLocation id;
     final boolean showNotification;
+    final int tier;
 
-    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls) {
+    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls, int tier) {
         this.advancement = advancement;
         this.souls = souls;
         this.width = pWidth;
@@ -56,6 +57,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
         this.result = pResult;
         this.id = pId;
         this.showNotification = pShowNotification;
+        this.tier = tier;
     }
 
     @Override
@@ -129,6 +131,11 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     @Override
     public RecipeType<?> getType() {
         return RecipeRegistry.SOULALTAR.get();
+    }
+
+    @Override
+    public int getTier() {
+        return tier;
     }
 
 
@@ -316,7 +323,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             for (JsonElement o : GsonHelper.getAsJsonArray(json, "souls")) {
                 souls.put(ResourceLocation.tryParse(GsonHelper.getAsString(o.getAsJsonObject(), "type")), GsonHelper.getAsFloat(o.getAsJsonObject(), "amount"));
             }
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls);
+            int tier = GsonHelper.getAsInt(json, "tier");
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls, tier);
         }
 
         @Override
@@ -337,7 +345,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             if (hasAdvancement) {
                 advancement = buf.readResourceLocation();
             }
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map);
+            int tier = buf.readInt();
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map, tier);
         }
 
         @Override
@@ -356,6 +365,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             if (recipe.advancement != null) {
                 buf.writeResourceLocation(recipe.advancement);
             }
+            buf.writeInt(recipe.tier);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics

@@ -75,13 +75,14 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-
+    public int tier;
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
         souls = new HashMap<>();
         craftingTicks = -1;
         sound = new SimpleSoundInstance(SoundRegistry.SOUL_ALTAR_CRAFTING.get(), SoundSource.BLOCKS, 1.0f, 1.0f, SoundInstance.createUnseededRandom(), pos);
+        tier = 0;
     }
     @Nonnull
     @Override
@@ -170,9 +171,13 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             if (ent.recipe != null) {
                 if (ent.enoughSouls) {
                     if (AnimancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
-                        if (ent.craftingTicks <= -1) {
-                            ent.craftingTicks = 0;
-                            ModMessages.sendToDimension(new StartSoulAltarSoundS2CPacket(pPos), pLevel.dimension());
+                        if (ent.recipe.getTier() <= ent.tier) {
+                            if (ent.craftingTicks <= -1) {
+                                ent.craftingTicks = 0;
+                                ModMessages.sendToDimension(new StartSoulAltarSoundS2CPacket(pPos), pLevel.dimension());
+                            }
+                        } else {
+                            pPlayer.sendSystemMessage(Component.translatable("block.animancy.soul_altar.low_tier"));
                         }
                     } else {
                         pPlayer.sendSystemMessage(Component.translatable("block.animancy.soul_altar.dont_know_how"));
@@ -194,20 +199,27 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         super.invalidateCaps();
         lazyItemHandler.invalidate();
     }
-    public void detectSouls() {
+    public void detectMultiblock() {
         souls.clear();
+        tier = 0;
         BlockPos[] pillars = {
                 getBlockPos().offset(2, 0, 0),
                 getBlockPos().offset(-2, 0, 0),
                 getBlockPos().offset(0, 0, 2),
                 getBlockPos().offset(0, 0, -2)
         };
+        boolean allPillars = true;
         for (BlockPos i : pillars) {
             if (level.getBlockEntity(i) instanceof GoldPillarBlockEntity ent) {
                 if (ent.item != null && !ent.item.isEmpty()) {
                     souls.put(SoulTankItem.getFillTypeLocation(ent.item), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent.item), 0f)+SoulTankItem.getFillNumber(ent.item));
                 }
+            } else {
+                allPillars = false;
             }
+        }
+        if (allPillars) {
+            tier = 1;
         }
     }
     public float getTotalSouls() {
@@ -223,7 +235,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public SoundInstance sound;
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
-            pBlockEntity.detectSouls();
+            pBlockEntity.detectMultiblock();
             Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeRegistry.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
             if (recipe.isPresent()) {
                 pBlockEntity.recipe = recipe.get();
@@ -249,6 +261,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                         pBlockEntity.actuallyCraft();
                     }
                     if (!enoughSouls) {
+                        pBlockEntity.craftingTicks = -1;
+                    }
+                    if (pBlockEntity.tier < recipe.get().getTier()) {
                         pBlockEntity.craftingTicks = -1;
                     }
                 }

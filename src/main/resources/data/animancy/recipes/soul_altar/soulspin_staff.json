@@ -1,5 +1,6 @@
 {
   "type": "animancy:shaped_soul_altar_recipe",
+  "tier": 1,
   "advancement": "animancy:soul_altar",
   "souls": [
     {

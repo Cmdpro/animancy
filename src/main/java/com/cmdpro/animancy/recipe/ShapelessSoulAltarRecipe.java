@@ -33,14 +33,16 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
     final ItemStack result;
     final NonNullList<Ingredient> ingredients;
     private final boolean isSimple;
+    final int tier;
 
-    public ShapelessSoulAltarRecipe(ResourceLocation id, ItemStack result, NonNullList<Ingredient> ingredients, ResourceLocation advancement, Map<ResourceLocation, Float> souls) {
+    public ShapelessSoulAltarRecipe(ResourceLocation id, ItemStack result, NonNullList<Ingredient> ingredients, ResourceLocation advancement, Map<ResourceLocation, Float> souls, int tier) {
         this.id = id;
         this.advancement = advancement;
         this.souls = souls;
         this.result = result;
         this.ingredients = ingredients;
         this.isSimple = ingredients.stream().allMatch(Ingredient::isSimple);
+        this.tier = tier;
     }
 
 
@@ -99,6 +101,11 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
         return RecipeRegistry.SOULALTAR.get();
     }
 
+    @Override
+    public int getTier() {
+        return tier;
+    }
+
 
     @Override
     public ResourceLocation getAdvancement() {
@@ -122,6 +129,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             for (JsonElement i : GsonHelper.getAsJsonArray(json, "souls")) {
                 souls.put(ResourceLocation.tryParse(GsonHelper.getAsString(i.getAsJsonObject(), "type")), GsonHelper.getAsFloat(i.getAsJsonObject(), "amount"));
             }
+            int tier = GsonHelper.getAsInt(json, "tier");
             NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
             if (nonnulllist.isEmpty()) {
                 throw new JsonParseException("No ingredients for shapeless recipe");
@@ -129,7 +137,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
                 throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is " + (ShapedSoulAltarRecipe.MAX_WIDTH * ShapedSoulAltarRecipe.MAX_HEIGHT));
             } else {
                 ItemStack itemstack = ShapedSoulAltarRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-                return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, souls);
+                return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, souls, tier);
             }
         }
 
@@ -162,7 +170,8 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             if (hasAdvancement) {
                 advancement = buf.readResourceLocation();
             }
-            return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, map);
+            int tier = buf.readInt();
+            return new ShapelessSoulAltarRecipe(id, itemstack, nonnulllist, advancement, map, tier);
         }
 
         @Override
@@ -179,6 +188,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
             if (recipe.advancement != null) {
                 buf.writeResourceLocation(recipe.advancement);
             }
+            buf.writeInt(recipe.tier);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics

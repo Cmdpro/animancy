@@ -1,5 +1,6 @@
 {
   "type": "animancy:shapeless_soul_altar_recipe",
+  "tier": 100,
   "souls": [
     {
       "type": "animancy:purified",
