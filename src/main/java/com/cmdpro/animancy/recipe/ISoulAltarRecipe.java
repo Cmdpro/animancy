@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ISoulAltarRecipe extends CraftingRecipe, IHasRequiredAdvancement, IHasSoulCost {
@@ -30,5 +31,5 @@ public interface ISoulAltarRecipe extends CraftingRecipe, IHasRequiredAdvancemen
     default CraftingBookCategory category() {
         return CraftingBookCategory.MISC;
     }
-    public int getTier();
+    public List<ResourceLocation> getUpgrades();
 }

@@ -26,9 +26,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     private final ResourceLocation advancement;
@@ -46,9 +44,9 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     final ItemStack result;
     private final ResourceLocation id;
     final boolean showNotification;
-    final int tier;
+    final List<ResourceLocation> upgrades;
 
-    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls, int tier) {
+    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls, List<ResourceLocation> upgrades) {
         this.advancement = advancement;
         this.souls = souls;
         this.width = pWidth;
@@ -57,7 +55,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
         this.result = pResult;
         this.id = pId;
         this.showNotification = pShowNotification;
-        this.tier = tier;
+        this.upgrades = upgrades;
     }
 
     @Override
@@ -134,8 +132,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     }
 
     @Override
-    public int getTier() {
-        return tier;
+    public List<ResourceLocation> getUpgrades() {
+        return upgrades;
     }
 
 
@@ -323,8 +321,11 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             for (JsonElement o : GsonHelper.getAsJsonArray(json, "souls")) {
                 souls.put(ResourceLocation.tryParse(GsonHelper.getAsString(o.getAsJsonObject(), "type")), GsonHelper.getAsFloat(o.getAsJsonObject(), "amount"));
             }
-            int tier = GsonHelper.getAsInt(json, "tier");
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls, tier);
+            List<ResourceLocation> upgrades = new ArrayList<>();
+            for (JsonElement o : GsonHelper.getAsJsonArray(json, "upgrades")) {
+                upgrades.add(ResourceLocation.tryParse(o.getAsString()));
+            }
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls, upgrades);
         }
 
         @Override
@@ -345,8 +346,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             if (hasAdvancement) {
                 advancement = buf.readResourceLocation();
             }
-            int tier = buf.readInt();
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map, tier);
+            List<ResourceLocation> upgrades = buf.readList(FriendlyByteBuf::readResourceLocation);
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map, upgrades);
         }
 
         @Override
@@ -365,7 +366,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             if (recipe.advancement != null) {
                 buf.writeResourceLocation(recipe.advancement);
             }
-            buf.writeInt(recipe.tier);
+            buf.writeCollection(recipe.upgrades, FriendlyByteBuf::writeResourceLocation);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics

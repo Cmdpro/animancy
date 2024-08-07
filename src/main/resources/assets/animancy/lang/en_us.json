@@ -7,7 +7,7 @@
   "block.animancy.soul_altar": "Soul Altar",
   "block.animancy.soul_altar.not_enough_souls": "The Soul Altar does not have enough souls!",
   "block.animancy.soul_altar.dont_know_how": "You do not know how to make this recipe!",
-  "block.animancy.soul_altar.low_tier": "The Soul Altar is not advanced enough for this recipe!",
+  "block.animancy.soul_altar.low_tier": "The Soul Altar needs to be upgraded for this recipe!",
   "item.animancy.crystal_souls_music_disc": "Music Disc",
   "item.animancy.crystal_souls_music_disc.desc": "DavidRarria09 - Crystal Souls",
   "item.animancy.the_souls_scream_music_disc": "Music Disc",

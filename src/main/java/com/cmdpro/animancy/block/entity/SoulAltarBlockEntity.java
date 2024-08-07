@@ -1,20 +1,15 @@
 package com.cmdpro.animancy.block.entity;
 
+import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.api.AnimancyUtil;
 import com.cmdpro.animancy.networking.ModMessages;
-import com.cmdpro.animancy.networking.packet.StartSoulAltarSoundS2CPacket;
 import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.animancy.recipe.NonMenuCraftingContainer;
-import com.cmdpro.animancy.registry.SoundRegistry;
 import com.cmdpro.animancy.screen.SoulAltarMenu;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,7 +17,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -75,14 +69,13 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    public int tier;
+    public List<ResourceLocation> upgrades;
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.SOULALTAR.get(), pos, state);
         item = ItemStack.EMPTY;
         souls = new HashMap<>();
         craftingTicks = -1;
-        sound = new SimpleSoundInstance(SoundRegistry.SOUL_ALTAR_CRAFTING.get(), SoundSource.BLOCKS, 1.0f, 1.0f, SoundInstance.createUnseededRandom(), pos);
-        tier = 0;
+        upgrades = new ArrayList<>();
     }
     @Nonnull
     @Override
@@ -164,6 +157,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         CraftingContainer inventory = new NonMenuCraftingContainer(items, 3, 3);
         return inventory;
     }
+    public boolean hasUpgrades(List<ResourceLocation> upgrades) {
+        return this.upgrades.containsAll(upgrades);
+    }
     public static InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
                                         Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
@@ -171,10 +167,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             if (ent.recipe != null) {
                 if (ent.enoughSouls) {
                     if (AnimancyUtil.playerHasAdvancement(pPlayer, ent.recipe.getAdvancement())) {
-                        if (ent.recipe.getTier() <= ent.tier) {
+                        if (ent.hasUpgrades(ent.recipe.getUpgrades())) {
                             if (ent.craftingTicks <= -1) {
                                 ent.craftingTicks = 0;
-                                ModMessages.sendToDimension(new StartSoulAltarSoundS2CPacket(pPos), pLevel.dimension());
                             }
                         } else {
                             pPlayer.sendSystemMessage(Component.translatable("block.animancy.soul_altar.low_tier"));
@@ -201,7 +196,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     }
     public void detectMultiblock() {
         souls.clear();
-        tier = 0;
+        upgrades.clear();
         BlockPos[] pillars = {
                 getBlockPos().offset(2, 0, 0),
                 getBlockPos().offset(-2, 0, 0),
@@ -219,7 +214,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             }
         }
         if (allPillars) {
-            tier = 1;
+            upgrades.add(new ResourceLocation(Animancy.MOD_ID, "basic"));
         }
     }
     public float getTotalSouls() {
@@ -232,7 +227,6 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public ISoulAltarRecipe recipe;
     public boolean enoughSouls;
     public Map<ResourceLocation, Float> soulCost = new HashMap<>();
-    public SoundInstance sound;
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
             pBlockEntity.detectMultiblock();
@@ -263,7 +257,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                     if (!enoughSouls) {
                         pBlockEntity.craftingTicks = -1;
                     }
-                    if (pBlockEntity.tier < recipe.get().getTier()) {
+                    if (!pBlockEntity.hasUpgrades(pBlockEntity.recipe.getUpgrades())) {
                         pBlockEntity.craftingTicks = -1;
                     }
                 }
@@ -278,30 +272,6 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                 }
             }
             pBlockEntity.updateBlock();
-        } else {
-            if (pBlockEntity.craftingTicks == -1) {
-                ClientSounds.stop(pBlockEntity.sound);
-            } else if (pBlockEntity.craftingTicks >= 0) {
-                ClientSounds.play(pBlockEntity.sound);
-            }
-        }
-    }
-    public static class ClientSounds {
-        public static void restart(SoundInstance instance) {
-            if (Minecraft.getInstance().getSoundManager().isActive(instance)) {
-                Minecraft.getInstance().getSoundManager().stop(instance);
-            }
-            Minecraft.getInstance().getSoundManager().play(instance);
-        }
-        public static void play(SoundInstance instance) {
-            if (!Minecraft.getInstance().getSoundManager().isActive(instance)) {
-                Minecraft.getInstance().getSoundManager().play(instance);
-            }
-        }
-        public static void stop(SoundInstance instance) {
-            if (Minecraft.getInstance().getSoundManager().isActive(instance)) {
-                Minecraft.getInstance().getSoundManager().stop(instance);
-            }
         }
     }
     public void craftingEffects() {
@@ -329,6 +299,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                         }
                         Soul4ParticleOptions options = new Soul4ParticleOptions(type.toString());
                         ((ServerLevel)level).sendParticles(options, x, y, z, 3, 0.05, 0.05, 0.05, 0);
+                        level.playSound(null, x, y, z, SoundEvents.SOUL_ESCAPE, SoundSource.BLOCKS, 1f, 0.5f+(((float)craftingTicks/200f)*1.5f));
                     }
                 }
             }

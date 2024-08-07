@@ -34,11 +34,6 @@ public class ModMessages {
                 .encoder(SoulTypeSyncS2CPacket::toBytes)
                 .consumerMainThread(SoulTypeSyncS2CPacket::handle)
                 .add();
-        net.messageBuilder(StartSoulAltarSoundS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(StartSoulAltarSoundS2CPacket::new)
-                .encoder(StartSoulAltarSoundS2CPacket::toBytes)
-                .consumerMainThread(StartSoulAltarSoundS2CPacket::handle)
-                .add();
     }
     public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);
