@@ -45,8 +45,9 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
     private final ResourceLocation id;
     final boolean showNotification;
     final List<ResourceLocation> upgrades;
+    final int maxCraftingTime;
 
-    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls, List<ResourceLocation> upgrades) {
+    public ShapedSoulAltarRecipe(ResourceLocation pId, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, ResourceLocation advancement, Map<ResourceLocation, Float> souls, List<ResourceLocation> upgrades, int maxCraftingTime) {
         this.advancement = advancement;
         this.souls = souls;
         this.width = pWidth;
@@ -56,6 +57,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
         this.id = pId;
         this.showNotification = pShowNotification;
         this.upgrades = upgrades;
+        this.maxCraftingTime = maxCraftingTime;
     }
 
     @Override
@@ -136,6 +138,10 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
         return upgrades;
     }
 
+    @Override
+    public int getMaxCraftingTime() {
+        return maxCraftingTime;
+    }
 
     @Override
     public ResourceLocation getAdvancement() {
@@ -325,7 +331,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
             for (JsonElement o : GsonHelper.getAsJsonArray(json, "upgrades")) {
                 upgrades.add(ResourceLocation.tryParse(o.getAsString()));
             }
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls, upgrades);
+            int craftingTime = GsonHelper.getAsInt(json, "craftingTime");
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, souls, upgrades, craftingTime);
         }
 
         @Override
@@ -347,7 +354,8 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
                 advancement = buf.readResourceLocation();
             }
             List<ResourceLocation> upgrades = buf.readList(FriendlyByteBuf::readResourceLocation);
-            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map, upgrades);
+            int craftingTime = buf.readInt();
+            return new ShapedSoulAltarRecipe(id, i, j, nonnulllist, itemstack, flag, advancement, map, upgrades, craftingTime);
         }
 
         @Override
@@ -367,6 +375,7 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
                 buf.writeResourceLocation(recipe.advancement);
             }
             buf.writeCollection(recipe.upgrades, FriendlyByteBuf::writeResourceLocation);
+            buf.writeInt(recipe.maxCraftingTime);
         }
 
         @SuppressWarnings("unchecked") // Need this wrapper, because generics

@@ -3,6 +3,7 @@
   "upgrades": [
     "animancy:basic"
   ],
+  "craftingTime": 200,
   "advancement": "animancy:soul_altar",
   "souls": [
     {

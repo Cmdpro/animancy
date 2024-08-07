@@ -3,6 +3,7 @@
   "upgrades": [
 
   ],
+  "craftingTime": 200,
   "souls": [
     {
       "type": "animancy:purified",

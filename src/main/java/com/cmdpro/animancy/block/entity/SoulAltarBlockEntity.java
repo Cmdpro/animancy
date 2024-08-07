@@ -102,6 +102,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         }
         item = ItemStack.of(tag.getCompound("item"));
         craftingTicks = tag.getInt("craftingTicks");
+        maxCraftingTicks = tag.getInt("maxCraftingTicks");
     }
     @Override
     public CompoundTag getUpdateTag() {
@@ -128,6 +129,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         tag.put("soulCost", tag4);
         tag.put("item", item.save(new CompoundTag()));
         tag.putInt("craftingTicks", craftingTicks);
+        tag.putInt("maxCraftingTicks", maxCraftingTicks);
         return tag;
     }
     @Override
@@ -141,6 +143,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
     }
     public int craftingTicks;
+    public int maxCraftingTicks;
     public ItemStack item;
     public SimpleContainer getInv() {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
@@ -206,8 +209,8 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         boolean allPillars = true;
         for (BlockPos i : pillars) {
             if (level.getBlockEntity(i) instanceof GoldPillarBlockEntity ent) {
-                if (ent.item != null && !ent.item.isEmpty()) {
-                    souls.put(SoulTankItem.getFillTypeLocation(ent.item), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent.item), 0f)+SoulTankItem.getFillNumber(ent.item));
+                if (!ent.itemHandler.getStackInSlot(0).isEmpty()) {
+                    souls.put(SoulTankItem.getFillTypeLocation(ent.itemHandler.getStackInSlot(0)), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent.itemHandler.getStackInSlot(0)), 0f)+SoulTankItem.getFillNumber(ent.itemHandler.getStackInSlot(0)));
                 }
             } else {
                 allPillars = false;
@@ -233,6 +236,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeRegistry.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
             if (recipe.isPresent()) {
                 pBlockEntity.recipe = recipe.get();
+                pBlockEntity.maxCraftingTicks = recipe.get().getMaxCraftingTime();
                 pBlockEntity.soulCost = recipe.get().getSoulCost();
                 pBlockEntity.item = recipe.get().getResultItem(pLevel.registryAccess());
                 boolean enoughSouls = true;
@@ -251,7 +255,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                 if (pBlockEntity.craftingTicks >= 0) {
                     pBlockEntity.craftingTicks++;
                     pBlockEntity.craftingEffects();
-                    if (pBlockEntity.craftingTicks >= 200) {
+                    if (pBlockEntity.craftingTicks >= pBlockEntity.maxCraftingTicks) {
                         pBlockEntity.actuallyCraft();
                     }
                     if (!enoughSouls) {
@@ -280,9 +284,9 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             remaining.put(i.getKey(), i.getValue());
         }
         for (int i = 0; i < 4; i++) {
-            double x = getBlockPos().getCenter().x + (Math.cos(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/200f))*2));
+            double x = getBlockPos().getCenter().x + (Math.cos(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/maxCraftingTicks))*2));
             double y = getBlockPos().getCenter().y + 1;
-            double z = getBlockPos().getCenter().z + (Math.sin(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/200f))*2));
+            double z = getBlockPos().getCenter().z + (Math.sin(Math.toRadians((craftingTicks*5)+(i*90)))*((1f-((float)craftingTicks/maxCraftingTicks))*2));
             BlockPos[] pillars = {
                     getBlockPos().offset(2, 0, 0),
                     getBlockPos().offset(0, 0, 2),
@@ -290,16 +294,18 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                     getBlockPos().offset(0, 0, -2)
             };
             if (level.getBlockEntity(pillars[i]) instanceof GoldPillarBlockEntity ent) {
-                if (ent.item != null && !ent.item.isEmpty() && ent.item.getItem() instanceof SoulTankItem) {
-                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent.item);
+                if (!ent.itemHandler.getStackInSlot(0).isEmpty() && ent.itemHandler.getStackInSlot(0).getItem() instanceof SoulTankItem) {
+                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent.itemHandler.getStackInSlot(0));
                     if (remaining.containsKey(type)) {
-                        remaining.put(type, SoulTankItem.removeFill(ent.item, type, remaining.get(type), false));
+                        ItemStack stack = ent.itemHandler.getStackInSlot(0).copy();
+                        remaining.put(type, SoulTankItem.removeFill(stack, type, remaining.get(type), false));
+                        ent.itemHandler.setStackInSlot(0, stack);
                         if (remaining.get(type) <= 0) {
                             remaining.remove(type);
                         }
                         Soul4ParticleOptions options = new Soul4ParticleOptions(type.toString());
                         ((ServerLevel)level).sendParticles(options, x, y, z, 3, 0.05, 0.05, 0.05, 0);
-                        level.playSound(null, x, y, z, SoundEvents.SOUL_ESCAPE, SoundSource.BLOCKS, 1f, 0.5f+(((float)craftingTicks/200f)*1.5f));
+                        level.playSound(null, x, y, z, SoundEvents.SOUL_ESCAPE, SoundSource.BLOCKS, 1f, 0.5f+(((float)craftingTicks/maxCraftingTicks)*1.5f));
                     }
                 }
             }
@@ -326,10 +332,10 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         }
         for (BlockPos o : pillars) {
             if (level.getBlockEntity(o) instanceof GoldPillarBlockEntity ent2) {
-                if (ent2.item != null && !ent2.item.isEmpty() && ent2.item.getItem() instanceof SoulTankItem) {
-                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent2.item);
+                if (!ent2.itemHandler.getStackInSlot(0).isEmpty() && ent2.itemHandler.getStackInSlot(0).getItem() instanceof SoulTankItem) {
+                    ResourceLocation type = SoulTankItem.getFillTypeLocation(ent2.itemHandler.getStackInSlot(0));
                     if (remaining.containsKey(type)) {
-                        remaining.put(type, SoulTankItem.removeFill(ent2.item, type, remaining.get(type)));
+                        remaining.put(type, SoulTankItem.removeFill(ent2.itemHandler.getStackInSlot(0), type, remaining.get(type)));
                         if (remaining.get(type) <= 0) {
                             remaining.remove(type);
                         }

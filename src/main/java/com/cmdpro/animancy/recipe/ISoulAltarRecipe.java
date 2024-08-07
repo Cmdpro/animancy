@@ -32,4 +32,5 @@ public interface ISoulAltarRecipe extends CraftingRecipe, IHasRequiredAdvancemen
         return CraftingBookCategory.MISC;
     }
     public List<ResourceLocation> getUpgrades();
+    public int getMaxCraftingTime();
 }

@@ -44,15 +44,14 @@ public class GoldPillar extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
             if (pLevel.getBlockEntity(pPos) instanceof GoldPillarBlockEntity ent) {
-                if (ent.item == null || ent.item.isEmpty()) {
-                    ent.item = pPlayer.getItemInHand(pHand).copy();
+                if (ent.itemHandler.getStackInSlot(0).isEmpty()) {
+                    ent.itemHandler.setStackInSlot(0, pPlayer.getItemInHand(pHand).copy());
                     pPlayer.getItemInHand(pHand).shrink(pPlayer.getItemInHand(pHand).getCount());
-                    ent.updateBlock();
                 } else {
-                    pPlayer.getInventory().add(ent.item);
-                    ent.item = ItemStack.EMPTY;
-                    ent.updateBlock();
+                    pPlayer.getInventory().add(ent.itemHandler.getStackInSlot(0));
+                    ent.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
                 }
+                ent.updateBlock();
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
