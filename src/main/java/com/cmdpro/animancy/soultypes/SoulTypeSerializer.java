@@ -17,13 +17,13 @@ import java.awt.*;
 public class SoulTypeSerializer {
     public SoulType read(ResourceLocation entryId, JsonObject json) {
         if (!json.has("icon")) {
-            throw new JsonSyntaxException("Element icon missing in entry JSON for " + entryId.toString());
+            throw new JsonSyntaxException("Element icon missing in soul type JSON for " + entryId.toString());
         }
         if (!json.has("color")) {
-            throw new JsonSyntaxException("Element color missing in entry JSON for " + entryId.toString());
+            throw new JsonSyntaxException("Element color missing in soul type JSON for " + entryId.toString());
         }
         if (!json.has("name")) {
-            throw new JsonSyntaxException("Element name missing in entry JSON for " + entryId.toString());
+            throw new JsonSyntaxException("Element name missing in soul type JSON for " + entryId.toString());
         }
         ResourceLocation icon = ResourceLocation.tryParse(json.get("icon").getAsString());
         JsonObject colorObj = json.get("color").getAsJsonObject();

@@ -15,10 +15,10 @@ import java.util.Map;
 public class SoulEntityBindSerializer {
     public SoulEntityBind read(ResourceLocation entryId, JsonObject json) {
         if (!json.has("soulTypes")) {
-            throw new JsonSyntaxException("Element soulType missing in entry JSON for " + entryId.toString());
+            throw new JsonSyntaxException("Element soulType missing in soul entity bind JSON for " + entryId.toString());
         }
         if (!json.has("entity")) {
-            throw new JsonSyntaxException("Element entity missing in entry JSON for " + entryId.toString());
+            throw new JsonSyntaxException("Element entity missing in soul entity bind JSON for " + entryId.toString());
         }
         Map<ResourceLocation, Float> soulTypes = new HashMap<>();
         for (JsonElement i : json.getAsJsonArray("soulTypes")) {
