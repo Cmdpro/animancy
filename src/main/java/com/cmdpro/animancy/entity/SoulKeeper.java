@@ -45,10 +45,9 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.RandomUtils;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -112,7 +111,7 @@ public class SoulKeeper extends Monster implements GeoEntity {
     public int atkTimer;
     public int atk;
     public boolean isRitualFine() {
-        IMultiblock ritual = PatchouliAPI.get().getMultiblock(new ResourceLocation(Animancy.MOD_ID, "soulritualnoflames"));
+        IMultiblock ritual = PatchouliAPI.get().getMultiblock(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soulritualnoflames"));
         if (ritual != null) {
             return ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.NONE) &&
                     ritual.validate(level(), BlockPos.containing(ritualPos), Rotation.CLOCKWISE_90) &&
@@ -261,13 +260,15 @@ public class SoulKeeper extends Monster implements GeoEntity {
     public static final EntityDataAccessor<Boolean> IS_SPAWN_ANIM = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> IS_PHASE2 = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Vector3f> RITUAL_POS = SynchedEntityData.defineId(SoulKeeper.class, EntityDataSerializers.VECTOR3);
+
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(IS_SPAWN_ANIM, true);
-        this.entityData.define(IS_PHASE2, false);
-        this.entityData.define(RITUAL_POS, new Vector3f(0, 0, 0));
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(IS_SPAWN_ANIM, true);
+        pBuilder.define(IS_PHASE2, false);
+        pBuilder.define(RITUAL_POS, new Vector3f(0, 0, 0));
     }
+
     @Override
     public void tick() {
         super.tick();
@@ -369,13 +370,13 @@ public class SoulKeeper extends Monster implements GeoEntity {
     }
 
     @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         ritualPos = position().subtract(0, 5, 0);
         if (!level().isClientSide) {
             for (Player i : level().players()) {
                 if (ritualPos.distanceTo(i.position()) <= 10) {
-                    CriteriaTriggerRegistry.SPAWNSOULKEEPER.trigger((ServerPlayer) i);
+                    CriteriaTriggerRegistry.SPAWNSOULKEEPER.get().trigger((ServerPlayer) i);
                 }
             }
         }

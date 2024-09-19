@@ -38,7 +38,7 @@ public class SpiritBow extends Item {
                 float f = getPowerForTime(i);
                 if (!((double)f < 0.1D)) {
                     if (!pLevel.isClientSide) {
-                        AbstractArrow abstractarrow = new SpiritArrow(EntityRegistry.SPIRIT_ARROW.get(), player, pLevel);
+                        AbstractArrow abstractarrow = new SpiritArrow(EntityRegistry.SPIRIT_ARROW.get(), player, pLevel, ItemStack.EMPTY, pStack);
                         abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F, 1.0F);
                         if (f == 1.0F) {
                             abstractarrow.setCritArrow(true);

@@ -40,18 +40,17 @@ public class BillboardProjectileRenderer extends EntityRenderer<BillboardProject
         stack.scale(proj.getScale(), proj.getScale(), proj.getScale());
         PoseStack.Pose posestack$pose = stack.last();
         Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
         VertexConsumer vertexconsumer = p_114084_.getBuffer(RenderType.entityTranslucent(getTextureLocation(proj)));
-        vertex(vertexconsumer, matrix4f, matrix3f, p_114085_, 0.0F, 0, 0, 1, proj.getColor());
-        vertex(vertexconsumer, matrix4f, matrix3f, p_114085_, 1.0F, 0, 1, 1, proj.getColor());
-        vertex(vertexconsumer, matrix4f, matrix3f, p_114085_, 1.0F, 1, 1, 0, proj.getColor());
-        vertex(vertexconsumer, matrix4f, matrix3f, p_114085_, 0.0F, 1, 0, 0, proj.getColor());
+        vertex(vertexconsumer, matrix4f, posestack$pose, p_114085_, 0.0F, 0, 0, 1, proj.getColor());
+        vertex(vertexconsumer, matrix4f, posestack$pose, p_114085_, 1.0F, 0, 1, 1, proj.getColor());
+        vertex(vertexconsumer, matrix4f, posestack$pose, p_114085_, 1.0F, 1, 1, 0, proj.getColor());
+        vertex(vertexconsumer, matrix4f, posestack$pose, p_114085_, 0.0F, 1, 0, 0, proj.getColor());
         stack.popPose();
         super.render(proj, p_114081_, p_114082_, stack, p_114084_, p_114085_);
     }
 
-    private static void vertex(VertexConsumer p_114090_, Matrix4f p_114091_, Matrix3f p_114092_, int p_114093_, float p_114094_, int p_114095_, int p_114096_, int p_114097_, Color color) {
-        p_114090_.vertex(p_114091_, p_114094_ - 0.5F, (float)p_114095_ - 0.5F, 0F).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).uv((float)p_114096_, (float)p_114097_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_114093_).normal(p_114092_, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void vertex(VertexConsumer p_114090_, Matrix4f p_114091_, PoseStack.Pose p_114092_, int p_114093_, float p_114094_, int p_114095_, int p_114096_, int p_114097_, Color color) {
+        p_114090_.addVertex(p_114091_, p_114094_ - 0.5F, (float)p_114095_ - 0.5F, 0F).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).setUv((float)p_114096_, (float)p_114097_).setOverlay(OverlayTexture.NO_OVERLAY).setLight(p_114093_).setNormal(p_114092_, 0.0F, 1.0F, 0.0F);
     }
     public ResourceLocation getTextureLocation(BillboardProjectile proj) {
         return proj.getSprite();

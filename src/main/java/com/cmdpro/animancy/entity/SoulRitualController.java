@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,7 +19,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.RandomUtils;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -36,11 +36,6 @@ public class SoulRitualController extends Entity {
     public void readAdditionalSaveData(CompoundTag tag) {
         time = tag.getInt("time");
     }
-
-    @Override
-    protected void defineSynchedData() {
-
-    }
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes().build();
     }
@@ -51,7 +46,7 @@ public class SoulRitualController extends Entity {
     }
 
     public boolean isRitualFine() {
-        IMultiblock ritual = PatchouliAPI.get().getMultiblock(new ResourceLocation(Animancy.MOD_ID, "soulritualnoflames"));
+        IMultiblock ritual = PatchouliAPI.get().getMultiblock(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soulritualnoflames"));
         if (ritual != null) {
             return ritual.validate(level(), blockPosition().below(), Rotation.NONE) &&
                     ritual.validate(level(), blockPosition().below(), Rotation.CLOCKWISE_90) &&
@@ -60,6 +55,12 @@ public class SoulRitualController extends Entity {
         }
         return false;
     }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+
+    }
+
     @Override
     public void tick() {
         time++;
@@ -88,10 +89,6 @@ public class SoulRitualController extends Entity {
             }
         }
         super.tick();
-    }
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
 }

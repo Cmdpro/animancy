@@ -10,7 +10,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -26,10 +26,6 @@ public class ModItemTagGenerator extends ItemTagsProvider {
         this.tag(TagRegistry.Items.SOULDAGGERS)
                 .add(ItemRegistry.SOULMETALDAGGER.get())
                 .add(ItemRegistry.ANIMAGITE_DAGGER.get());
-        this.tag(ItemTags.MUSIC_DISCS)
-                .add(ItemRegistry.CRYSTALSOULSMUSICDISC.get())
-                .add(ItemRegistry.THESOULSSCREAMMUSICDISC.get())
-                .add(ItemRegistry.THESOULSREVENGEMUSICDISC.get());
         this.tag(ItemTags.SOUL_FIRE_BASE_BLOCKS)
                 .add(BlockRegistry.ECHOSOIL.get().asItem());
     }

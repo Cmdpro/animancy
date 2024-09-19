@@ -1,0 +1,10 @@
+{
+  "comparator_output": 1,
+  "description": {
+    "translate": "item.animancy.the_souls_scream_music_disc.desc"
+  },
+  "length_in_seconds": 93,
+  "sound_event": {
+    "sound_id": "animancy:soul_keeper_phase1"
+  }
+}

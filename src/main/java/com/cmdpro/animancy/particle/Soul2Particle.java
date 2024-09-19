@@ -12,8 +12,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class Soul2Particle extends TextureSheetParticle {
     public float startQuadSize;
@@ -60,10 +58,9 @@ public class Soul2Particle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return SoulParticle.SOULRENDER;
+        return SoulParticle.ADDITIVE;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

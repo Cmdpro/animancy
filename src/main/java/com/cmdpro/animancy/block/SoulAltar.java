@@ -3,6 +3,7 @@ package com.cmdpro.animancy.block;
 import com.cmdpro.animancy.block.entity.SoulAltarBlockEntity;
 import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import com.cmdpro.animancy.registry.TagRegistry;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -20,13 +22,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class SoulAltar extends BaseEntityBlock {
+public class SoulAltar extends Block implements EntityBlock {
     public SoulAltar(Properties properties) {
         super(properties);
     }
+
 
     private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 16, 15, 16);
 
@@ -57,15 +59,14 @@ public class SoulAltar extends BaseEntityBlock {
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
-                                 Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof SoulAltarBlockEntity ent) {
                 if (pPlayer.isShiftKeyDown()) {
-                    return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+                    return SoulAltarBlockEntity.use(pState, pLevel, pPos, pPlayer, pHitResult);
                 }
-                NetworkHooks.openScreen(((ServerPlayer) pPlayer), (SoulAltarBlockEntity) entity, pPos);
+                pPlayer.openMenu((SoulAltarBlockEntity) entity, pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -73,10 +74,14 @@ public class SoulAltar extends BaseEntityBlock {
 
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, BlockEntityRegistry.SOULALTAR.get(),
-                SoulAltarBlockEntity::tick);
+        return (lvl, pos, st, blockEntity) -> {
+            if (blockEntity instanceof SoulAltarBlockEntity ent) {
+                SoulAltarBlockEntity.tick(lvl, pos, st, ent);
+            }
+        };
     }
 }

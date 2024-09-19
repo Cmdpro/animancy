@@ -21,22 +21,22 @@ public class CultistHuskRenderer extends GeoEntityRenderer<CultistHusk> {
 
     @Override
     public ResourceLocation getTextureLocation(CultistHusk instance) {
-        return new ResourceLocation(Animancy.MOD_ID, "textures/entity/cultist_husk.png");
+        return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "textures/entity/cultist_husk.png");
     }
     public static class Model extends GeoModel<CultistHusk> {
         @Override
         public ResourceLocation getModelResource(CultistHusk object) {
-            return new ResourceLocation(Animancy.MOD_ID, "geo/cultist_husk.geo.json");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "geo/cultist_husk.geo.json");
         }
 
         @Override
         public ResourceLocation getTextureResource(CultistHusk object) {
-            return new ResourceLocation(Animancy.MOD_ID, "textures/entity/cultist_husk.png");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "textures/entity/cultist_husk.png");
         }
 
         @Override
         public ResourceLocation getAnimationResource(CultistHusk animatable) {
-            return new ResourceLocation(Animancy.MOD_ID, "animations/cultist_husk.animation.json");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "animations/cultist_husk.animation.json");
         }
     }
 }

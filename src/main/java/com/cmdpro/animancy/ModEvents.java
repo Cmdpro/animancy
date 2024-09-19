@@ -4,8 +4,6 @@ import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.entity.SoulKeeper;
 import com.cmdpro.animancy.entity.SoulRitualController;
 import com.cmdpro.animancy.registry.*;
-import com.cmdpro.animancy.moddata.PlayerModData;
-import com.cmdpro.animancy.moddata.PlayerModDataProvider;
 import com.cmdpro.animancy.networking.ModMessages;
 import com.cmdpro.animancy.networking.packet.SoulTypeSyncS2CPacket;
 import com.cmdpro.animancy.particle.Soul3ParticleOptions;
@@ -13,6 +11,7 @@ import com.cmdpro.animancy.soultypes.SoulEntityBind;
 import com.cmdpro.animancy.soultypes.SoulEntityBindManager;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -25,18 +24,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.*;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.AdvancementEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.*;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.joml.Math;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -44,28 +43,20 @@ import vazkii.patchouli.api.PatchouliAPI;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = Animancy.MOD_ID)
+@EventBusSubscriber(modid = Animancy.MOD_ID)
 public class ModEvents {
     @SubscribeEvent
-    public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof Player) {
-            if (!event.getObject().getCapability(PlayerModDataProvider.PLAYER_MODDATA).isPresent()) {
-                event.addCapability(new ResourceLocation(Animancy.MOD_ID, "properties"), new PlayerModDataProvider());
-            }
-        }
-    }
-    @SubscribeEvent
-    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
+    public static void entitySpawnRestriction(RegisterSpawnPlacementsEvent event) {
 
         event.register(EntityRegistry.CULTIST_HUSK.get(),
-                SpawnPlacements.Type.ON_GROUND,
+                SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.REPLACE);
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
     @SubscribeEvent
     public static void onAdvancementEarn(AdvancementEvent.AdvancementEarnEvent event) {
-        if (event.getAdvancement().getId().equals(new ResourceLocation(Animancy.MOD_ID, "animancy"))) {
+        if (event.getAdvancement().id().equals(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "animancy"))) {
             event.getEntity().sendSystemMessage(Component.translatable("advancements.animancy.animancy.on_grant").withStyle(ChatFormatting.DARK_PURPLE));
         }
     }
@@ -83,45 +74,9 @@ public class ModEvents {
         ModMessages.sendToPlayer(new SoulTypeSyncS2CPacket(SoulTypeManager.types), player);
     }
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side == LogicalSide.SERVER) {
-            event.player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-
-            });
-        }
-    }
-    @SubscribeEvent
-    public static void onPlayerCloned(PlayerEvent.Clone event) {
-        Player oldPlayer = event.getOriginal();
-        oldPlayer.revive();
-        if(event.isWasDeath()) {
-            oldPlayer.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(oldStore -> {
-                event.getEntity().getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(newStore -> {
-                    newStore.copyFrom(oldStore);
-                });
-            });
-        }
-        event.getOriginal().invalidateCaps();
-    }
-
-    @SubscribeEvent
-    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(PlayerModData.class);
-    }
-    @SubscribeEvent
-    public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
-        if(!event.getLevel().isClientSide()) {
-            if(event.getEntity() instanceof ServerPlayer player) {
-                player.getCapability(PlayerModDataProvider.PLAYER_MODDATA).ifPresent(data -> {
-
-                });
-            }
-        }
-    }
-    @SubscribeEvent
     public static void onPlayerPlaceBlock(BlockEvent.EntityPlaceEvent event) {
         if (event.getPlacedBlock().is(Blocks.SOUL_FIRE) && !event.getLevel().isClientSide()) {
-            IMultiblock ritual = PatchouliAPI.get().getMultiblock(new ResourceLocation(Animancy.MOD_ID, "soulritual"));
+            IMultiblock ritual = PatchouliAPI.get().getMultiblock(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soulritual"));
             if (
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.NONE) ||
                     ritual.validate(event.getEntity().level(), event.getPos().below(), Rotation.CLOCKWISE_90) ||
@@ -149,14 +104,14 @@ public class ModEvents {
             if (event.getEntity() instanceof SoulKeeper soulKeeper) {
                 for (Player i : soulKeeper.level().players()) {
                     if (soulKeeper.ritualPos.distanceTo(i.position()) <= 10) {
-                        CriteriaTriggerRegistry.KILLSOULKEEPER.trigger((ServerPlayer)i);
+                        CriteriaTriggerRegistry.KILLSOULKEEPER.get().trigger((ServerPlayer)i);
                     }
                 }
             }
         }
         if (event.getSource().getEntity() instanceof Player player) {
             if (player.getMainHandItem().is(TagRegistry.Items.SOULDAGGERS)) {
-                ResourceLocation entityId = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
+                ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
                 if (entityId != null) {
                     SoulEntityBind bind = SoulEntityBindManager.findBindForMob(entityId);
                     if (bind != null) {
@@ -167,7 +122,7 @@ public class ModEvents {
                                 for (ItemStack i : player.getInventory().items) {
                                     if (i.is(ItemRegistry.SOULTANK.get())) {
                                         if (SoulTankItem.addFill(i, type, amount)) {
-                                            Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID().toString(), type.toString());
+                                            Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID(), type);
                                             ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
                                             break;
                                         }

@@ -12,8 +12,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
 public class SoulParticle extends TextureSheetParticle {
     public float startQuadSize;
@@ -49,12 +48,13 @@ public class SoulParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return SOULRENDER;
+        return ADDITIVE;
     }
 
-    public static final ParticleRenderType SOULRENDER = new ParticleRenderType() {
+    public static final ParticleRenderType ADDITIVE = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
+        public BufferBuilder begin(Tesselator pBuilder, TextureManager pTextureManager) {
             Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
             RenderSystem.enableBlend();
             RenderSystem.enableCull();
@@ -62,20 +62,14 @@ public class SoulParticle extends TextureSheetParticle {
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE.value);
-            pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
+            return pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
         public String toString() {
-            return "animancy:soul_render";
+            return "datanessence:additive";
         }
     };
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

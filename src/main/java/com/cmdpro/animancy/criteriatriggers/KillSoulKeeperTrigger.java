@@ -2,34 +2,34 @@ package com.cmdpro.animancy.criteriatriggers;
 
 
 import com.cmdpro.animancy.Animancy;
+import com.cmdpro.animancy.registry.CriteriaTriggerRegistry;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 
-public class KillSoulKeeperTrigger extends SimpleCriterionTrigger<KillSoulKeeperTrigger.TriggerInstance> {
+import java.util.Optional;
 
-    public static final ResourceLocation ID = new ResourceLocation(Animancy.MOD_ID, "killsoulkeeper");
+public class KillSoulKeeperTrigger extends SimpleCriterionTrigger<KillSoulKeeperTrigger.KillSoulKeeperTriggerInstance> {
 
-    public ResourceLocation getId() {
-        return ID;
+    public static Criterion<KillSoulKeeperTriggerInstance> instance(ContextAwarePredicate player) {
+        return CriteriaTriggerRegistry.KILLSOULKEEPER.get().createCriterion(new KillSoulKeeperTriggerInstance(Optional.of(player)));
+    }
+    public static final Codec<KillSoulKeeperTriggerInstance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(KillSoulKeeperTriggerInstance::player)
+    ).apply(instance, KillSoulKeeperTriggerInstance::new));
+    @Override
+    public Codec<KillSoulKeeperTriggerInstance> codec() {
+        return CODEC;
     }
 
-    public KillSoulKeeperTrigger.TriggerInstance createInstance(JsonObject pJson, ContextAwarePredicate pEntityPredicate, DeserializationContext pConditionsParser) {
-        return new KillSoulKeeperTrigger.TriggerInstance(pEntityPredicate);
+    public void trigger(ServerPlayer player) {
+        this.trigger(player, triggerInstance -> true);
     }
-
-    public void trigger(ServerPlayer pPlayer) {
-        trigger(pPlayer, instance -> instance.test());
-    }
-
-    public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-        public TriggerInstance(ContextAwarePredicate pPlayer) {
-            super(KillSoulKeeperTrigger.ID, pPlayer);
-        }
-        public boolean test() {
-            return true;
-        }
+    public record KillSoulKeeperTriggerInstance(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
     }
 }

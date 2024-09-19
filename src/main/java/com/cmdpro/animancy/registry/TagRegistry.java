@@ -11,13 +11,13 @@ import net.minecraft.world.level.block.Block;
 public class TagRegistry {
     public static class Blocks {
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(new ResourceLocation(Animancy.MOD_ID, name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, name));
         }
     }
     public static class Items {
         public static final TagKey<Item> SOULDAGGERS = tag("soul_daggers");
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation(Animancy.MOD_ID, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, name));
         }
     }
 }

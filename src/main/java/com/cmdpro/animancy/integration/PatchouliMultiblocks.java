@@ -256,7 +256,7 @@ public class PatchouliMultiblocks {
                     return !state.isSolid();
                 })
         );
-        PatchouliAPI.get().registerMultiblock(new ResourceLocation(Animancy.MOD_ID, "soulritual"), soulritual);
-        PatchouliAPI.get().registerMultiblock(new ResourceLocation(Animancy.MOD_ID, "soulritualnoflames"), soulritualnoflames);
+        PatchouliAPI.get().registerMultiblock(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soulritual"), soulritual);
+        PatchouliAPI.get().registerMultiblock(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soulritualnoflames"), soulritualnoflames);
     }
 }

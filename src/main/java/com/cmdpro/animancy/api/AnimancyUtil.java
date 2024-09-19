@@ -3,6 +3,7 @@ package com.cmdpro.animancy.api;
 import com.cmdpro.animancy.entity.SoulKeeper;
 import com.cmdpro.animancy.registry.EntityRegistry;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +20,7 @@ public class AnimancyUtil {
     }
     public static boolean playerHasAdvancement(Player player, ResourceLocation advancement) {
         if (player instanceof ServerPlayer serverPlayer) {
-            Advancement advancement2 = serverPlayer.getServer().getAdvancements().getAdvancement(advancement);
+            AdvancementHolder advancement2 = serverPlayer.getServer().getAdvancements().get(advancement);
             if (advancement2 != null) {
                 return serverPlayer.getAdvancements().getOrStartProgress(advancement2).isDone();
             }

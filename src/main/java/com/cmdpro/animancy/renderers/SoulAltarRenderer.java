@@ -29,8 +29,8 @@ public class SoulAltarRenderer extends GeoBlockRenderer<SoulAltarBlockEntity> {
     }
 
     @Override
-    public void postRender(PoseStack poseStack, SoulAltarBlockEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        super.postRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+    public void postRender(PoseStack poseStack, SoulAltarBlockEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+        super.postRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
         poseStack.pushPose();
         poseStack.translate(0D, 1.5D, 0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(animatable.getLevel().getLevelData().getGameTime() % 360));
@@ -41,17 +41,17 @@ public class SoulAltarRenderer extends GeoBlockRenderer<SoulAltarBlockEntity> {
     public static class SoulAltarModel extends GeoModel<SoulAltarBlockEntity> {
         @Override
         public ResourceLocation getModelResource(SoulAltarBlockEntity object) {
-            return new ResourceLocation(Animancy.MOD_ID, "geo/soul_altar.geo.json");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "geo/soul_altar.geo.json");
         }
 
         @Override
         public ResourceLocation getTextureResource(SoulAltarBlockEntity object) {
-            return new ResourceLocation(Animancy.MOD_ID, "textures/block/soul_altar.png");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "textures/block/soul_altar.png");
         }
 
         @Override
         public ResourceLocation getAnimationResource(SoulAltarBlockEntity animatable) {
-            return new ResourceLocation(Animancy.MOD_ID, "animations/soul_altar.animation.json");
+            return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "animations/soul_altar.animation.json");
         }
     }
 }

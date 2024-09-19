@@ -1,0 +1,10 @@
+{
+  "comparator_output": 1,
+  "description": {
+    "translate": "item.animancy.crystal_souls_music_disc.desc"
+  },
+  "length_in_seconds": 111,
+  "sound_event": {
+    "sound_id": "animancy:crystal_souls"
+  }
+}

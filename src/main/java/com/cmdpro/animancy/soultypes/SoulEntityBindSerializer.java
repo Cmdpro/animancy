@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -29,12 +30,12 @@ public class SoulEntityBindSerializer {
         return new SoulEntityBind(soulTypes, entity);
     }
     @Nonnull
-    public static SoulEntityBind fromNetwork(FriendlyByteBuf buf) {
+    public static SoulEntityBind fromNetwork(RegistryFriendlyByteBuf buf) {
         Map<ResourceLocation, Float> soulTypes = buf.readMap(FriendlyByteBuf::readResourceLocation, FriendlyByteBuf::readFloat);
         ResourceLocation entity = buf.readResourceLocation();
         return new SoulEntityBind(soulTypes, entity);
     }
-    public static void toNetwork(FriendlyByteBuf buf, SoulEntityBind type) {
+    public static void toNetwork(RegistryFriendlyByteBuf buf, SoulEntityBind type) {
         buf.writeMap(type.soulTypes, FriendlyByteBuf::writeResourceLocation, FriendlyByteBuf::writeFloat);
         buf.writeResourceLocation(type.entity);
     }

@@ -23,7 +23,7 @@ public class SoulKeeperRenderer extends HumanoidMobRenderer<SoulKeeper, SoulKeep
 
     @Override
     public ResourceLocation getTextureLocation(SoulKeeper instance) {
-        return new ResourceLocation(Animancy.MOD_ID, "textures/entity/soul_keeper.png");
+        return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "textures/entity/soul_keeper.png");
     }
     public static class SoulKeeperModel extends HumanoidModel<SoulKeeper> {
         public SoulKeeperModel(ModelPart pRoot) {

@@ -1,42 +1,38 @@
 package com.cmdpro.animancy.networking.packet;
 
+import com.cmdpro.animancy.Animancy;
+import com.cmdpro.animancy.networking.Message;
 import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import com.cmdpro.animancy.soultypes.SoulTypeSerializer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
-public class SoulTypeSyncS2CPacket {
-    private final Map<ResourceLocation, SoulType> types;
+public record SoulTypeSyncS2CPacket(Map<ResourceLocation, SoulType> types) implements Message {
 
-    public SoulTypeSyncS2CPacket(Map<ResourceLocation, SoulType> types) {
-        this.types = types;
+    public static void write(RegistryFriendlyByteBuf buf, SoulTypeSyncS2CPacket obj) {
+        buf.writeMap(obj.types, ResourceLocation.STREAM_CODEC, ((pBuffer, pValue) -> SoulTypeSerializer.toNetwork((RegistryFriendlyByteBuf) pBuffer, pValue)));
     }
 
-    public SoulTypeSyncS2CPacket(FriendlyByteBuf buf) {
-        this.types = buf.readMap(FriendlyByteBuf::readResourceLocation, SoulTypeSerializer::fromNetwork);
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final CustomPacketPayload.Type<SoulTypeSyncS2CPacket> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_type_sync"));
+
+    public static SoulTypeSyncS2CPacket read(RegistryFriendlyByteBuf buf) {
+        Map<ResourceLocation, SoulType> types = buf.readMap(ResourceLocation.STREAM_CODEC, (pBuffer) -> SoulTypeSerializer.fromNetwork((RegistryFriendlyByteBuf) pBuffer));
+        return new SoulTypeSyncS2CPacket(types);
     }
 
-    public void toBytes(FriendlyByteBuf buf) {
-        buf.writeMap(types, FriendlyByteBuf::writeResourceLocation, SoulTypeSerializer::toNetwork);
-    }
-
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context context = supplier.get();
-        context.enqueueWork(() -> {
-            ClientPacketHandler.handlePacket(this, supplier);
-        });
-        return true;
-    }
-    public static class ClientPacketHandler {
-        public static void handlePacket(SoulTypeSyncS2CPacket msg, Supplier<NetworkEvent.Context> supplier) {
-            SoulTypeManager.types = msg.types;
-        }
+    @Override
+    public void handleClient(Minecraft minecraft, Player player) {
+        SoulTypeManager.types.clear();
+        SoulTypeManager.types.putAll(types);
     }
 }

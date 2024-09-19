@@ -3,14 +3,14 @@ package com.cmdpro.animancy.block.entity;
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.api.AnimancyUtil;
-import com.cmdpro.animancy.networking.ModMessages;
+import com.cmdpro.animancy.api.Upgrade;
 import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
-import com.cmdpro.animancy.recipe.NonMenuCraftingContainer;
 import com.cmdpro.animancy.screen.SoulAltarMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -26,27 +26,24 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
@@ -63,12 +60,22 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             return super.isItemValid(slot, stack);
         }
     };
+    public IItemHandler getItemHandler() {
+        return lazyItemHandler.get();
+    }
+    private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemHandler);
+    public SimpleContainer getInv() {
+        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        }
+        return inventory;
+    }
     public void drops() {
         SimpleContainer inventory = getInv();
 
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     public List<ResourceLocation> upgrades;
     public SoulAltarBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.SOULALTAR.get(), pos, state);
@@ -77,20 +84,12 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         craftingTicks = -1;
         upgrades = new ArrayList<>();
     }
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyItemHandler.cast();
-        }
-        return super.getCapability(cap);
-    }
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket(){
         return ClientboundBlockEntityDataPacket.create(this);
     }
     @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt){
+    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider){
         CompoundTag tag = pkt.getTag();
         getSouls().clear();
         for (Tag i : (ListTag)tag.get("souls")) {
@@ -100,12 +99,12 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         for (Tag i : (ListTag)tag.get("soulCost")) {
             soulCost.put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
-        item = ItemStack.of(tag.getCompound("item"));
+        item = ItemStack.parseOptional(provider, tag.getCompound("item"));
         craftingTicks = tag.getInt("craftingTicks");
         maxCraftingTicks = tag.getInt("maxCraftingTicks");
     }
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
         ListTag tag2 = new ListTag();
         for (Map.Entry<ResourceLocation, Float> i : getSouls().entrySet()) {
@@ -127,44 +126,37 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
             }
         }
         tag.put("soulCost", tag4);
-        tag.put("item", item.save(new CompoundTag()));
+        tag.put("item", item.saveOptional(provider));
         tag.putInt("craftingTicks", craftingTicks);
         tag.putInt("maxCraftingTicks", maxCraftingTicks);
         return tag;
     }
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        super.saveAdditional(tag);
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.Provider provider) {
+        tag.put("inventory", itemHandler.serializeNBT(provider));
+        super.saveAdditional(tag, provider);
     }
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
+        itemHandler.deserializeNBT(provider, nbt.getCompound("inventory"));
     }
     public int craftingTicks;
     public int maxCraftingTicks;
     public ItemStack item;
-    public SimpleContainer getInv() {
-        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
-        }
-        return inventory;
-    }
-    public CraftingContainer getCraftingInv() {
+    public CraftingInput getCraftingInv() {
         List<ItemStack> items = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             items.add(itemHandler.getStackInSlot(i));
         }
-        CraftingContainer inventory = new NonMenuCraftingContainer(items, 3, 3);
+        CraftingInput inventory = CraftingInput.of(3, 3, items);
         return inventory;
     }
     public boolean hasUpgrades(List<ResourceLocation> upgrades) {
         return this.upgrades.containsAll(upgrades);
     }
     public static InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
-                                        Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+                                        Player pPlayer, BlockHitResult pHit) {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
         if (blockEntity instanceof SoulAltarBlockEntity ent) {
             if (ent.recipe != null) {
@@ -187,37 +179,11 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
-    }
-    @Override
-    public void invalidateCaps()  {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
     public void detectMultiblock() {
         souls.clear();
         upgrades.clear();
-        BlockPos[] pillars = {
-                getBlockPos().offset(2, 0, 0),
-                getBlockPos().offset(-2, 0, 0),
-                getBlockPos().offset(0, 0, 2),
-                getBlockPos().offset(0, 0, -2)
-        };
-        boolean allPillars = true;
-        for (BlockPos i : pillars) {
-            if (level.getBlockEntity(i) instanceof GoldPillarBlockEntity ent) {
-                if (!ent.itemHandler.getStackInSlot(0).isEmpty()) {
-                    souls.put(SoulTankItem.getFillTypeLocation(ent.itemHandler.getStackInSlot(0)), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent.itemHandler.getStackInSlot(0)), 0f)+SoulTankItem.getFillNumber(ent.itemHandler.getStackInSlot(0)));
-                }
-            } else {
-                allPillars = false;
-            }
-        }
-        if (allPillars) {
-            upgrades.add(new ResourceLocation(Animancy.MOD_ID, "basic"));
+        for (Upgrade i : Upgrade.upgradeChecks) {
+            i.run(this);
         }
     }
     public float getTotalSouls() {
@@ -233,14 +199,14 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, SoulAltarBlockEntity pBlockEntity) {
         if (!pLevel.isClientSide()) {
             pBlockEntity.detectMultiblock();
-            Optional<ISoulAltarRecipe> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeRegistry.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
+            Optional<RecipeHolder<ISoulAltarRecipe>> recipe = pLevel.getRecipeManager().getRecipeFor(RecipeRegistry.SOULALTAR.get(), pBlockEntity.getCraftingInv(), pLevel);
             if (recipe.isPresent()) {
-                pBlockEntity.recipe = recipe.get();
-                pBlockEntity.maxCraftingTicks = recipe.get().getMaxCraftingTime();
-                pBlockEntity.soulCost = recipe.get().getSoulCost();
-                pBlockEntity.item = recipe.get().getResultItem(pLevel.registryAccess());
+                pBlockEntity.recipe = recipe.get().value();
+                pBlockEntity.maxCraftingTicks = recipe.get().value().getMaxCraftingTime();
+                pBlockEntity.soulCost = recipe.get().value().getSoulCost();
+                pBlockEntity.item = recipe.get().value().getResultItem(pLevel.registryAccess());
                 boolean enoughSouls = true;
-                for (Map.Entry<ResourceLocation, Float> i : recipe.get().getSoulCost().entrySet()) {
+                for (Map.Entry<ResourceLocation, Float> i : recipe.get().value().getSoulCost().entrySet()) {
                     if (pBlockEntity.getSouls().containsKey(i.getKey())) {
                         if (pBlockEntity.getSouls().get(i.getKey()) < i.getValue()) {
                             enoughSouls = false;
@@ -303,7 +269,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                         if (remaining.get(type) <= 0) {
                             remaining.remove(type);
                         }
-                        Soul4ParticleOptions options = new Soul4ParticleOptions(type.toString());
+                        Soul4ParticleOptions options = new Soul4ParticleOptions(type);
                         ((ServerLevel)level).sendParticles(options, x, y, z, 3, 0.05, 0.05, 0.05, 0);
                         level.playSound(null, x, y, z, SoundEvents.SOUL_ESCAPE, SoundSource.BLOCKS, 1f, 0.5f+(((float)craftingTicks/maxCraftingTicks)*1.5f));
                     }

@@ -21,9 +21,4 @@ public abstract class BillboardProjectile extends Projectile {
     public float getScale() {
         return 1f;
     }
-
-    @Override
-    protected void defineSynchedData() {
-
-    }
 }

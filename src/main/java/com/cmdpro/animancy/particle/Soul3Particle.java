@@ -5,11 +5,8 @@ import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.RandomUtils;
 
-@OnlyIn(Dist.CLIENT)
 public class Soul3Particle extends TextureSheetParticle {
     public float startQuadSize;
     public Soul3ParticleOptions options;
@@ -61,14 +58,14 @@ public class Soul3Particle extends TextureSheetParticle {
             hasPhysics = true;
             yd -= ticks*0.01f;
         }
-        level.addParticle(new Soul4ParticleOptions(options.soulType.toString()), x, y, z, 0, 0, 0);
+        level.addParticle(new Soul4ParticleOptions(options.soulType), x, y, z, 0, 0, 0);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return SoulParticle.SOULRENDER;
+        return SoulParticle.ADDITIVE;
     }
-    @OnlyIn(Dist.CLIENT)
+
     public static class Provider implements ParticleProvider<Soul3ParticleOptions> {
         private final SpriteSet sprites;
 

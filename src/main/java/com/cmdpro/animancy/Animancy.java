@@ -1,27 +1,32 @@
 package com.cmdpro.animancy;
 
+import com.cmdpro.animancy.api.SoulTankItem;
+import com.cmdpro.animancy.api.Upgrade;
+import com.cmdpro.animancy.block.entity.GoldPillarBlockEntity;
+import com.cmdpro.animancy.block.entity.SoulAltarBlockEntity;
 import com.cmdpro.animancy.config.AnimancyConfig;
 import com.cmdpro.animancy.registry.*;
 import com.cmdpro.animancy.integration.PatchouliMultiblocks;
 import com.cmdpro.animancy.networking.ModMessages;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.*;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
@@ -30,86 +35,84 @@ import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("animancy")
-@Mod.EventBusSubscriber(modid = Animancy.MOD_ID)
+@EventBusSubscriber(modid = Animancy.MOD_ID)
 public class Animancy
 {
-    public static final ResourceKey<DamageType> magicProjectile = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Animancy.MOD_ID, "magic_projectile"));
-    public static ResourceKey<DamageType> soulExplosion = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Animancy.MOD_ID, "soul_explosion"));
+    public static final ResourceKey<DamageType> magicProjectile = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "magic_projectile"));
+    public static ResourceKey<DamageType> soulExplosion = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_explosion"));
 
     public static final String MOD_ID = "animancy";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     public static RandomSource random;
-    public Animancy()
+    public Animancy(IEventBus bus)
     {
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        bus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        bus.addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        bus.addListener(this::processIMC);
         // Register the loadComplete method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
+        bus.addListener(this::loadComplete);
 
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
 
-        modLoadingContext.registerConfig(ModConfig.Type.COMMON, AnimancyConfig.COMMON_SPEC, "animancy.toml");
+        modLoadingContext.getActiveContainer().registerConfig(ModConfig.Type.COMMON, AnimancyConfig.COMMON_SPEC, "animancy.toml");
 
         ItemRegistry.ITEMS.register(bus);
         BlockRegistry.BLOCKS.register(bus);
         BlockEntityRegistry.BLOCK_ENTITIES.register(bus);
         EntityRegistry.ENTITY_TYPES.register(bus);
-        MenuRegistry.register(bus);
-        RecipeRegistry.register(bus);
-        SoundRegistry.register(bus);
-        CreativeModeTabRegistry.register(bus);
-        ParticleRegistry.register(bus);
-        GeckoLib.initialize();
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        bus.addListener(this::addCreative);
+        MenuRegistry.MENUS.register(bus);
+        RecipeRegistry.RECIPE_TYPES.register(bus);
+        RecipeRegistry.RECIPES.register(bus);
+        SoundRegistry.SOUND_EVENTS.register(bus);
+        CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(bus);
+        ParticleRegistry.PARTICLE_TYPES.register(bus);
+        CriteriaTriggerRegistry.TRIGGERS.register(bus);
+        ArmorMaterialRegistry.ARMOR_MATERIALS.register(bus);
         random = RandomSource.create();
+        Upgrade.addDefaultUpgradeChecks();
     }
 
     public void loadComplete(FMLLoadCompleteEvent event)
     {
         PatchouliMultiblocks.register();
     }
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
 
         }
-        if (event.getTabKey() == CreativeModeTabRegistry.ITEMS.getKey()) {
-            event.accept(ItemRegistry.SOULMETALDAGGER);
-            event.accept(ItemRegistry.SOULMETAL);
-            event.accept(ItemRegistry.SOULCRYSTAL);
-            event.accept(ItemRegistry.CRYSTALSOULSMUSICDISC);
-            event.accept(ItemRegistry.THESOULSSCREAMMUSICDISC);
-            event.accept(ItemRegistry.THESOULSREVENGEMUSICDISC);
-            event.accept(ItemRegistry.ANIMAGITE_INGOT);
-            event.accept(ItemRegistry.ANIMAGITE_DAGGER);
-            event.accept(ItemRegistry.ANIMAGITE_SWORD);
-            event.accept(ItemRegistry.SOULTANK);
-            event.accept(ItemRegistry.STRIDERBOOTS);
-            event.accept(ItemRegistry.SOUL_STICK);
-            event.accept(ItemRegistry.SOULSPIN_STAFF);
-            event.accept(ItemRegistry.SPIRIT_BOW);
+        if (event.getTabKey() == CreativeModeTabRegistry.getKey(CreativeModeTabRegistry.ITEMS.get())) {
+            event.accept(ItemRegistry.SOULMETALDAGGER.get());
+            event.accept(ItemRegistry.SOULMETAL.get());
+            event.accept(ItemRegistry.SOULCRYSTAL.get());
+            event.accept(ItemRegistry.CRYSTALSOULSMUSICDISC.get());
+            event.accept(ItemRegistry.THESOULSSCREAMMUSICDISC.get());
+            event.accept(ItemRegistry.THESOULSREVENGEMUSICDISC.get());
+            event.accept(ItemRegistry.ANIMAGITE_INGOT.get());
+            event.accept(ItemRegistry.ANIMAGITE_DAGGER.get());
+            event.accept(ItemRegistry.ANIMAGITE_SWORD.get());
+            event.accept(ItemRegistry.SOULTANK.get());
+            event.accept(ItemRegistry.STRIDERBOOTS.get());
+            event.accept(ItemRegistry.SOUL_STICK.get());
+            event.accept(ItemRegistry.SOULSPIN_STAFF.get());
+            event.accept(ItemRegistry.SPIRIT_BOW.get());
         }
-        if (event.getTabKey() == CreativeModeTabRegistry.BLOCKS.getKey()) {
-            event.accept(ItemRegistry.SOULALTARITEM);
-            event.accept(BlockRegistry.GOLDPILLAR);
-            event.accept(BlockRegistry.ECHOSOIL);
-            event.accept(BlockRegistry.SOULMETAL_BLOCK);
-            event.accept(BlockRegistry.ANIMAGITE_BLOCK);
-            event.accept(BlockRegistry.SPIRITUAL_ANCHOR);
+        if (event.getTabKey() == CreativeModeTabRegistry.getKey(CreativeModeTabRegistry.BLOCKS.get())) {
+            event.accept(ItemRegistry.SOULALTARITEM.get());
+            event.accept(BlockRegistry.GOLDPILLAR.get());
+            event.accept(BlockRegistry.ECHOSOIL.get());
+            event.accept(BlockRegistry.SOULMETAL_BLOCK.get());
+            event.accept(BlockRegistry.ANIMAGITE_BLOCK.get());
+            event.accept(BlockRegistry.SPIRITUAL_ANCHOR.get());
         }
     }
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
-        ModMessages.register();
-        event.enqueueWork(CriteriaTriggerRegistry::register);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
@@ -129,10 +132,9 @@ public class Animancy
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
+    public static void onServerStarting(ServerStartingEvent event)
     {
         // Do something when the server starts
     }
-
 
 }

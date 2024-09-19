@@ -44,7 +44,7 @@ public class SoulspinStaff extends Item {
         if (!pLivingEntity.level().isClientSide()) {
             if (pLivingEntity instanceof Player player) {
                 ServerLevel serverLevel = (ServerLevel) pLevel;
-                int timeUsed = getUseDuration(pStack) - pRemainingUseDuration;
+                int timeUsed = getUseDuration(pStack, player) - pRemainingUseDuration;
                 int soulCount = Math.clamp(0, 5, timeUsed / 10);
                 List<ResourceLocation> types = new ArrayList<>();
                 List<ItemStack> slots = player.getInventory().items.stream().map(ItemStack::copy).toList();
@@ -69,7 +69,7 @@ public class SoulspinStaff extends Item {
                         Vec3 perpendicular = new Vec3(-Mth.cos(yRot), 0, Mth.sin(yRot));
                         Vec3 pos = player.getEyePosition().add(perpendicular.scale(Mth.cos(rot)).add(lookAngle.cross(perpendicular).scale(Mth.sin(rot))).scale(0.6)).add(lookAngle);
                         ResourceLocation type = types.get(i);
-                        serverLevel.sendParticles(new Soul4ParticleOptions(type.toString()), pos.x, pos.y, pos.z, 3, 0.05, 0.05, 0.05, 0);
+                        serverLevel.sendParticles(new Soul4ParticleOptions(type), pos.x, pos.y, pos.z, 3, 0.05, 0.05, 0.05, 0);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class SoulspinStaff extends Item {
         if (!entity.level().isClientSide()) {
             if (entity instanceof Player player) {
                 ServerLevel serverLevel = (ServerLevel) entity.level();
-                int soulCount = Math.clamp(0, 5, (getUseDuration(stack)-count) / 10);
+                int soulCount = Math.clamp(0, 5, (getUseDuration(stack, entity)-count) / 10);
                 List<ResourceLocation> types = new ArrayList<>();
                 List<ItemStack> slots = player.getInventory().items;
                 for (int i = 0; i < soulCount; i++) {
@@ -135,8 +135,9 @@ public class SoulspinStaff extends Item {
         pPlayer.startUsingItem(pHand);
         return InteractionResultHolder.consume(itemstack);
     }
+
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack pStack, LivingEntity pEntity) {
         return 72000;
     }
 }

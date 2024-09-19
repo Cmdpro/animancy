@@ -16,10 +16,5 @@
       "animancy:crystal_souls"
     ],
     "stream": true
-  },
-  "soul_altar_crafting": {
-    "sounds": [
-      "animancy:soul_altar_crafting"
-    ]
   }
 }

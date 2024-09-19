@@ -2,8 +2,6 @@ package com.cmdpro.animancy.commands;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.api.AnimancyUtil;
-import com.cmdpro.animancy.moddata.PlayerModData;
-import com.cmdpro.animancy.moddata.PlayerModDataProvider;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

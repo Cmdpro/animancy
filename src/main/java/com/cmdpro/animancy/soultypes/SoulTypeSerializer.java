@@ -4,12 +4,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.commands.arguments.blocks.BlockStateParser;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -32,20 +34,20 @@ public class SoulTypeSerializer {
         return new SoulType(icon, color, name);
     }
     @Nonnull
-    public static SoulType fromNetwork(FriendlyByteBuf buf) {
+    public static SoulType fromNetwork(RegistryFriendlyByteBuf buf) {
         ResourceLocation icon = buf.readResourceLocation();
         int r = buf.readInt();
         int g = buf.readInt();
         int b = buf.readInt();
         Color color = new Color(r, g, b, 255);
-        Component name = buf.readComponent();
+        Component name = ComponentSerialization.STREAM_CODEC.decode(buf);
         return new SoulType(icon, color, name);
     }
-    public static void toNetwork(FriendlyByteBuf buf, SoulType type) {
+    public static void toNetwork(RegistryFriendlyByteBuf buf, SoulType type) {
         buf.writeResourceLocation(type.icon);
         buf.writeInt(type.color.getRed());
         buf.writeInt(type.color.getGreen());
         buf.writeInt(type.color.getBlue());
-        buf.writeComponent(type.name);
+        ComponentSerialization.STREAM_CODEC.encode(buf, type.name);
     }
 }

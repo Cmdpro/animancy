@@ -1,31 +1,35 @@
 package com.cmdpro.animancy.item;
 
+import com.cmdpro.animancy.Animancy;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
-import net.minecraftforge.common.ForgeMod;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class PurgatorySword extends SwordItem {
-    public PurgatorySword(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uuid = UUID.randomUUID();
-        for (Map.Entry<Attribute, AttributeModifier> i : super.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).entries()) {
-            builder.put(i.getKey(), i.getValue());
-        }
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, "Reach modifier", 1d, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
+    public static final ResourceLocation REACH_ATTRIBUTE = ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "purgatory_sword_reach");
+    public static final AttributeModifier REACH_MODIFIER = new AttributeModifier(REACH_ATTRIBUTE, 2d, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+    public PurgatorySword(Tier pTier, Properties pProperties) {
+        super(pTier, pProperties);
     }
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
-        return pEquipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        for (ItemAttributeModifiers.Entry i : super.getDefaultAttributeModifiers(stack).modifiers()) {
+            builder.add(i.attribute(), i.modifier(), i.slot());
+        }
+        builder.add(Attributes.GRAVITY, REACH_MODIFIER, EquipmentSlotGroup.MAINHAND);
+        return builder.build();
     }
 }

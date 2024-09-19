@@ -14,6 +14,7 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.List;
@@ -23,11 +24,11 @@ import java.util.Objects;
 public class JEIAnimancyPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(Animancy.MOD_ID, "jei_plugin");
+        return ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "jei_plugin");
     }
 
     public static IJeiRuntime runTime;
-    public static final RecipeType SOULALTAR = RecipeType.create(Animancy.MOD_ID, RecipeRegistry.SOULALTAR.getId().getPath(), ISoulAltarRecipe.class);
+    public static final RecipeType SOULALTAR = RecipeType.create(Animancy.MOD_ID, "soul_altar", ISoulAltarRecipe.class);
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new SoulAltarRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
@@ -35,7 +36,7 @@ public class JEIAnimancyPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-        List<ISoulAltarRecipe> recipes = rm.getAllRecipesFor(RecipeRegistry.SOULALTAR.get());
+        List<RecipeHolder<ISoulAltarRecipe>> recipes = rm.getAllRecipesFor(RecipeRegistry.SOULALTAR.get());
         registration.addRecipes(SOULALTAR, recipes);
     }
 

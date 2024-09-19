@@ -1,5 +1,6 @@
 package com.cmdpro.animancy.api;
 
+import com.cmdpro.animancy.registry.DataComponentRegistry;
 import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import net.minecraft.network.chat.Component;
@@ -16,15 +17,17 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class SoulTankItem extends Item {
     public SoulTankItem(Properties pProperties) {
         super(pProperties.stacksTo(1));
     }
 
+
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
         pTooltipComponents.add(Component.translatable("item.animancy.soul_tank.tooltip", getFillNumber(pStack), getMaxSouls()));
         SoulType type = getFillType(pStack);
         if (type != null) {
@@ -32,60 +35,53 @@ public abstract class SoulTankItem extends Item {
         }
     }
 
+    public static SoulTankData getData(ItemStack stack) {
+        return stack.get(DataComponentRegistry.SOUL_TANK_DATA);
+    }
     public static float getFillNumber(ItemStack stack) {
-        if (stack.hasTag()) {
-            if (stack.getTag().contains("fill")) {
-                return stack.getTag().getFloat("fill");
-            }
+        SoulTankData data = getData(stack);
+        if (data != null) {
+            return data.fill();
         }
         return 0;
     }
     public static SoulType getFillType(ItemStack stack) {
-        if (stack.hasTag()) {
-            if (stack.hasTag() && stack.getTag().contains("fillType")) {
-                ResourceLocation fillType = ResourceLocation.tryParse(stack.getTag().getString("fillType"));
-                SoulType soulType = SoulTypeManager.types.get(fillType);
-                return soulType;
-            }
+        SoulTankData data = getData(stack);
+        if (data != null && data.type().isPresent()) {
+            SoulType soulType = SoulTypeManager.types.get(data.type().get());
+            return soulType;
         }
         return null;
     }
     public static ResourceLocation getFillTypeLocation(ItemStack stack) {
-        if (stack.hasTag()) {
-            if (stack.hasTag() && stack.getTag().contains("fillType")) {
-                ResourceLocation fillType = ResourceLocation.tryParse(stack.getTag().getString("fillType"));
-                return fillType;
-            }
+        SoulTankData data = getData(stack);
+        if (data != null && data.type().isPresent()) {
+            return data.type().get();
         }
         return null;
     }
     public static float getFill(ItemStack stack) {
         if (stack.getItem() instanceof SoulTankItem tank) {
-            if (stack.hasTag()) {
-                if (stack.getTag().contains("fill")) {
-                    return stack.getTag().getFloat("fill")/tank.getMaxSouls();
-                }
+            SoulTankData data = getData(stack);
+            if (data != null) {
+                return data.fill()/tank.getMaxSouls();
             }
         }
         return 0;
     }
     public static void setFill(ItemStack stack, ResourceLocation type, float amount) {
-        stack.getOrCreateTag().putFloat("fill", amount);
-        if (type == null) {
-            stack.getOrCreateTag().putString("fillType", "");
-        } else {
-            stack.getOrCreateTag().putString("fillType", type.toString());
-        }
+        stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount, Optional.of(type)));
     }
     public static boolean addFill(ItemStack stack, ResourceLocation type, float amount) {
-        if (stack.getItem() instanceof SoulTankItem tank) {
-            ResourceLocation stackType = getFillTypeLocation(stack);
-            if (!stack.hasTag() || !stack.getTag().contains("fill") || stackType == null || stackType.equals(type)) {
-                if (!stack.getOrCreateTag().contains("fillType")) {
-                    stack.getOrCreateTag().putString("fillType", type.toString());
+        SoulTankData data = getData(stack);
+        if (data != null) {
+            if (stack.getItem() instanceof SoulTankItem tank) {
+                Optional<ResourceLocation> type2 = data.type();
+                float amount2 = Math.clamp(Float.MIN_VALUE, tank.getMaxSouls(), SoulTankItem.getFillNumber(stack) + amount);
+                if (type2.isEmpty() || type2.get().equals(type)) {
+                    stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, Optional.of(type)));
+                    return true;
                 }
-                stack.getOrCreateTag().putFloat("fill", Math.clamp(Float.MIN_VALUE, tank.getMaxSouls(), SoulTankItem.getFillNumber(stack) + amount));
-                return true;
             }
         }
         return false;
@@ -94,23 +90,22 @@ public abstract class SoulTankItem extends Item {
         return removeFill(stack, type, amount, true);
     }
     public static float removeFill(ItemStack stack, ResourceLocation type, float amount, boolean actuallyRemove) {
-        ResourceLocation stackType = getFillTypeLocation(stack);
-        if (!stack.hasTag() || !stack.getTag().contains("fill") || stackType == null || stackType.equals(type)) {
-            float changed = SoulTankItem.getFillNumber(stack)-amount;
-            if (actuallyRemove) {
-                if (!stack.getOrCreateTag().contains("fillType")) {
-                    stack.getOrCreateTag().putString("fillType", type.toString());
-                }
-                stack.getOrCreateTag().putFloat("fill", Math.clamp(0, Float.MAX_VALUE, changed));
-                if (changed <= 0) {
-                    if (stack.hasTag()) {
-                        if (stack.getTag().contains("fillType")) {
-                            stack.getTag().remove("fillType");
-                        }
+        SoulTankData data = getData(stack);
+        if (data != null) {
+            Optional<ResourceLocation> type2 = data.type();
+            float amount2;
+            if (type2.isEmpty() || type2.get().equals(type)) {
+                float changed = SoulTankItem.getFillNumber(stack) - amount;
+                if (actuallyRemove) {
+                    type2 = Optional.of(type);
+                    amount2 = Math.clamp(0, Float.MAX_VALUE, changed);
+                    if (changed <= 0) {
+                        type2 = Optional.empty();
                     }
+                    stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, type2));
                 }
+                return Math.clamp(0, Float.MAX_VALUE, -changed);
             }
-            return Math.clamp(0, Float.MAX_VALUE, -changed);
         }
         return -1;
     }

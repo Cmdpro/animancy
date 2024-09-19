@@ -22,7 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.event.EventHooks;
 import org.apache.commons.lang3.RandomUtils;
 
 import javax.annotation.Nullable;
@@ -70,8 +70,8 @@ public class SoulProjectile extends Projectile {
 
     private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(SoulProjectile.class, EntityDataSerializers.STRING);
     @Override
-    protected void defineSynchedData() {
-        this.entityData.define(TYPE, "");
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(TYPE, "");
     }
     Vec3 previousPos;
     @Override
@@ -85,7 +85,7 @@ public class SoulProjectile extends Projectile {
                 remove(RemovalReason.KILLED);
             }
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
 
@@ -104,7 +104,7 @@ public class SoulProjectile extends Projectile {
                     }
                 }
 
-                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult)) {
                     this.onHit(hitresult);
                     this.hasImpulse = true;
                 }
@@ -156,14 +156,10 @@ public class SoulProjectile extends Projectile {
         }
         remove(RemovalReason.KILLED);
     }
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
     public static class ClientMethods {
         public static void particle(Vec3 pos, Level level, String type) {
             if (!type.isEmpty()) {
-                level.addParticle(new Soul4ParticleOptions(type), pos.x, pos.y, pos.z, 0, 0, 0);
+                level.addParticle(new Soul4ParticleOptions(ResourceLocation.tryParse(type)), pos.x, pos.y, pos.z, 0, 0, 0);
             }
         }
     }

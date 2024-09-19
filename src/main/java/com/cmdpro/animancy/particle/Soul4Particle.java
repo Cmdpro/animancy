@@ -4,10 +4,7 @@ import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class Soul4Particle extends TextureSheetParticle {
     public float startQuadSize;
     public Soul4ParticleOptions options;
@@ -49,9 +46,8 @@ public class Soul4Particle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return SoulParticle.SOULRENDER;
+        return SoulParticle.ADDITIVE;
     }
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<Soul4ParticleOptions> {
         private final SpriteSet sprites;
 

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -20,8 +21,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Entity;
 
-public class GoldPillar extends BaseEntityBlock {
+public class GoldPillar extends Block implements EntityBlock {
     public GoldPillar(Properties pProperties) {
         super(pProperties);
     }
@@ -41,13 +43,10 @@ public class GoldPillar extends BaseEntityBlock {
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide) {
             if (pLevel.getBlockEntity(pPos) instanceof GoldPillarBlockEntity ent) {
-                if (ent.itemHandler.getStackInSlot(0).isEmpty()) {
-                    ent.itemHandler.setStackInSlot(0, pPlayer.getItemInHand(pHand).copy());
-                    pPlayer.getItemInHand(pHand).shrink(pPlayer.getItemInHand(pHand).getCount());
-                } else {
+                if (!ent.itemHandler.getStackInSlot(0).isEmpty()) {
                     pPlayer.getInventory().add(ent.itemHandler.getStackInSlot(0));
                     ent.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
                 }
@@ -55,6 +54,19 @@ public class GoldPillar extends BaseEntityBlock {
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide) {
+            if (pLevel.getBlockEntity(pPos) instanceof GoldPillarBlockEntity ent) {
+                if (ent.itemHandler.getStackInSlot(0).isEmpty()) {
+                    ent.itemHandler.setStackInSlot(0, pPlayer.getItemInHand(pHand).copy());
+                    pPlayer.getItemInHand(pHand).shrink(pPlayer.getItemInHand(pHand).getCount());
+                }
+            }
+        }
+        return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     @Nullable
