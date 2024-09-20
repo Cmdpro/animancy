@@ -13,14 +13,14 @@
   ],
   "ingredients": [
     {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:gold_ingot"
     },
     {
       "item": "minecraft:soul_sand"
     }
   ],
   "result": {
-    "item": "animancy:soul_crystal",
+    "id": "animancy:soulmetal",
     "count": 1
   }
 }

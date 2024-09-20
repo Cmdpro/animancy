@@ -20,32 +20,31 @@ public class ClientEvents {
     public static void onClientTick(ClientTickEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
-        boolean playMusic = false;
-        SoundEvent mus = SoundRegistry.SOULKEEPERPHASE1.get();
-        for (Entity i : mc.level.entitiesForRendering()) {
-            if (i instanceof SoulKeeper) {
-                playMusic = true;
-                if (i.getEntityData().get(((SoulKeeper)i).IS_PHASE2)) {
-                    mus = SoundRegistry.SOULKEEPERPHASE2.get();
+        if (mc.level != null) {
+            boolean playMusic = false;
+            SoundEvent mus = SoundRegistry.SOULKEEPERPHASE1.get();
+            for (Entity i : mc.level.entitiesForRendering()) {
+                if (i instanceof SoulKeeper) {
+                    playMusic = true;
+                    if (i.getEntityData().get(((SoulKeeper) i).IS_PHASE2)) {
+                        mus = SoundRegistry.SOULKEEPERPHASE2.get();
+                    }
                 }
             }
-        }
-        SoundManager manager = mc.getSoundManager();
-        if (manager.isActive(music))
-        {
-            mc.getMusicManager().stopPlaying();
-            if (!playMusic)
-            {
-                manager.stop(music);
-            }
-            if (!music.getLocation().equals(mus.getLocation())) {
-                manager.stop(music);
-            }
-        } else {
-            if (!manager.isActive(music) && playMusic)
-            {
-                music = SimpleSoundInstance.forMusic(mus);
-                manager.play(music);
+            SoundManager manager = mc.getSoundManager();
+            if (manager.isActive(music)) {
+                mc.getMusicManager().stopPlaying();
+                if (!playMusic) {
+                    manager.stop(music);
+                }
+                if (!music.getLocation().equals(mus.getLocation())) {
+                    manager.stop(music);
+                }
+            } else {
+                if (!manager.isActive(music) && playMusic) {
+                    music = SimpleSoundInstance.forMusic(mus);
+                    manager.play(music);
+                }
             }
         }
     }

@@ -1,9 +1,10 @@
 {
   "type": "animancy:shaped_soul_altar_recipe",
   "upgrades": [
-
+    "animancy:basic"
   ],
   "craftingTime": 200,
+  "advancement": "animancy:soul_altar",
   "souls": [
     {
       "type": "animancy:purified",
@@ -11,19 +12,20 @@
     }
   ],
   "pattern": [
-    "A",
-    "a"
+    " aA",
+    " aa",
+    "a  "
   ],
   "key": {
     "a": {
-      "item": "minecraft:stick"
+      "item": "animancy:soul_stick"
     },
     "A": {
-      "item": "animancy:animagite_ingot"
+      "item": "animancy:soul_crystal"
     }
   },
   "result": {
-    "item": "animancy:animagite_dagger",
+    "id": "animancy:soulspin_staff",
     "count": 1
   }
 }

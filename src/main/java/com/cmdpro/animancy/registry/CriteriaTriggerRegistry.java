@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class CriteriaTriggerRegistry {
     public static final DeferredRegister<CriterionTrigger<?>> TRIGGERS = DeferredRegister.create(BuiltInRegistries.TRIGGER_TYPES,
             Animancy.MOD_ID);
-    public static final Supplier<KillSoulKeeperTrigger> KILLSOULKEEPER = register("spawn_soul_keeper", () -> new KillSoulKeeperTrigger());
+    public static final Supplier<KillSoulKeeperTrigger> KILLSOULKEEPER = register("kill_soul_keeper", () -> new KillSoulKeeperTrigger());
     public static final Supplier<SpawnSoulKeeperTrigger> SPAWNSOULKEEPER = register("spawn_soul_keeper", () -> new SpawnSoulKeeperTrigger());
     private static <T extends CriterionTrigger<?>> Supplier<T> register(final String name,
                                                                     final Supplier<? extends T> trigger) {

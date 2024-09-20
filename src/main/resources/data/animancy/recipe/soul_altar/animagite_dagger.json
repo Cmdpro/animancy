@@ -12,7 +12,6 @@
   ],
   "pattern": [
     "A",
-    "A",
     "a"
   ],
   "key": {
@@ -24,7 +23,7 @@
     }
   },
   "result": {
-    "item": "animancy:animagite_sword",
+    "id": "animancy:animagite_dagger",
     "count": 1
   }
 }

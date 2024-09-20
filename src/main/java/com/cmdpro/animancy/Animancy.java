@@ -10,6 +10,7 @@ import com.cmdpro.animancy.integration.PatchouliMultiblocks;
 import com.cmdpro.animancy.networking.ModMessages;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,8 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -33,9 +36,9 @@ import software.bernie.geckolib.GeckoLib;
 
 import java.util.stream.Collectors;
 
-// The value here should match an entry in the META-INF/mods.toml file
+// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod("animancy")
-@EventBusSubscriber(modid = Animancy.MOD_ID)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Animancy.MOD_ID)
 public class Animancy
 {
     public static final ResourceKey<DamageType> magicProjectile = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "magic_projectile"));
@@ -47,15 +50,6 @@ public class Animancy
     public static RandomSource random;
     public Animancy(IEventBus bus)
     {
-        // Register the setup method for modloading
-        bus.addListener(this::setup);
-        // Register the enqueueIMC method for modloading
-        bus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        bus.addListener(this::processIMC);
-        // Register the loadComplete method for modloading
-        bus.addListener(this::loadComplete);
-
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
 
         modLoadingContext.getActiveContainer().registerConfig(ModConfig.Type.COMMON, AnimancyConfig.COMMON_SPEC, "animancy.toml");
@@ -72,13 +66,28 @@ public class Animancy
         ParticleRegistry.PARTICLE_TYPES.register(bus);
         CriteriaTriggerRegistry.TRIGGERS.register(bus);
         ArmorMaterialRegistry.ARMOR_MATERIALS.register(bus);
+        DataComponentRegistry.DATA_COMPONENTS.register(bus);
+        AttachmentTypeRegistry.ATTACHMENT_TYPES.register(bus);
         random = RandomSource.create();
         Upgrade.addDefaultUpgradeChecks();
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event)
-    {
-        PatchouliMultiblocks.register();
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.GOLDPILLAR.get(), (o, direction) -> {
+            if (direction == null) {
+                return o.getItemHandler();
+            } else {
+                return null;
+            }
+        });
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.SOULALTAR.get(), (o, direction) -> {
+            if (direction == null) {
+                return o.getItemHandler();
+            } else {
+                return null;
+            }
+        });
     }
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -109,32 +118,6 @@ public class Animancy
             event.accept(BlockRegistry.ANIMAGITE_BLOCK.get());
             event.accept(BlockRegistry.SPIRITUAL_ANCHOR.get());
         }
-    }
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // Some example code to dispatch IMC to another mod
-        InterModComms.sendTo("animancy", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // Some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.messageSupplier().get()).
-                collect(Collectors.toList()));
-    }
-
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public static void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
     }
 
 }

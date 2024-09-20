@@ -182,6 +182,19 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
     public void detectMultiblock() {
         souls.clear();
         upgrades.clear();
+        BlockPos[] pillars = {
+                getBlockPos().offset(2, 0, 0),
+                getBlockPos().offset(-2, 0, 0),
+                getBlockPos().offset(0, 0, 2),
+                getBlockPos().offset(0, 0, -2)
+        };
+        for (BlockPos i : pillars) {
+            if (level.getBlockEntity(i) instanceof GoldPillarBlockEntity ent2) {
+                if (!ent2.itemHandler.getStackInSlot(0).isEmpty()) {
+                    souls.put(SoulTankItem.getFillTypeLocation(ent2.itemHandler.getStackInSlot(0)), souls.getOrDefault(SoulTankItem.getFillTypeLocation(ent2.itemHandler.getStackInSlot(0)), 0f) + SoulTankItem.getFillNumber(ent2.itemHandler.getStackInSlot(0)));
+                }
+            }
+        }
         for (Upgrade i : Upgrade.upgradeChecks) {
             i.run(this);
         }

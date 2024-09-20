@@ -7,25 +7,21 @@
   "advancement": "animancy:soul_altar",
   "souls": [
     {
-      "type": "animancy:purified",
+      "type": "animancy:blazing",
       "amount": 25
     }
   ],
   "pattern": [
-    " aA",
-    " aa",
-    "a  "
+    "a a",
+    "a a"
   ],
   "key": {
     "a": {
-      "item": "animancy:soul_stick"
-    },
-    "A": {
-      "item": "animancy:soul_crystal"
+      "item": "minecraft:leather"
     }
   },
   "result": {
-    "item": "animancy:soulspin_staff",
+    "id": "animancy:strider_boots",
     "count": 1
   }
 }

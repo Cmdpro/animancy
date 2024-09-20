@@ -3,6 +3,7 @@ package com.cmdpro.animancy;
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.entity.SoulKeeper;
 import com.cmdpro.animancy.entity.SoulRitualController;
+import com.cmdpro.animancy.integration.PatchouliMultiblocks;
 import com.cmdpro.animancy.registry.*;
 import com.cmdpro.animancy.networking.ModMessages;
 import com.cmdpro.animancy.networking.packet.SoulTypeSyncS2CPacket;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
@@ -45,14 +47,9 @@ import java.util.Map;
 
 @EventBusSubscriber(modid = Animancy.MOD_ID)
 public class ModEvents {
-    @SubscribeEvent
-    public static void entitySpawnRestriction(RegisterSpawnPlacementsEvent event) {
-
-        event.register(EntityRegistry.CULTIST_HUSK.get(),
-                SpawnPlacementTypes.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkMonsterSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+    public void loadComplete(FMLLoadCompleteEvent event)
+    {
+        PatchouliMultiblocks.register();
     }
     @SubscribeEvent
     public static void onAdvancementEarn(AdvancementEvent.AdvancementEarnEvent event) {
@@ -112,20 +109,18 @@ public class ModEvents {
         if (event.getSource().getEntity() instanceof Player player) {
             if (player.getMainHandItem().is(TagRegistry.Items.SOULDAGGERS)) {
                 ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
-                if (entityId != null) {
-                    SoulEntityBind bind = SoulEntityBindManager.findBindForMob(entityId);
-                    if (bind != null) {
-                        for (Map.Entry<ResourceLocation, Float> o : bind.soulTypes.entrySet()) {
-                            if (player.getInventory().hasAnyMatching((item) -> item.is(ItemRegistry.SOULTANK.get()))) {
-                                float amount = o.getValue();
-                                ResourceLocation type = o.getKey();
-                                for (ItemStack i : player.getInventory().items) {
-                                    if (i.is(ItemRegistry.SOULTANK.get())) {
-                                        if (SoulTankItem.addFill(i, type, amount)) {
-                                            Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID(), type);
-                                            ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
-                                            break;
-                                        }
+                SoulEntityBind bind = SoulEntityBindManager.findBindForMob(entityId);
+                if (bind != null) {
+                    for (Map.Entry<ResourceLocation, Float> o : bind.soulTypes.entrySet()) {
+                        if (player.getInventory().hasAnyMatching((item) -> item.is(ItemRegistry.SOULTANK.get()))) {
+                            float amount = o.getValue();
+                            ResourceLocation type = o.getKey();
+                            for (ItemStack i : player.getInventory().items) {
+                                if (i.is(ItemRegistry.SOULTANK.get())) {
+                                    if (SoulTankItem.addFill(i, type, amount)) {
+                                        Soul3ParticleOptions particle = new Soul3ParticleOptions(player.getUUID(), type);
+                                        ((ServerLevel) event.getEntity().level()).sendParticles(particle, event.getEntity().position().x, event.getEntity().position().y, event.getEntity().position().z, (int) Math.floor(amount), 0.1, 0.1, 0.1, 0);
+                                        break;
                                     }
                                 }
                             }

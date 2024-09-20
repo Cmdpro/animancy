@@ -31,7 +31,7 @@ public class SpiritBow extends Item {
             boolean flag = player.getAbilities().instabuild;
             ItemStack itemstack = getTank(player);
 
-            int i = this.getUseDuration(pStack) - pTimeLeft;
+            int i = this.getUseDuration(pStack, player) - pTimeLeft;
             if (i < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
@@ -57,12 +57,16 @@ public class SpiritBow extends Item {
     public static float getPowerForTime(int pCharge) {
         return BowItem.getPowerForTime(pCharge);
     }
-    public int getUseDuration(ItemStack pStack) {
+
+    @Override
+    public int getUseDuration(ItemStack pStack, LivingEntity pEntity) {
         return 72000;
     }
+    @Override
     public UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
+    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !getTank(pPlayer).isEmpty();

@@ -36,18 +36,15 @@ public abstract class SoulTankItem extends Item {
     }
 
     public static SoulTankData getData(ItemStack stack) {
-        return stack.get(DataComponentRegistry.SOUL_TANK_DATA);
+        return stack.getOrDefault(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(0, Optional.empty()));
     }
     public static float getFillNumber(ItemStack stack) {
         SoulTankData data = getData(stack);
-        if (data != null) {
-            return data.fill();
-        }
-        return 0;
+        return data.fill();
     }
     public static SoulType getFillType(ItemStack stack) {
         SoulTankData data = getData(stack);
-        if (data != null && data.type().isPresent()) {
+        if (data.type().isPresent()) {
             SoulType soulType = SoulTypeManager.types.get(data.type().get());
             return soulType;
         }
@@ -55,7 +52,7 @@ public abstract class SoulTankItem extends Item {
     }
     public static ResourceLocation getFillTypeLocation(ItemStack stack) {
         SoulTankData data = getData(stack);
-        if (data != null && data.type().isPresent()) {
+        if (data.type().isPresent()) {
             return data.type().get();
         }
         return null;
@@ -63,9 +60,7 @@ public abstract class SoulTankItem extends Item {
     public static float getFill(ItemStack stack) {
         if (stack.getItem() instanceof SoulTankItem tank) {
             SoulTankData data = getData(stack);
-            if (data != null) {
-                return data.fill()/tank.getMaxSouls();
-            }
+            return data.fill() / tank.getMaxSouls();
         }
         return 0;
     }
@@ -74,14 +69,12 @@ public abstract class SoulTankItem extends Item {
     }
     public static boolean addFill(ItemStack stack, ResourceLocation type, float amount) {
         SoulTankData data = getData(stack);
-        if (data != null) {
-            if (stack.getItem() instanceof SoulTankItem tank) {
-                Optional<ResourceLocation> type2 = data.type();
-                float amount2 = Math.clamp(Float.MIN_VALUE, tank.getMaxSouls(), SoulTankItem.getFillNumber(stack) + amount);
-                if (type2.isEmpty() || type2.get().equals(type)) {
-                    stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, Optional.of(type)));
-                    return true;
-                }
+        if (stack.getItem() instanceof SoulTankItem tank) {
+            Optional<ResourceLocation> type2 = data.type();
+            float amount2 = Math.clamp(Float.MIN_VALUE, tank.getMaxSouls(), SoulTankItem.getFillNumber(stack) + amount);
+            if (type2.isEmpty() || type2.get().equals(type)) {
+                stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, Optional.of(type)));
+                return true;
             }
         }
         return false;
@@ -91,21 +84,19 @@ public abstract class SoulTankItem extends Item {
     }
     public static float removeFill(ItemStack stack, ResourceLocation type, float amount, boolean actuallyRemove) {
         SoulTankData data = getData(stack);
-        if (data != null) {
-            Optional<ResourceLocation> type2 = data.type();
-            float amount2;
-            if (type2.isEmpty() || type2.get().equals(type)) {
-                float changed = SoulTankItem.getFillNumber(stack) - amount;
-                if (actuallyRemove) {
-                    type2 = Optional.of(type);
-                    amount2 = Math.clamp(0, Float.MAX_VALUE, changed);
-                    if (changed <= 0) {
-                        type2 = Optional.empty();
-                    }
-                    stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, type2));
+        Optional<ResourceLocation> type2 = data.type();
+        float amount2;
+        if (type2.isEmpty() || type2.get().equals(type)) {
+            float changed = SoulTankItem.getFillNumber(stack) - amount;
+            if (actuallyRemove) {
+                type2 = Optional.of(type);
+                amount2 = Math.clamp(0, Float.MAX_VALUE, changed);
+                if (changed <= 0) {
+                    type2 = Optional.empty();
                 }
-                return Math.clamp(0, Float.MAX_VALUE, -changed);
+                stack.set(DataComponentRegistry.SOUL_TANK_DATA, new SoulTankData(amount2, type2));
             }
+            return Math.clamp(0, Float.MAX_VALUE, -changed);
         }
         return -1;
     }

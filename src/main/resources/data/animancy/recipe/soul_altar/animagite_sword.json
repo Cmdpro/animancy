@@ -1,27 +1,30 @@
 {
   "type": "animancy:shaped_soul_altar_recipe",
   "upgrades": [
-    "animancy:basic"
+
   ],
   "craftingTime": 200,
-  "advancement": "animancy:soul_altar",
   "souls": [
     {
-      "type": "animancy:blazing",
+      "type": "animancy:purified",
       "amount": 25
     }
   ],
   "pattern": [
-    "a a",
-    "a a"
+    "A",
+    "A",
+    "a"
   ],
   "key": {
     "a": {
-      "item": "minecraft:leather"
+      "item": "minecraft:stick"
+    },
+    "A": {
+      "item": "animancy:animagite_ingot"
     }
   },
   "result": {
-    "item": "animancy:strider_boots",
+    "id": "animancy:animagite_sword",
     "count": 1
   }
 }

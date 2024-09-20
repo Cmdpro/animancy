@@ -24,11 +24,7 @@ public abstract class Upgrade {
                 };
                 boolean allPillars = true;
                 for (BlockPos i : pillars) {
-                    if (ent.getLevel().getBlockEntity(i) instanceof GoldPillarBlockEntity ent2) {
-                        if (!ent2.itemHandler.getStackInSlot(0).isEmpty()) {
-                            ent.getSouls().put(SoulTankItem.getFillTypeLocation(ent2.itemHandler.getStackInSlot(0)), ent.getSouls().getOrDefault(SoulTankItem.getFillTypeLocation(ent2.itemHandler.getStackInSlot(0)), 0f) + SoulTankItem.getFillNumber(ent2.itemHandler.getStackInSlot(0)));
-                        }
-                    } else {
+                    if (!(ent.getLevel().getBlockEntity(i) instanceof GoldPillarBlockEntity)) {
                         allPillars = false;
                     }
                 }

@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, Animancy.MOD_ID);
     public static final Supplier<Item> SOULSPIN_STAFF = register("soulspin_staff", () -> new SoulspinStaff(new Item.Properties()));
-    public static final Supplier<Item> SOULMETALDAGGER = register("soulmetal_dagger", () -> new SwordItem(ModTiers.SOULMETAL, new Item.Properties()));
-    public static final Supplier<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, new Item.Properties()));
-    public static final Supplier<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, new Item.Properties()));
+    public static final Supplier<Item> SOULMETALDAGGER = register("soulmetal_dagger", () -> new SwordItem(ModTiers.SOULMETAL, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 1, -2.4F))));
+    public static final Supplier<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 1, -2.4F))));
+    public static final Supplier<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 4, -2.4F))));
     public static final Supplier<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> SOUL_STICK = register("soul_stick", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> SOULALTARITEM = register("soul_altar", () -> new SoulAltarItem(BlockRegistry.SOULALTAR.get(), new Item.Properties()));

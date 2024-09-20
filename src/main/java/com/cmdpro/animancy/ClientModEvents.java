@@ -53,7 +53,7 @@ public class ClientModEvents {
                     return soulType.color.getRGB();
                 }
             }
-            return 0xFFFFFF;
+            return 0xFFFFFFFF;
         }
     };
     @SubscribeEvent

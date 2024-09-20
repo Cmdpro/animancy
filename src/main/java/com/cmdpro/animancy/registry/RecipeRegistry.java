@@ -20,7 +20,7 @@ public class RecipeRegistry {
     public static final Supplier<RecipeSerializer<ShapelessSoulAltarRecipe>> SHAPELESSSOULALTARRECIPE = register("shapeless_soul_altar_recipe", () -> ShapelessSoulAltarRecipe.Serializer.INSTANCE);
     public static final Supplier<RecipeSerializer<ShapedSoulAltarRecipe>> SHAPEDSOULALTARRECIPE = register("shaped_soul_altar_recipe", () -> ShapedSoulAltarRecipe.Serializer.INSTANCE);
     public static final Supplier<RecipeType<ISoulAltarRecipe>> SOULALTAR =
-            registerType("soulaltarrecipe", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_altar_recipe")));
+            registerType("soul_altar_recipe", () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_altar_recipe")));
 
     private static <T extends RecipeType<?>> Supplier<T> registerType(final String name, final Supplier<T> item) {
         return RECIPE_TYPES.register(name, item);

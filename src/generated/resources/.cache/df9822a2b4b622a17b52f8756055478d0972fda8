@@ -1,4 +1,3 @@
-// 1.20.1	2024-07-26T16:00:57.0825844	Tags for minecraft:item mod id animancy
-2e6bc1691e19009fc486581444269bf48116ec6d data/animancy/tags/items/soul_daggers.json
-a98f9bc3e35a32efc6501e5f5d6f97253cb4694c data/minecraft/tags/items/music_discs.json
-44602fb44b4e21440f9a040f00e437066b16000b data/minecraft/tags/items/soul_fire_base_blocks.json
+// 1.21.1	2024-09-19T20:26:56.0479914	Tags for minecraft:item mod id animancy
+2e6bc1691e19009fc486581444269bf48116ec6d data/animancy/tags/item/soul_daggers.json
+44602fb44b4e21440f9a040f00e437066b16000b data/minecraft/tags/item/soul_fire_base_blocks.json

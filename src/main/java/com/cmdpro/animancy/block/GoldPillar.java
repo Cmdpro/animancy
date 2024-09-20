@@ -64,6 +64,7 @@ public class GoldPillar extends Block implements EntityBlock {
                     ent.itemHandler.setStackInSlot(0, pPlayer.getItemInHand(pHand).copy());
                     pPlayer.getItemInHand(pHand).shrink(pPlayer.getItemInHand(pHand).getCount());
                 }
+                ent.updateBlock();
             }
         }
         return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
