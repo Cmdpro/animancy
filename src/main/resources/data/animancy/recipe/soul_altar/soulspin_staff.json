@@ -5,12 +5,9 @@
   ],
   "craftingTime": 200,
   "advancement": "animancy:soul_altar",
-  "souls": [
-    {
-      "type": "animancy:purified",
-      "amount": 25
-    }
-  ],
+  "souls": {
+    "animancy:purified": 25
+  },
   "pattern": [
     " aA",
     " aa",

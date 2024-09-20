@@ -74,20 +74,7 @@ public class Animancy
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.GOLDPILLAR.get(), (o, direction) -> {
-            if (direction == null) {
-                return o.getItemHandler();
-            } else {
-                return null;
-            }
-        });
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.SOULALTAR.get(), (o, direction) -> {
-            if (direction == null) {
-                return o.getItemHandler();
-            } else {
-                return null;
-            }
-        });
+
     }
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {

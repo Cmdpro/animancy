@@ -1,0 +1,9 @@
+{
+  "entity": "minecraft:armadillo",
+  "soulTypes": [
+    {
+      "type": "animancy:animal",
+      "amount": 2
+    }
+  ]
+}

@@ -4,12 +4,9 @@
 
   ],
   "craftingTime": 200,
-  "souls": [
-    {
-      "type": "animancy:purified",
-      "amount": 25
-    }
-  ],
+  "souls": {
+    "animancy:purified": 25
+  },
   "pattern": [
     "A",
     "A",

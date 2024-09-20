@@ -43,7 +43,7 @@ public class SoulProjectile extends Projectile {
     public SoulProjectile(EntityType<SoulProjectile> entityType, double x, double y, double z, LivingEntity shooter, Level world) {
         this(entityType, x, y, z, world);
         this.setOwner(shooter);
-        this.setDeltaMovement(shooter.getLookAngle().multiply(0.5, 0.5, 0.5));
+        this.setDeltaMovement(shooter.getLookAngle().multiply(1, 1, 1));
     }
     @Override
     protected void onHitBlock(BlockHitResult hit) {

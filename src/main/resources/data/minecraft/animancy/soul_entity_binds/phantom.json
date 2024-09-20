@@ -4,6 +4,10 @@
     {
       "type": "animancy:monster",
       "amount": 2
+    },
+    {
+      "type": "animancy:wind",
+      "amount": 2
     }
   ]
 }

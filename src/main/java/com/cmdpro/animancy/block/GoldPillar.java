@@ -14,6 +14,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -63,6 +65,9 @@ public class GoldPillar extends Block implements EntityBlock {
                 if (ent.itemHandler.getStackInSlot(0).isEmpty()) {
                     ent.itemHandler.setStackInSlot(0, pPlayer.getItemInHand(pHand).copy());
                     pPlayer.getItemInHand(pHand).shrink(pPlayer.getItemInHand(pHand).getCount());
+                } else {
+                    pPlayer.getInventory().add(ent.itemHandler.getStackInSlot(0));
+                    ent.itemHandler.setStackInSlot(0, ItemStack.EMPTY);
                 }
                 ent.updateBlock();
             }

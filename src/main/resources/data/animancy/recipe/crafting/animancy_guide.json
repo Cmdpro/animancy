@@ -1,5 +1,5 @@
 {
-  "type": "patchouli:shaped_book_recipe",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "bAb",
     "AaA",
@@ -16,5 +16,11 @@
       "item": "minecraft:gold_ingot"
     }
   },
-  "book": "animancy:animancy_guide"
+  "result": {
+    "components": {
+      "patchouli:book": "animancy:animancy_guide"
+    },
+    "count": 1,
+    "id": "patchouli:guide_book"
+  }
 }

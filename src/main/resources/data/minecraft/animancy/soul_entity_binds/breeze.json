@@ -1,0 +1,13 @@
+{
+  "entity": "minecraft:breeze",
+  "soulTypes": [
+    {
+      "type": "animancy:wind",
+      "amount": 3
+    },
+    {
+      "type": "animancy:monster",
+      "amount": 1
+    }
+  ]
+}

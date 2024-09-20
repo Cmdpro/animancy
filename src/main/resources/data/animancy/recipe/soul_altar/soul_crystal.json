@@ -5,12 +5,9 @@
   ],
   "craftingTime": 25,
   "advancement": "animancy:soul_altar",
-  "souls": [
-    {
-      "type": "animancy:purified",
-      "amount": 1
-    }
-  ],
+  "souls": {
+    "animancy:purified": 1
+  },
   "ingredients": [
     {
       "item": "minecraft:amethyst_shard"

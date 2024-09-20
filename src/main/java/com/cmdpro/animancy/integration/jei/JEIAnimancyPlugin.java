@@ -36,7 +36,7 @@ public class JEIAnimancyPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-        List<RecipeHolder<ISoulAltarRecipe>> recipes = rm.getAllRecipesFor(RecipeRegistry.SOULALTAR.get());
+        List<ISoulAltarRecipe> recipes = rm.getAllRecipesFor(RecipeRegistry.SOULALTAR.get()).stream().map((a) -> a.value()).toList();
         registration.addRecipes(SOULALTAR, recipes);
     }
 

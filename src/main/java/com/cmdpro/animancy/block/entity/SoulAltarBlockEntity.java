@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -89,8 +90,16 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         return ClientboundBlockEntityDataPacket.create(this);
     }
     @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider){
-        CompoundTag tag = pkt.getTag();
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        if (!pkt.getTag().isEmpty()) {
+            decodeUpdateTag(pkt.getTag(), lookupProvider);
+        }
+    }
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        decodeUpdateTag(tag, lookupProvider);
+    }
+    public void decodeUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         getSouls().clear();
         for (Tag i : (ListTag)tag.get("souls")) {
             getSouls().put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
@@ -99,7 +108,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         for (Tag i : (ListTag)tag.get("soulCost")) {
             soulCost.put(ResourceLocation.tryParse(((CompoundTag)i).getString("key")), ((CompoundTag)i).getFloat("value"));
         }
-        item = ItemStack.parseOptional(provider, tag.getCompound("item"));
+        item = ItemStack.parseOptional(lookupProvider, tag.getCompound("item"));
         craftingTicks = tag.getInt("craftingTicks");
         maxCraftingTicks = tag.getInt("maxCraftingTicks");
     }

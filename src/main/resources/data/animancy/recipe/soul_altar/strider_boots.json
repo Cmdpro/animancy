@@ -5,12 +5,9 @@
   ],
   "craftingTime": 200,
   "advancement": "animancy:soul_altar",
-  "souls": [
-    {
-      "type": "animancy:blazing",
-      "amount": 25
-    }
-  ],
+  "souls": {
+    "animancy:blazing": 25
+  },
   "pattern": [
     "a a",
     "a a"

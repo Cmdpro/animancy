@@ -123,12 +123,11 @@ public class ShapedSoulAltarRecipe implements ISoulAltarRecipe {
         public static final MapCodec<ShapedSoulAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 ShapedRecipePattern.MAP_CODEC.forGetter(p_311733_ -> p_311733_.pattern),
                 ItemStack.CODEC.fieldOf("result").forGetter(p_311730_ -> p_311730_.result),
-                ResourceLocation.CODEC.fieldOf("advancement").forGetter((r) -> r.advancement),
+                ResourceLocation.CODEC.optionalFieldOf("advancement", ResourceLocation.fromNamespaceAndPath("", "")).forGetter((r) -> r.advancement),
                 Codec.INT.fieldOf("craftingTime").forGetter((r) -> r.maxCraftingTime),
                 ResourceLocation.CODEC.listOf().fieldOf("upgrades").forGetter((r) -> r.upgrades),
                 Codec.unboundedMap(ResourceLocation.CODEC, Codec.FLOAT).fieldOf("souls").forGetter(r -> r.souls)
         ).apply(instance, (pattern, result, advancement, craftingTime, upgrades, souls) -> new ShapedSoulAltarRecipe(pattern, result, advancement, souls, upgrades, craftingTime)));
-
         public static final StreamCodec<RegistryFriendlyByteBuf, ShapedSoulAltarRecipe> STREAM_CODEC = StreamCodec.of(
                 (buf, obj) -> {
                     ShapedRecipePattern.STREAM_CODEC.encode(buf, obj.pattern);

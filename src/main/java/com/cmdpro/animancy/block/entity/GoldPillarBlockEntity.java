@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
@@ -47,7 +48,7 @@ public class GoldPillarBlockEntity extends BlockEntity {
     }
     public void updateBlock() {
         BlockState blockState = level.getBlockState(this.getBlockPos());
-        this.level.sendBlockUpdated(this.getBlockPos(), blockState, blockState, 3);
+        this.level.sendBlockUpdated(this.getBlockPos(), blockState, blockState, Block.UPDATE_CLIENTS);
         this.setChanged();
     }
     public ItemStack item;
@@ -61,11 +62,22 @@ public class GoldPillarBlockEntity extends BlockEntity {
         super.loadAdditional(nbt, provider);
         itemHandler.deserializeNBT(provider, nbt.getCompound("inventory"));
     }
+
     @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider){
-        CompoundTag tag = pkt.getTag();
-        item = ItemStack.parseOptional(provider, tag.getCompound("item"));
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        if (!pkt.getTag().isEmpty()) {
+            decodeUpdateTag(pkt.getTag(), lookupProvider);
+        }
     }
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        decodeUpdateTag(tag, lookupProvider);
+    }
+    public void decodeUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        item = ItemStack.parseOptional(lookupProvider, tag.getCompound("item"));
+    }
+
+
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(item);
 

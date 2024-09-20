@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class ItemRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, Animancy.MOD_ID);
-    public static final Supplier<Item> SOULSPIN_STAFF = register("soulspin_staff", () -> new SoulspinStaff(new Item.Properties()));
+    public static final Supplier<Item> SOULSPIN_STAFF = register("soulspin_staff", () -> new SoulspinStaff(new Item.Properties().stacksTo(1)));
     public static final Supplier<Item> SOULMETALDAGGER = register("soulmetal_dagger", () -> new SwordItem(ModTiers.SOULMETAL, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.IRON, 1, -2.4F))));
     public static final Supplier<Item> ANIMAGITE_DAGGER = register("animagite_dagger", () -> new SwordItem(ModTiers.ANIMAGITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 1, -2.4F))));
     public static final Supplier<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 4, -2.4F))));
@@ -33,9 +33,9 @@ public class ItemRegistry {
             return 50;
         }
     });
-    public static final Supplier<Item> STRIDERBOOTS = register("strider_boots", () -> new ArmorItem(ArmorMaterialRegistry.STRIDER, ArmorItem.Type.BOOTS, new Item.Properties()));
-    public static final Supplier<Item> SPIRIT_BOW = register("spirit_bow", () -> new SpiritBow(new Item.Properties()));
-    public static final Supplier<Item> SOULBOUND_BELL = register("soulbound_bell", () -> new SoulboundBell(new Item.Properties()));
+    public static final Supplier<Item> STRIDERBOOTS = register("strider_boots", () -> new ArmorItem(ArmorMaterialRegistry.STRIDER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
+    public static final Supplier<Item> SPIRIT_BOW = register("spirit_bow", () -> new SpiritBow(new Item.Properties().stacksTo(1)));
+    public static final Supplier<Item> SOULBOUND_BELL = register("soulbound_bell", () -> new SoulboundBell(new Item.Properties().stacksTo(1)));
 	
     private static <T extends Item> Supplier<T> register(final String name, final Supplier<T> item) {
         return ITEMS.register(name, item);

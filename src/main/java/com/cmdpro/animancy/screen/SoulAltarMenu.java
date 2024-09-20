@@ -24,12 +24,12 @@ public class SoulAltarMenu extends AbstractContainerMenu {
     }
     public SoulAltarMenu(int pContainerId, Inventory inv, BlockEntity entity) {
         super(MenuRegistry.SOULALTARMENU.get(), pContainerId);
-        checkContainerSize(inv, 3);
+        checkContainerSize(inv, 9);
         blockEntity = ((SoulAltarBlockEntity) entity);
         this.level = inv.player.level();
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-        IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
+        IItemHandler handler = blockEntity.getItemHandler();
         int i, j;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {

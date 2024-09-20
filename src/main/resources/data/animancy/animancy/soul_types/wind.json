@@ -1,0 +1,9 @@
+{
+  "icon": "animancy:soul_icon/wind",
+  "color": {
+    "r": 255,
+    "g": 255,
+    "b": 255
+  },
+  "name": "animancy.soulicon.animancy.wind"
+}

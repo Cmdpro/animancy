@@ -144,7 +144,7 @@ public class ShapelessSoulAltarRecipe implements ISoulAltarRecipe {
                                 DataResult::success
                         )
                         .forGetter(p_300975_ -> p_300975_.ingredients),
-                ResourceLocation.CODEC.fieldOf("advancement").forGetter((r) -> r.advancement),
+                ResourceLocation.CODEC.optionalFieldOf("advancement", ResourceLocation.fromNamespaceAndPath("", "")).forGetter((r) -> r.advancement),
                 Codec.INT.fieldOf("craftingTime").forGetter((r) -> r.maxCraftingTime),
                 ResourceLocation.CODEC.listOf().fieldOf("upgrades").forGetter((r) -> r.upgrades),
                 Codec.unboundedMap(ResourceLocation.CODEC, Codec.FLOAT).fieldOf("souls").forGetter(r -> r.souls)
