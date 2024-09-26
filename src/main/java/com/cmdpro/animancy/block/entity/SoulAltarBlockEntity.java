@@ -1,9 +1,8 @@
 package com.cmdpro.animancy.block.entity;
 
-import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.api.SoulTankItem;
 import com.cmdpro.animancy.api.AnimancyUtil;
-import com.cmdpro.animancy.api.Upgrade;
+import com.cmdpro.animancy.api.SoulAltarUpgrade;
 import com.cmdpro.animancy.registry.BlockEntityRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.particle.Soul4ParticleOptions;
@@ -30,7 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -204,7 +202,7 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
                 }
             }
         }
-        for (Upgrade i : Upgrade.upgradeChecks) {
+        for (SoulAltarUpgrade i : SoulAltarUpgrade.upgradeChecks) {
             i.run(this);
         }
     }

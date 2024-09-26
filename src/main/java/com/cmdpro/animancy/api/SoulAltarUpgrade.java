@@ -9,11 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Upgrade {
-    public static List<Upgrade> upgradeChecks = new ArrayList<>();
+public abstract class SoulAltarUpgrade {
+    public static List<SoulAltarUpgrade> upgradeChecks = new ArrayList<>();
     public abstract void run(SoulAltarBlockEntity ent);
     public static void addDefaultUpgradeChecks() {
-        Upgrade.upgradeChecks.add(new Upgrade() {
+        SoulAltarUpgrade.upgradeChecks.add(new SoulAltarUpgrade() {
             @Override
             public void run(SoulAltarBlockEntity ent) {
                 BlockPos[] pillars = {

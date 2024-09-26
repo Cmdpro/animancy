@@ -1,16 +1,9 @@
 package com.cmdpro.animancy;
 
-import com.cmdpro.animancy.api.SoulTankItem;
-import com.cmdpro.animancy.api.Upgrade;
-import com.cmdpro.animancy.block.entity.GoldPillarBlockEntity;
-import com.cmdpro.animancy.block.entity.SoulAltarBlockEntity;
+import com.cmdpro.animancy.api.SoulAltarUpgrade;
 import com.cmdpro.animancy.config.AnimancyConfig;
 import com.cmdpro.animancy.registry.*;
-import com.cmdpro.animancy.integration.PatchouliMultiblocks;
-import com.cmdpro.animancy.networking.ModMessages;
 import com.mojang.logging.LogUtils;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -19,22 +12,13 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.InterModComms;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.*;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
-import software.bernie.geckolib.GeckoLib;
-
-
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod("animancy")
@@ -69,7 +53,7 @@ public class Animancy
         DataComponentRegistry.DATA_COMPONENTS.register(bus);
         AttachmentTypeRegistry.ATTACHMENT_TYPES.register(bus);
         random = RandomSource.create();
-        Upgrade.addDefaultUpgradeChecks();
+        SoulAltarUpgrade.addDefaultUpgradeChecks();
     }
 
     @SubscribeEvent
