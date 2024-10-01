@@ -1,6 +1,7 @@
 package com.cmdpro.animancy.integration.jei;
 
 import com.cmdpro.animancy.Animancy;
+import com.cmdpro.animancy.registry.BlockRegistry;
 import com.cmdpro.animancy.registry.ItemRegistry;
 import com.cmdpro.animancy.registry.RecipeRegistry;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
@@ -13,6 +14,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -42,7 +44,7 @@ public class JEIAnimancyPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ItemRegistry.SOULALTARITEM.get()), SOULALTAR);
+        registration.addRecipeCatalyst(new ItemStack(BlockRegistry.SOULALTAR.get()), SOULALTAR);
     }
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {

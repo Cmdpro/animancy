@@ -47,10 +47,6 @@ import java.util.Map;
 
 @EventBusSubscriber(modid = Animancy.MOD_ID)
 public class ModEvents {
-    public void loadComplete(FMLLoadCompleteEvent event)
-    {
-        PatchouliMultiblocks.register();
-    }
     @SubscribeEvent
     public static void onAdvancementEarn(AdvancementEvent.AdvancementEarnEvent event) {
         if (event.getAdvancement().id().equals(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "animancy"))) {

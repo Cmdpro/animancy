@@ -45,8 +45,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
 
-public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
-    private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider {
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(9) {
         @Override
@@ -336,20 +335,6 @@ public class SoulAltarBlockEntity extends BlockEntity implements MenuProvider, G
         this.level.sendBlockUpdated(this.getBlockPos(), blockState, blockState, 3);
         this.setChanged();
     }
-    private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        event.getController().setAnimation(RawAnimation.begin().then("animation.soulaltar.idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-        data.add(new AnimationController(this, "controller", 0, this::predicate));
-    }
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.factory;
-    }
-
     @Override
     public Component getDisplayName() {
         return Component.translatable("block.animancy.soul_altar");

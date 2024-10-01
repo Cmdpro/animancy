@@ -17,8 +17,9 @@ public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK,
             Animancy.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = ItemRegistry.ITEMS;
-    public static final Supplier<Block> SOULALTAR = registerBlock("soul_altar",
-            () -> new SoulAltar(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)));
+    public static final Supplier<Block> SOULALTAR = register("soul_altar",
+            () -> new SoulAltar(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)),
+            object -> () -> new BlockItem(object.get(), new Item.Properties()));
     public static final Supplier<Block> GOLDPILLAR = register("gold_pillar",
             () -> new GoldPillar(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion().strength(3.0f)),
             object -> () -> new BlockItem(object.get(), new Item.Properties()));

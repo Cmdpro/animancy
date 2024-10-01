@@ -21,7 +21,6 @@ public class ItemRegistry {
     public static final Supplier<Item> ANIMAGITE_SWORD = register("animagite_sword", () -> new PurgatorySword(ModTiers.ANIMAGITE, new Item.Properties().attributes(SwordItem.createAttributes(Tiers.DIAMOND, 4, -2.4F))));
     public static final Supplier<Item> SOULMETAL = register("soulmetal", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> SOUL_STICK = register("soul_stick", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> SOULALTARITEM = register("soul_altar", () -> new SoulAltarItem(BlockRegistry.SOULALTAR.get(), new Item.Properties()));
     public static final Supplier<Item> SOULCRYSTAL = register("soul_crystal", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> CRYSTALSOULSMUSICDISC = register("crystal_souls_music_disc", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "crystal_souls")))));
     public static final Supplier<Item> THESOULSSCREAMMUSICDISC = register("the_souls_scream_music_disc", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "the_souls_scream")))));

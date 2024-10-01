@@ -20,7 +20,7 @@ public class CreativeModeTabRegistry {
             CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegistry.SOULMETAL.get()))
                     .title(Component.translatable("creativemodetab.animancy_items")).build());
     public static Supplier<CreativeModeTab> BLOCKS = register("animancy_blocks", () ->
-            CreativeModeTab.builder().icon(() -> new ItemStack(ItemRegistry.SOULALTARITEM.get()))
+            CreativeModeTab.builder().icon(() -> new ItemStack(BlockRegistry.SOULALTAR.get()))
                     .title(Component.translatable("creativemodetab.animancy_blocks")).build());
     private static <T extends CreativeModeTab> Supplier<T> register(final String name,
                                                                final Supplier<? extends T> tab) {

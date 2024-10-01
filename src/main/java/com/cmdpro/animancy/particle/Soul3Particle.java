@@ -2,6 +2,10 @@ package com.cmdpro.animancy.particle;
 
 import com.cmdpro.animancy.soultypes.SoulType;
 import com.cmdpro.animancy.soultypes.SoulTypeManager;
+import com.cmdpro.databank.rendering.RenderHandler;
+import com.cmdpro.databank.rendering.RenderTypeHandler;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.world.phys.Vec3;
@@ -61,6 +65,10 @@ public class Soul3Particle extends TextureSheetParticle {
         level.addParticle(new Soul4ParticleOptions(options.soulType), x, y, z, 0, 0, 0);
     }
 
+    @Override
+    public void render(VertexConsumer pBuffer, Camera pRenderInfo, float pPartialTicks) {
+        super.render(RenderHandler.createBufferSource().getBuffer(RenderTypeHandler.ADDITIVE_PARTICLE), pRenderInfo, pPartialTicks);
+    }
     @Override
     public ParticleRenderType getRenderType() {
         return SoulParticle.ADDITIVE;

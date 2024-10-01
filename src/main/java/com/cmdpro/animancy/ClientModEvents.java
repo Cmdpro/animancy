@@ -25,6 +25,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -87,6 +88,9 @@ public class ClientModEvents {
             ItemProperties.register(ItemRegistry.SPIRIT_BOW.get(), ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "pulling"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
                 return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
             });
+        });
+        event.enqueueWork(() -> {
+            ClientHooks.registerLayerDefinition(CultistHuskRenderer.ancientSentinelLocation, CultistHuskRenderer.Model::createLayer);
         });
 
         ClientBookRegistry.INSTANCE.pageTypes.put(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_altar"), PageSoulAltar.class);

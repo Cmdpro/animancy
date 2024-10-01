@@ -20,7 +20,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod("animancy")
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Animancy.MOD_ID)
 public class Animancy
@@ -80,9 +79,10 @@ public class Animancy
             event.accept(ItemRegistry.SOUL_STICK.get());
             event.accept(ItemRegistry.SOULSPIN_STAFF.get());
             event.accept(ItemRegistry.SPIRIT_BOW.get());
+            event.accept(ItemRegistry.SOULBOUND_BELL.get());
         }
         if (event.getTabKey() == CreativeModeTabRegistry.getKey(CreativeModeTabRegistry.BLOCKS.get())) {
-            event.accept(ItemRegistry.SOULALTARITEM.get());
+            event.accept(BlockRegistry.SOULALTAR.get());
             event.accept(BlockRegistry.GOLDPILLAR.get());
             event.accept(BlockRegistry.ECHOSOIL.get());
             event.accept(BlockRegistry.SOULMETAL_BLOCK.get());

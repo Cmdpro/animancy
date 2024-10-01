@@ -56,8 +56,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoulKeeper extends Monster implements GeoEntity {
-    private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+public class SoulKeeper extends Monster {
     private final ServerBossEvent bossEvent = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS));
     public SoulKeeper(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -348,19 +347,6 @@ public class SoulKeeper extends Monster implements GeoEntity {
         }
         return super.hurt(pSource, pAmount);
     }
-
-    private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        if (entityData.get(IS_SPAWN_ANIM)) {
-            event.getController().setAnimation(RawAnimation.begin().then("animation.soulkeeper.idle", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE;
-        }
-        if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("animation.soulkeeper.walk", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE;
-        }
-        event.getController().setAnimation(RawAnimation.begin().then("animation.soulkeeper.idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
-    }
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -380,15 +366,6 @@ public class SoulKeeper extends Monster implements GeoEntity {
                 }
             }
         }
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-        data.add(new AnimationController(this, "controller", 0, this::predicate));
-    }
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.factory;
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {

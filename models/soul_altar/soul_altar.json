@@ -2,8 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "animancy:block/soul_altar",
-		"particle": "animancy:block/soul_altar_particle"
+		"0": "animancy:block/soul_altar"
 	},
 	"elements": [
 		{

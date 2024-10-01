@@ -23,9 +23,7 @@ import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 
-public class CultistHusk extends Monster implements GeoEntity {
-
-    private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
+public class CultistHusk extends Monster {
     public CultistHusk(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
@@ -36,28 +34,12 @@ public class CultistHusk extends Monster implements GeoEntity {
                 .add(Attributes.ATTACK_SPEED, 2.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
     }
-    private <E extends GeoAnimatable> PlayState predicate(AnimationState event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(RawAnimation.begin().then("animation.cultist_husk.walk", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE;
-        }
-        event.getController().setAnimation(RawAnimation.begin().then("animation.cultist_husk.idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
-    }
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar data) {
-        data.add(new AnimationController(this, "controller", 20, this::predicate));
-    }
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.factory;
     }
 
 

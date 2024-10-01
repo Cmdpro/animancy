@@ -2,6 +2,7 @@ package com.cmdpro.animancy.integration.jei;
 
 import com.cmdpro.animancy.Animancy;
 import com.cmdpro.animancy.recipe.ShapedSoulAltarRecipe;
+import com.cmdpro.animancy.registry.BlockRegistry;
 import com.cmdpro.animancy.registry.ItemRegistry;
 import com.cmdpro.animancy.recipe.ISoulAltarRecipe;
 import com.cmdpro.animancy.soultypes.SoulType;
@@ -39,7 +40,7 @@ public class SoulAltarRecipeCategory implements IRecipeCategory<ISoulAltarRecipe
     public SoulAltarRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(TEXTURE, 0, 0, 116, 74);
         this.craftingGridHelper = guiHelper.createCraftingGridHelper();
-        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemRegistry.SOULALTARITEM.get()));
+        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockRegistry.SOULALTAR.get()));
     }
 
     @Override
