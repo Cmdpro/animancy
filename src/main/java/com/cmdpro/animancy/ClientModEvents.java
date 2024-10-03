@@ -90,7 +90,7 @@ public class ClientModEvents {
             });
         });
         event.enqueueWork(() -> {
-            ClientHooks.registerLayerDefinition(CultistHuskRenderer.ancientSentinelLocation, CultistHuskRenderer.Model::createLayer);
+            ClientHooks.registerLayerDefinition(CultistHuskRenderer.modelLocation, CultistHuskRenderer.Model::createLayer);
         });
 
         ClientBookRegistry.INSTANCE.pageTypes.put(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "soul_altar"), PageSoulAltar.class);

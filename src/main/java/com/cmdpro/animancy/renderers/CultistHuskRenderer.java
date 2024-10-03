@@ -20,9 +20,9 @@ import net.minecraft.world.phys.Vec3;
 
 
 public class CultistHuskRenderer extends MobRenderer<CultistHusk, CultistHuskRenderer.Model<CultistHusk>> {
-    public static final ModelLayerLocation ancientSentinelLocation = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "cultist_husk"), "main");
+    public static final ModelLayerLocation modelLocation = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Animancy.MOD_ID, "cultist_husk"), "main");
     public CultistHuskRenderer(EntityRendererProvider.Context p_272933_) {
-        super(p_272933_, new Model<>(p_272933_.bakeLayer(ancientSentinelLocation)), 0.5F);
+        super(p_272933_, new Model<>(p_272933_.bakeLayer(modelLocation)), 0.5F);
     }
     @Override
     public ResourceLocation getTextureLocation(CultistHusk instance) {
